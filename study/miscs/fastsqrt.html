@@ -1,0 +1,224 @@
+﻿
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="Keywords" content="fast sqrt, 井尻 敬">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.1.0 for Windows">
+<title>fast sqrt</title>
+<link rel="stylesheet" type="text/css" media="screen" href="brict.css">
+<style type="text/css" media="screen">
+
+<!--
+/* Source Code CSS */
+pre.code {
+    font-size: 12px;
+    /* line-height:1.2em; */
+    border:1px solid #aaa;
+    background:#e0e0f0;
+    margin-left:30px;
+    padding:0.5em; 
+    overflow: auto;
+}
+pre.code span.tag		{
+	color: #0000ff;	
+}
+pre.code span.attr 		{
+	color: #000; 		
+}
+pre.code span.value		{
+	color: #900; 		
+}
+pre.code span.str 		{
+	color: #009900; 	
+}
+pre.code span.num 		{
+	color: #009900; 	
+}
+pre.code span.keyword	{
+	color: #0000ff; 	
+}
+pre.code span.rem		{
+	color: #909; 		
+}
+pre.code span.variable	{
+	color: #500050;	
+}
+
+
+
+<!--
+
+-->
+</style>
+</head>
+<body>
+<div id="headerspacer"></div>
+<blockquote>
+<div id="col2o2content">
+  <hr>
+              <p><a href="../index.html">戻る</a> <a href="../../index.html">topへ</a><br></p>
+
+  <h1>高速根号計算 (fast sqrt algorithm)</h1>
+  <hr>
+  　概要: C言語のsqrt(float)より精度は若干劣るものの，2倍以上速いsqrtのalgorithm．<br>
+  　ググって見つけた物が，非常に面白かったのでまとめておく．<br>
+  　精度より速度が求められる場面で活躍する（シェーダ-とか）．<br>
+  　精度はあまりでないのでシミュレーションなどには使えない．<br>
+  <br>
+  　参考文献<br>
+  　[1] David Eberly, Fast Inverse Square Root (Revisited), http://www.geometrictools.com/Documentation/
+  FastInverseSqrt.pdf, 1/2002-.<br>
+  <br>
+
+
+  <hr><h2>実装</h2>
+
+<pre class="code">
+//---Algorithm float(IEEE754)用------
+inline <span class="keyword">float</span> t_sqrtF( <span class="keyword">const</span> <span class="keyword">float</span>&amp; x )
+{
+　　<span class="keyword">float</span> xHalf = <span class="num">0.5</span>f * x;
+　　<span class="keyword">int</span>   tmp   = <span class="num">0</span>x5F3759DF - ( *(<span class="keyword">int</span>*)&amp;x &gt;&gt; <span class="num">1</span> ); <span class="rem">//initial guess</span>
+　　<span class="keyword">float</span> xRes  = *(<span class="keyword">float</span>*)&amp;tmp;
+
+　　xRes *= ( <span class="num">1.5</span>f - ( xHalf * xRes * xRes ) );
+　　<span class="rem">//xRes *= ( 1.5f - ( xHalf * xRes * xRes ) );//コメントアウトを外すと精度が上がる</span>
+　　<span class="keyword">return</span> xRes * x;
+}</pre>
+<pre class="code">//---Algorithm <span class="keyword">double</span>(IEEE754)用------
+inline <span class="keyword">double</span> t_sqrtD( <span class="keyword">const</span> <span class="keyword">double</span> &amp;x) 
+{
+　　<span class="keyword">double</span>         xHalf = <span class="num">0.5</span> * x;
+　　<span class="keyword">long</span> <span class="keyword">long</span> <span class="keyword">int</span>  tmp   = <span class="num">0</span>x5FE6EB50C7B537AAl - ( *(<span class="keyword">long</span> <span class="keyword">long</span> <span class="keyword">int</span>*)&amp;x &gt;&gt; <span class="num">1</span>);<span class="rem">//initial guess</span>
+　　<span class="keyword">double</span>         xRes  = * (<span class="keyword">double</span>*)&amp;tmp;
+
+　　xRes *= ( <span class="num">1.5</span> - ( xHalf * xRes * xRes ) );
+　　<span class="rem">//xRes *= ( 1.5 - ( xHalf * xRes * xRes ) );//コメントアウトを外すと精度が上がる</span>
+　　<span class="keyword">return</span> xRes * x;
+}</pre>
+  <br>
+
+  <hr><h2>説明</h2>
+　　　この二つのアルゴリズムはそれぞれ，float(IEEE 754), double(IEEE754)用のsqrt(x)を求める関数である．<br>
+　　　[1]によれば，2002/1/9にcom.graphics.algorithmに投稿された物らしい. <br>
+  　　　(doubleバージョンは私がweb上の情報を元に適当に書き換えた物で，Visual Studio 2010で動作を確認した．)<br>
+　　　内容自体は非常に単純で，<img src="http://chart.apis.google.com/chart?cht=tx&chl=\frac{1}{\sqrt{x}}" align="top">をニュートン法で求め，
+                            <img src="http://chart.apis.google.com/chart?cht=tx&chl=\frac{x}{\sqrt{x}} = \sqrt{x}" align="middle">を計算している． <br>
+  <br>
+  <br>
+  <br>
+　　　ニュートン法で1/√a を求めるには，<img src="http://chart.apis.google.com/chart?cht=tx&chl=f(x) = x^{-2} - a" align="middle">と置き，<img src="http://chart.apis.google.com/chart?cht=tx&chl=f(x) = 0" align="middle">となる x を逐次的に求める．<br>
+　　　ニュートン法のイテレーションは 　<br>
+
+　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle x_{k%2B1} = x_k - \frac{f(x_k)}{f'(x_k)}" align="top"><br>
+  　　　<br>
+　　　なので，次のようにxnを繰り返し更新すればよい．<br>
+  　<br>
+　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle x_{k%2B1} = x_k - \frac{x_k^{-2}-a}{-2x_k^{-3}} = x_k (1.5-0.5ax_k^2)" align="top"><br>
+  　<br>
+  　　　ここで重要なのは，このイテレーションには，足し算と掛け算しか含まれておらず，速度低下の原因になる割り算がない点である．<br>
+  　　　また，上のアルゴリズムをみると，このニュートン法のイテレーションを一度しかまわしていない．<br>
+  　　　しかし，例えばsqrt(2.0)を計算すると，以下の通り，小数点第2位まで正解している．<br>
+  <br>
+<pre class="code">
+   sqrt(<span class="num">2.0</span> ) = <span class="num">1.4142135623730950</span>(解析解)
+　 sqrt(<span class="num">2.0</span>f) = <span class="num">1.4142135381698608</span>(VCのsqrt())
+　 sqrt(<span class="num">2.0</span> ) = <span class="num">1.4142135623730951</span>(VCのsqrt())
+t_sqrtF(<span class="num">2.0</span>f) = <span class="num">1.4138600826263428</span>
+t_sqrtD(<span class="num">2.0</span> ) = <span class="num">1.4138593015909278</span> 
+</pre>
+  　　　ちなみに，2回イテレーションを回すと，以下の通り，少数第6位まで同じ値になり，<br>
+<pre class="code">
+   sqrt(<span class="num">2.0</span> ) = <span class="num">1.4142135623730950</span>(解析解)
+　 sqrt(<span class="num">2.0</span>f) = <span class="num">1.4142135381698608</span>(VCのsqrt())
+　 sqrt(<span class="num">2.0</span> ) = <span class="num">1.4142135623730951</span>(VCのsqrt())
+t_sqrtF(<span class="num">2.0</span>f) = <span class="num">1.4142132997512817</span>
+t_sqrtD(<span class="num">2.0</span> ) = <span class="num">1.4142134292706141</span></pre>
+  　　　3回イテレーションを回すと，以下の通り，floatでは誤差のためか精度向上が見られないが，doubleでは大きな精度向上がみられた．<br>
+<pre class="code">
+   sqrt(<span class="num">2.0</span> ) = <span class="num">1.4142135623730950</span>(解析解)
+　 sqrt(<span class="num">2.0</span>f) = <span class="num">1.4142135381698608</span>(VCのsqrt())
+　 sqrt(<span class="num">2.0</span> ) = <span class="num">1.4142135623730951</span>(VCのsqrt())
+t_sqrtF(<span class="num">2.0</span>f) = <span class="num">1.4142136573791504</span>
+t_sqrtD(<span class="num">2.0</span> ) = <span class="num">1.4142135623730765</span></pre>
+  　　　計算時間は，2回イテレーションを回しても倍程度速かった(Visual C++, Intel Core i7).
+<br>
+  <br>
+  <br>
+  <br>
+ <hr>
+  <h2>初期値 - Initial Guess</h2>
+  　　　このアルゴリズムで非常に重要かつ面白いのは，初期解を求める以下の行である．
+  <pre class="code">
+　　<span class="keyword">int</span>   tmp   = <span class="num">0</span>x5F3759DF - ( *(<span class="keyword">int</span>*)&amp;x &gt;&gt; <span class="num">1</span> ); <span class="rem">//initial guess</span>
+</pre>
+　　　この一行に，実はかなり深い意味が隠されている. 以下に説明を書くが，より詳しくは[1]を参照．
+<br>
+  <br>
+  <br>
+  <b>　準備</b> <br>
+  <br>
+  　　　IEEE 754 float型は，32bitの浮動小数点数で，1bitの符号ビット，8bitの指数ビット，23bitの仮数ビットからなる．<br>
+  　　　例えば， <br>
+  　　　　　　c = 0<font color="#ff0000">101 1111 0</font><font color="#0000ff">011 0000 0000 0000 0000 0000</font> <br>
+  　　　の表す値を考える． <br>
+  <br>
+　　　符号 : 0 = 正<br>
+　　　<font color="#ff0000">指数 : 101 1111 0 = 128 + 32 + 16 + 8 + 4 + 2 = 190</font><br>
+　　　<font color="#0000ff">仮数 : 011 0000 0000 0000 0000 0000 = 0/2 + 1/2^2+ 1/2^3+ ... + 1/2^23= 0.375</font><br>
+  <br>
+　　　指数部には，-127の下駄をはかせ，仮数部には1.0を足す必要がある事を考慮すると，cは次のようになる．<br>
+  　　　　　　c = <font color="#0000ff">(1.0 + 0.375)</font> * <font color="#ff0000">2^(190-127)</font> <br>
+  <br>
+  <br>
+  　<b>初期の計算法(指数部分)</b><br>
+  <br>
+　　　1/√aをニュートン法で求める場合，欲しい初期値は1/√aそのものである．<br>
+　　　この近似値を，√や/を使わないで求めたい．<br><br>
+　　　aはfloatで与えられるので，その指数部の値をE，仮数部をTとすると...... <br>
+  　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle a = 2 ^{E-127}\time(1.0 %2B T)" align="top"><br>
+　　　すると...... <br>
+  　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \frac{1}{\sqrt{a}} = a ^{-1/2} = 2^{-E/2 %2B 63} \time \frac{1}{\sqrt{1.0%2BT}} " align="top"><br>
+　　　となる.<br>
+  　　　求めたい数 -- 1/√aの仮数部E'は，- E/2 + 63 + 127 - 127 = (190 - E/2) - 127であるので，<br>
+  <br>
+　　　　　　E' = 190 - E/2<br>
+  <br>
+  　　　となる．つまり，指数部分に関しては、aを1bit右にシフトさせ(a&gt;&gt;1)，これを190から引けばよい．つまり，<br>
+  <br>
+  　　　　　　1/√a ≒ 0101 111 0*** **** **** **** **** **** - (a&gt;&gt;1) = 0x5f******
+  - (a&gt;&gt;1)<br>
+  <br>
+  　　　*は仮数部分．指数部分に関しては，ビット演算のみで正確な近似解が得られる．<br>
+  <br>
+  <br>  　<b>初期の計算法(仮数部分)</b><br>
+  <br>
+  　　　仮数部分23bitは，テーラー展開などで近似するのでなく，力技で求める．<br>
+  　　　つまり、前もって全通り（2^24通り）試しておいて、一番誤差の少ないものを初期値とする．<br>
+  <br>
+  　　　<b>入力されうるすべての数 a を考える</b> <br>
+  　　　　　　符号部分と指数部分の上位7bitを固定し，下位24ビット全ての組み合わせを考慮した2^24通りのa=0x3f ** ** ** を考える．<br>
+  　　　　　　ただし, 　1/2 &lt;= a &lt; 2.0 となる<br>
+  <br>
+  　　　<b>初期解の引かれる数 c のすべての通りを考える</b> <br>
+  　　　　　　符号部分と指数部分の上位7bitを固定し、2^24通りの c = 0x 5f ** ** ** を用意する． <br>
+  <br>
+  <br>
+　　　今，cを適当に一つ選ぶと，全ての入力aに対する最大誤差が計算できる．<br>
+  <br>
+  　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \max_{a} |sqrt(a) - (c-(a>>1))|" align="top"><br>
+  <br>
+  　　　全てのcにおいて上の最大誤差を計算し，それを最小化するcを選び出せばよい.<br>
+  <br>
+  　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \min_{c} \max_{a} |sqrt(a) - (c-(a>>1))|" align="top"><br>
+  　　　この計算により，c_minmax = 0x537642fが得られるが[1]，この値はオリジナル c_orig=0x5f3759dfと異なる．<br>
+  　 　　[1]によると，c_minmaxを用いた方が初期値のエラーは小さいが，c_origを用いた方がニュートン法を一ステップ回した後のエラーが小さくなる．<br>
+  　　　c_origは，ニュートン法1ステップ込みの最大誤差の最小化を行って求めたものだと考えられる． <br>
+  <br>
+  　　　解析: 0x5f3759df - (a&gt;&gt;1)という初期値は，指数部分の桁落ちがある場合/無い場合，仮数部分の引き算が正の場合/負の場合で，4通りの異なる直線を描く(ありえない1通りがあるので実際は3本)．<br>
+  　　　つまり，3本のpiece-wise-linearなグラフになり，これが非常によく1/√aにフィットする([1]参照)．<br>
+  <br>
+  <div id="footer"> Copyright 2010~ Takashi Ijiri(井尻敬), All rights reserved.</div>
+</div></blockquote>
+</body></html> 

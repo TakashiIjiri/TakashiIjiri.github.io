@@ -1,0 +1,264 @@
+﻿<html>
+<head>
+
+<meta charset="utf-8">
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="Keywords" content="井尻敬,User Interface,Computer Graphics">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.1.0 for Windows">
+<title>Mean Shift Clustering</title>
+<link rel="stylesheet" type="text/css" media="screen" href="brict.css">
+<style type="text/css" media="screen">
+<!--
+/* Source Code CSS */
+pre.code {
+    font-size: 12px;
+    /* line-height:1.2em; */
+    border:1px solid #aaa;
+    background:#f0f0f0;
+    padding:0.5em; 
+    overflow: auto;
+}
+pre.code span.tag		{
+	color: #0000ff;	
+}
+pre.code span.attr 		{
+	color: #000; 		
+}
+pre.code span.value		{
+	color: #900; 		
+}
+pre.code span.str 		{
+	color: #009900; 	
+}
+pre.code span.num 		{
+	color: #009900; 	
+}
+pre.code span.keyword	{
+	color: #0000ff; 	
+}
+pre.code span.rem		{
+	color: #909; 		
+}
+pre.code span.variable	{
+	color: #500050;	
+}
+
+<!--
+
+-->
+</style>
+</head>
+<body>
+<div id="headerspacer"></div>
+<div id="col2o2">
+  <blockquote>
+  <div id="col2o2content">
+    <hr>
+    <h1>Mean Shift Clustering</h1>
+      　　　　　　　　　　      
+      
+      <p><a href="../index.html">戻る</a> <a href="../../index.html">topへ</a><br></p>
+
+      　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　<a href="../index.html">戻る</a>
+    <hr>
+    <p><b>概要:</b> Mean Shift法[1]とは，<i>d</i>次元空間内に点群<b>x</b><i>i</i>が分布しているとき，その密度の極大点(node)を発見する手法である. <br>
+    より厳密には、点群<b>x</b><sub><i>i</i></sub>を標本点として出力し得る”確率密度関数”の極大点を発見する手法である．<br>
+    <br>
+    計算は最急降下法の原理を用いる．<br>
+    　1. 空間内の任意の点を初期位置とし，<br>
+    　2. 徐々に密度(確率密度)の大きな方へ向かって移動して，<br>
+    　3. 極大点(node)に到達すると計算を止める．<br>
+    <br>
+    点群のクラスタリングや画像の特徴保存フィルタとして応用できる．<br>
+    <br>    [1] Dorin Comaniciu , Peter Meer , Senior Member, Mean shift: A robust
+    approach toward feature space analysis, IEEE Trans. on PAMI, 2002.<br>
+    </p>
+    <br>
+
+
+
+
+
+
+<hr><hr><h2>カーネル密度推定 Kernel density estimation (準備)</h2>
+
+<div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px">　　<i>d</i>次元空間にばらまかれた<i>N</i>個の点，<b>x</b><sub>1</sub>, <b>x</b><sub>2</sub>, ..., <b>x</b><sub><i>N</i></sub> ∈<b>R</b><i><sup>d</sup></i>，を考える．<br>
+    　　この点群をある確率分布に従う標本と考えた時，任意の点<b>x</b>∈<b>R</b><i><sup>d</sup></i> における確率密度関数<i>f</i>(<b>x</b>)以下の通りである．<br>
+    <br>
+    　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f(\bf{x}) = \frac{c_{kd}}{Nh^d}\sum_{i=1}^{N}k\left( ||\frac{\bf{x}-\bf{x}_i}{h}||^2 \right) " align="middle"> ...(1)<br>
+    　　<br>
+    　　<i>k</i>(<i>t</i>)は，カーネル関数であり，色々な関数が利用される．<br>
+    <br>
+    　　Gaussian カーネル　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle k(t) = exp \left( -\frac{||\bf{x}||^2}{2} \right)" align="middle"><br>
+    　　<br>
+    　　Rectangular カーネル　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle k(t) = 1 \;\;\;\;\;\;\;\;\;\; (|t|<1), \;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\; 0 \;\;\;\;\;\;\;\;\;\; (other)" align="middle">　<br>
+    <br>
+    　　Epanechnikovカーネル <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle k(t) = 1-t \;\;\;\;\;\;\;\;\;\; (|t|<1), \;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\;\; 0 \;\;\;\;\;\;\;\;\;\; (other)" align="middle"><br>
+    <br>    　　<i>c</i><sub><i>kd</i></sub>は，K(<b>x</b>) = c<i><sub>kd</sub></i>k(||<b>x</b>||<sup>2</sup>) というK(x)の全体の積分を1にするための，正規化係数．(最終的な計算には使わない)<br>
+    　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle c_{kd} = \int_{\Omega} k( ||\bf{x}||^2 )d\bf{x} " align="top"><br>
+    <br>
+    </div>
+
+
+
+
+<p>上の式の説明 : <br>
+    <i>d</i>次元空間にばらまかれた<i>N</i>個の点，<b>x</b><sub>1</sub>, <b>x</b><sub>2</sub>, ..., <b>x</b><sub><i>N</i></sub> ∈<b>R</b><i><sup>d</sup></i>，がを考える．<br>
+    この点群をある確率分布に従う標本と考えた時，任意の点<b>x</b>∈<b>R</b><i><sup>d</sup></i> における確率密度関数<i>f</i>(<b>x</b>)は，<br>
+    Kernel density estimation法により以下のように推定できる．</p>
+    　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f(\bf{x}) = \frac{1}{N}\sum_{i=1}^{N}K_H( \bf{x}-\bf{x}_i) " align="top"><br>
+    　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle K_H(\bf{x}) = ||H||^{-1/2} K(H^{-1/2}\bf{x})" align="top"><br>
+<p>ここで，<b>H</b>∈<b>R</b><sup>d×d</sup>はバンド幅行列で，K(<b>x</b>)は，有界(値域が有限)､Compact support、正規(定義域全体での積分が1)、対称、指数関数減衰の条件を満たすカーネルである．<br>
+    <br>
+    実用的には，バンド幅行列<b>H</b>=<i>diag</i>(<i>h</i><sup>2</sup>,<i>h</i><sup>2</sup>,...<i>h</i><sup>2</sup>)とする事が多い．<i>h</i>∈<b>R</b>はバンド幅パラメータ．<br>
+    すると、点<b>x</b>の確率密度関数<i>f</i>(<b>x</b>)は，以下の通り．</p>
+    　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f(\bf{x}) = \frac{1}{N h^d}\sum_{i=1}^{N}K\left( \frac{\bf{x}-\bf{x}_i}{h} \right) " align="middle"><br>
+
+<p>さらに，ベクトル値を引数に取るカーネル<i>K</i>(<b>x</b>)は，スカラー値を引数に取る<i>k</i>(<i>t</i>)を用いて次のように表す事が多い．</p>
+    　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle K(\bf{x}) = c_{kd} k(||\bf{x}||^2) " align="middle"><br>
+    　　<br>
+<p>こうすると，自然にK(x)の放射対称性が満たされる．c<i><sub>kd</sub></i>は，<i>K</i>(<b>x</b>)の正規性を満たすための係数である．<br>
+    以上より，上の式(1)を得る．</p>
+
+
+
+
+    <hr>
+    <hr>
+    <h2>カーネル密度関数f(x)の微分(準備2)</h2>
+<div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px">
+　　式(1)の勾配は以下の通りである．<br>
+　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \nabla f(\bf{x}) = \frac{2c_{kd}}{Nh^{d%2B2}} \sum_{i=1}^{N}k'\left( ||\frac{\bf{x}-\bf{x}_i}{h}||^2 \right) (\bf{x}-\bf{x}_i)" align="middle"><br>
+    <br>
+    　　これは以下の通り変形できる．<br>
+    　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \nabla f(\bf{x}) = \frac{2c_{kd}}{Nh^{d%2B2}} \sum_{i=1}^{N} ( g_i \bf{x}_i - g_i \bf{x})" align="middle">　　　　ただし，
+<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle g(t) = -k'(t),\;\;\;\;\;\;\;\;\; g_i = g\left( ||\frac{\bf{x}-\bf{x}_i}{h}||^2 \right)" align="middle">　と置いた．(k'はkをtで偏微分)<br>
+    <br>
+    　　さらに，<br>
+    　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl= \nabla f(\bf{x}) = \frac{2c_{kd}}{Nh^{d%2B2}} \left{\sum_{i=1}^{N} g_i \right} \left{ \frac{ \sum_{i=1}^{N}g_i\bf{x}_i }{ \sum_{i=1}^{N}g_i } - \bf{x} \right}" align="middle">　　　　　...(2)<br>
+    　　この形が後々重要.<br>
+    　　式変形の過程で，Σg<i>i</i>&gt;0 を仮定した.これは前述のGaussianカーネルとかEpanechnikovカーネルを使っていれば満たされる.<br>
+    </div>
+    　　<br>
+    　　特に説明することもないけど，よく利用される以下の公式を使った．ボールド<b>x</b>は，d次元ベクトル．<br>
+    <br>
+    　　<img src="http://chart.apis.google.com/chart?cht=tx&chl= \nabla ||\bf{x}|| = \frac{\bf{x}}{||\bf{x}||} " align="middle"><br>
+    　　<br>
+    <br>
+
+
+<hr><hr>
+    <h2>Mean Shift Procedure </h2>
+    <div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px">　　<i>d</i>次元空間<b>R</b><i><sup>d</sup></i>にばらまかれた<i>N</i>個の点，<b>x</b><sub>1</sub>, <b>x</b><sub>2</sub>, ..., <b>x</b><sub><i>N</i></sub> ∈<b>R</b><i><sup>d</sup></i>，と，任意の点<b>y</b>∈<b>R</b><i><sup>d</sup></i>について，<br>
+    　　点<b>y</b>付近の点群密度の極大点(node)は，次の通り求められる．<br>
+    <br>
+    　　1. 初期化 <b>y</b><i><sub>0</sub></i> ← <b>y</b><br>
+    　　2. 更新(Mean Shift) <img src="http://chart.apis.google.com/chart?cht=tx&chl= \bf{y}_{t%2B1} \leftarrow \frac{ \sum_{i=1}^{N} g_i \bf{x}_i}{ \sum_{i=1}^{N} g_i}" align="middle">　　
+ただし　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle g(t) = -k'(t),\;\;\;\;\;\;\;\;\; g_i = g\left( ||\frac{\bf{y}_t-\bf{x}_i}{h}||^2 \right)" align="middle"><br>
+    　　3. ||<b>y</b><i><sub>i+1</sub></i>-<b>y</b><i><sub>i</sub></i>|| &lt; threshold　となるまで2.を繰り返す<br>
+    　　<br>
+    　　4. 収束したらその <b>y</b><i><sub>i</sub></i>を出力<br>
+    <br>
+    </div>
+    　　
+    <p>説明．<br>
+    <br>
+    式(2)は非常に重要な形をしている．<br>
+    まず、前半 <img src="http://chart.apis.google.com/chart?cht=tx&chl= \frac{2c_{kd}}{Nh^{d%2B2}} \left{\sum_{i=1}^{N} g_i \right} " align="middle"> は，GaussianカーネルやEpanechnikovカーネルを用いた場合，正になる．<br>
+    <br>
+    後半　<img src="http://chart.apis.google.com/chart?cht=tx&chl=  \left{ \frac{ \sum_{i=1}^{N}g_i\bf{x}_i }{ \sum_{i=1}^{N}g_i } - \bf{y}_t \right}" align="middle">　は，Mean Shiftと呼ばれる項で，点<b>x</b>の近傍のデータ点群の加重平均位置とx自身の差分ベクトルである．<br>
+    a1) このMean Shiftベクトルが，▽<i>f</i>(<b>y</b><i><sub>t</sub></i>)の方向を表す．<br>
+    a2) このMean Shiftベクトルは，方向だけでなく、長さも内包している．つまり，極大点から遠い点ではMean Shiftベクトルは大きくなり，<br>
+    　　計算が進み，<b>y</b><i><sub>t</sub></i>が極大点に近づいてくると，Mean Shiftベクトルは徐々に小さくなる．<br>
+    <br>
+    <br>
+    　　最急降下法を使えば，次の通りyiを更新できる．<br>
+    　　<img src="http://chart.apis.google.com/chart?cht=tx&chl= \bf{y}_{t%2B1} \leftarrow \bf{y}_{t} %2B h \nabla f( \bf{y}_{t}) " align="middle">
+　　<br>
+    <br>
+    　　ただし、<i>h</i>はタイムステップ．ここで(a1)を踏まえると，<br>
+    　　<img src="http://chart.apis.google.com/chart?cht=tx&chl= \bf{y}_{t%2B1} \leftarrow \bf{y}_{t} %2B h \left( \frac{ \sum_{i=1}^{N} g_i \bf{x}_i}{ \sum_{i=1}^{N} g_i} - \bf{y}_t\right) " align="middle"><br>
+    <br>
+    　　となる．さらに(a2)の長さを内包していることに注目すると h = 1として良い(一番問題になるオーバーシュートが起きない)ので、<br>
+    　　<img src="http://chart.apis.google.com/chart?cht=tx&chl= \bf{y}_{t%2B1} \leftarrow \bf{y}_t %2B  \left( \frac{ \sum_{i=1}^{N} g_i \bf{x}_i}{ \sum_{i=1}^{N} g_i} - \bf{y}_t\right) " align="middle"><br>
+    　　<br>
+    　 上のアルゴリズム中のMean Shiftの更新と同じものが得られた．　 </p>
+<hr>
+<hr>
+
+<h2>Mean Shift Clustering</h2>
+    　　Mean Shift Procedure algorithmはクラスタリングにおうよう出来る．<br>
+    　　
+    <div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px">　　<i>d</i>次元空間<b>R</b><i><sup>d</sup></i>にばらまかれた<i>N</i>個の点，<b>x</b><sub>1</sub>, <b>x</b><sub>2</sub>, ..., <b>x</b><sub><i>N</i></sub> ∈<b>R</b><i><sup>d</sup></i>，が入力された下で．<br>
+    　　密に分布する点群をクラスタとして分割する．<br>
+    <br>
+    　　1. 各点<b>x</b><i><sub>i</sub></i> にMean Shift Proceduerを適用し，収束位置<b>x</b><i><sub>i</sub></i><sup>c</sup> を計算する<br>
+    　　2. 任意の2個の点　<b>x</b><i><sub>i</sub></i><b>　x</b><i><sub>k</sub></i>　について，その収束位置が閾値以下なら，(　||<b>x</b><i><sub>i</sub></i><sup>c</sup><b> - x</b><i><sub>k</sub></i><sup>c</sup>|| &lt; thresh　)この二点を同じクラスタに入れる．<br>
+    <br>
+    　これにより，同じ密度の極大点(node)に属する点群が同じクラスタになるよう，分割できる．<br>
+    </div>
+    　　<br>
+    <br>
+    　　上の手法は，入力点群全てに対してMean Shiftを計算するので，計算コストが高い．<br>
+    　　計算コスト削減のための，下のような手法もある．　<br>
+    <br>
+    <div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px"><br>
+    　　1. <i>d</i>次元空間のデータ点群の分布する全体を覆う十分密な初期点群 <b>y</b><i><sub>i</sub></i> を用意する．<br>
+    　　2. <b>y</b><i><sub>i</sub></i> 全てにMean Shift Procedureを適用し収束点 <b>y</b><i><sub>i</sub><sup>c</sup></i>を計算する．<br>
+    　　3. 十分近い収束点を持つ<b>y</b><i><sub>i</sub></i>に同じラベルを付加する．<br>
+    　　4. <b>y</b><i><sub>i</sub></i>は空間全体を覆う点群なので，すべての<b>y</b><i><sub>i</sub></i>のMean shift procedure計算時に少なくとも1つのカーネルが<b>x</b><i><sub>i</sub></i>を訪れている．<br>
+    　　　　<b>x</b><i><sub>i</sub></i>に，<b>x</b><i><sub>i</sub></i>を訪れたカーネルのラベルを付加する．<br>
+    　　　　異なるnodeへ収束する複数カーネルが<b>x</b><i><sub>i</sub></i>を訪れた時は，多数決でラベルを決定する．<br>
+    <br>
+    <br>
+    　（でも，xiより少ない数で空間全体を覆う点群yiの構築は結構大変そう．）<br>
+    </div>
+    　<br>
+    　　<br>
+    　　<br>
+    　　k-means clusteringが，クラス多数を入力として必要とするのに対し．<br>
+    　　Mean Shift Clusteringは，クラス多数の情報なしに，点群の粗密を解析しクラスタ分割を行える．<br>
+    　　<br>
+    　　<br>
+
+<hr><hr>
+    <h2>Mean Shift Image Filtering</h2>
+    　　Mean Shift Proceduerを利用すると，エッジを保存する画像の平滑化が行える．<br>
+    　　<br>
+    <div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px"><br>
+    　　1. カラー画像 <i>I</i> , 画素位置に関するバンド幅<i>h<sub>s</sub></i>， 画素値に関するバンド幅<i>h</i><sub><i>r</i></sub> を入力とする．<br>
+    <br>
+    　　2. 画素 <b>x</b><sub><i>i</i></sub>は，その位置　(x<i><sub>i</sub></i>,y<i><sub>i</sub></i>) と　画素値 (L<i><sub>i</sub></i>, u<i><sub>i</sub></i>, v<i><sub>i</sub></i>) を結合した，<br>
+    　　　　画素位置-画素値-結合空間 (Bilateral Domain)内の点<b>p</b><i><sub>i</sub></i> (x<i><sub>i</sub></i>,y<i><sub>i</sub></i>, L<i><sub>i</sub></i>, u<i><sub>i</sub></i>, v<i><sub>i</sub></i>)　であると考える．<br>
+    　　　　全ての画素　<b>x</b><sub><i>i</i></sub>　について, そのBilateral Domain内の点<b>p</b><i><sub>i</sub></i>を計算しておく (5次元ベクトルにしておく)<br>
+    <br>
+    　　3. 全ての<b>p</b><i><sub>i</sub></i>　 にMean Shift Proceduerを計算し，収束位置を<b>p</b><i><sub>i</sub></i><sup>c</sup> = (x<i><sub>i</sub></i><sup>c</sup>,y<i><sub>i</sub></i><sup>c</sup>, L<i><sub>i</sub></i><sup>c</sup>, u<i><sub>i</sub></i><sup>c</sup>, v<i><sub>i</sub></i><sup>c</sup>)とする．<br>
+    <br>
+    　　4. <b>x</b><sub><i>i</i></sub>の画素値を, (L<i><sub>i</sub></i><sup>c</sup>, u<i><sub>i</sub></i><sup>c</sup>, v<i><sub>i</sub></i><sup>c</sup>) で置き換える．<br>
+    <br>
+    <br>
+    　　○Mean Shift Proceduerは次の通り計算する○<br>
+    　　<b>x</b><sup>s</sup>, <b>x</b><sup>r</sup>をそれぞれ、5次元ベクトルの位置(2D)・色(3D)空間に対応するものとし，カーネル密度推定を以下の通り定義する．<br>
+    　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f(\bf{x}) = \frac{C}{N h_s^2 h_r^3}\sum_{i=1}^{N} k\left( ||\frac{\bf{x}^s-\bf{x}^s_i}{h^s}||^2 \right) k\left( ||\frac{\bf{x}^r-\bf{x}^r_i}{h^r}||^2 \right)" align="middle"><br>
+    　　Mean Shiftにより、次の通り位置を更新する. (勾配の求め方は前述の通り)<br>
+    　　<img src="images/meanshift1.png" width="185" height="132" border="0">　<br>
+    　　ただし<br>
+    　　<img src="images/meanshift2.png" width="583" height="53" border="0"><br>
+    　　<br>
+    </div>
+    　　<br>
+    　　<br>
+    　 　Mean Shift Image Filteringの結果 k(t) = 1-|t|を利用<br>
+    <br>
+    　　<img src="images/image026.jpg" width="248" height="191" border="0"> 　　<img src="images/image027.jpg" width="248" height="191" border="0"><br>
+    　　Original 　　　　　　　　　　　　　　　　　　　　　　　　<i>h<sup>s</sup></i> = 8,　 <i>h</i><sup><i>r</i></sup> = 8<br>
+    　　　<br>
+    　　<img src="images/image028.jpg" width="249" height="190" border="0">　　<img src="images/image029.jpg" width="248" height="190" border="0"><br>
+    　　<i>h<sup>s</sup></i> = 32,　 <i>h</i><sup><i>r</i></sup> = 8　　　　　　　　　　　　　　　　　<i>h<sup>s</sup></i> = 32,　 <i>h</i><sup><i>r</i></sup> = 32<br>
+    <div id="footer">Copyright 2010~ Takashi Ijiri(井尻敬), All rights reserved.</div>
+  </div>
+  </blockquote>
+</div>
+</body>
+</html>

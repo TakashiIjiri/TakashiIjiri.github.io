@@ -1,0 +1,113 @@
+﻿<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="Keywords" content="井尻敬,User Interface,Computer Graphics">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.1.0 for Windows">
+<title>Visual Studio memo</title>
+<link rel="stylesheet" type="text/css" media="screen" href="brict.css">
+<style type="text/css" media="screen">
+/* Source Code CSS */
+pre.code {
+    font-size: 12px;
+    /* line-height:1.2em; */
+    border:1px solid #aaa;
+    background:#f0f0f0;
+    padding:0.5em; 
+    overflow: auto;
+}
+pre.code span.tag		{ color: #0000ff;	}
+pre.code span.attr 		{ color: #000; 		}
+pre.code span.value		{ color: #900; 		}
+pre.code span.str 		{ color: #009900; 	}
+pre.code span.num 		{ color: #009900; 	}
+pre.code span.keyword	{ color: #0000ff; 	}
+pre.code span.rem		{ color: #909; 		}
+pre.code span.variable	{ color: #500050;	}
+
+<!--
+
+-->
+</style>
+</head>
+<body>
+<div id="headerspacer"></div>
+<div id="col2o2">
+  <blockquote>
+  <div id="col2o2content">
+    <hr>
+    <h1>Visual studio メモ1 --OpenMPを使ってfor分を並列化する--</h1>
+    <hr>
+    <hr>
+    <ul>
+      <li><b>メニュー&gt;プロジェクト&gt;プロパティ&gt;C/C++&gt;言語&gt;OpenMPのサポート　　を「はい」にする</b>
+      <li><b>並列化したいfor文の前に以下を挿入</b>
+    </ul>
+    <pre class="code"> #pragma omp parallel shared( *, *, ...) num_threads(**)
+{
+　　　　#pragma omp <span class="keyword">for</span>　<span class="keyword">private</span>(*, *,...)
+　　　　for1(...){...}
+
+　　　　#pragma omp <span class="keyword">for</span>　<span class="keyword">private</span>(*, *,...)
+　　　　for2(...){...}
+} 
+</pre>
+    <br>
+    <ul>
+      <li><b>for文が一つなら以下でもok</b>
+    </ul>
+    <pre class="code">  #pragma omp parallel <span class="keyword">for</span>
+　　　　for1(...){...} 
+</pre>
+    shared( *, *, ...)には，並列化時に全てのスレッドから共有されるメモリ領域を指定する．省略可（明示するかどうかはプログラマ任せで，書かなかったらどうという物ではなさそう．)でもちゃんとした人は書いてるっぽい．<br>
+    num_threads(**)には，スレッド数を入れる．省略した場合、CPUのコア数が割り当てられるらしい．<br>
+    private(*, *,...)には，対象forループの外で宣言した変数の内，スレッドがローカルに使いたいものがあれば入れる．↓例．<br>
+    <pre class="code"><span class="keyword">int</span> x, y;
+#pragma omp <span class="keyword">for</span>　<span class="keyword">private</span>(y)
+<span class="keyword">for</span>( x=<span class="num">0</span>...){
+　　　　<span class="keyword">for</span>( y=<span class="num">0</span>...){...}
+} 
+</pre>
+    ただ，この例も，<br>
+    <pre class="code">#pragma omp <span class="keyword">for</span>
+<span class="keyword">for</span>( <span class="keyword">int</span> x=<span class="num">0</span>...){
+　　　　<span class="keyword">for</span>(<span class="keyword">int</span> y=<span class="num">0</span>...){...}
+}  
+</pre>
+    と書けばprivate必要ない.<br>
+    <br>
+    <ul>
+      <li><b>総和計算にはreduction使う</b>
+    </ul>
+    for ループの中で，変数vの総和を計算する時，以下のように書く. <br>
+    <pre class="code"><span class="keyword">double</span> v = <span class="num">0</span>;
+#pragma omp parallel <span class="keyword">for</span> reduction( + : v )
+<span class="keyword">for</span>( <span class="keyword">int</span> i=<span class="num">0</span>; i&lt;<span class="num">100</span>; ++i){ ...; v+=??; } 
+</pre>
+    <br>
+    スレッド数が4個のときの行われる計算のイメージは以下<br>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td width="756" height="171">    まず並列にfor文を計算<br>
+    スレッド1 : doble v1=0; for( int i=　0; i&lt;　25; ++i){ ...; v1+=??; }<br>
+    スレッド2 : doble v2=0; for( int i=25; i&lt;　50; ++i){ ...; v2+=??; }<br>
+    スレッド3 : doble v3=0; for( int i=50; i&lt;　75; ++i){ ...; v3+=??; }<br>
+    スレッド4 : doble v4=0; for( int i=75; i&lt;100; ++i){ ...; v4+=??; }<br>
+    <br>
+    for文が終わったら、全ての結果を足し合わせ．<br>
+          v = v1 + v2 + v3 + v4;&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    OpenMPはプログラマを甘やかし過ぎなんじゃないかと思うくらい便利．2行書いただけで数倍高速になったりする。。。<br>
+    <br>
+    <hr />
+    
+    <div id="footer">Copyright 2010~ Takashi Ijiri(井尻敬), All rights reserved.</div>
+  </div>
+  </blockquote>
+</div>
+</body>
+</html>

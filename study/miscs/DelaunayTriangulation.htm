@@ -1,0 +1,900 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta charset="utf-8" />
+<meta name="ProgId" content="Word.Document" />
+<meta name="Generator" content="JustSystems Homepage Builder Version 16.0.0.1 Trial for Windows" />
+<meta name="Originator" content="Microsoft Word 12" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta name="Description" content="制約付きドロネー三角形分割" />
+<link rel="File-List" href="DelaunayTriangulation.files/filelist.xml" />
+<link rel="Edit-Time-Data" href="DelaunayTriangulation.files/editdata.mso" />
+<!--[if !mso]>
+<style>
+v\:* {behavior:url(#default#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style>
+<![endif]-->
+<link rel="themeData" href="DelaunayTriangulation.files/themedata.thmx" />
+<link rel="colorSchemeMapping" href="DelaunayTriangulation.files/colorschememapping.xml" />
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:Zoom>210</w:Zoom>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:TrackMoves>false</w:TrackMoves>
+  <w:TrackFormatting/>
+  <w:DrawingGridHorizontalSpacing>5.25 pt</w:DrawingGridHorizontalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>2</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotPromoteQF/>
+  <w:LidThemeOther>EN-US</w:LidThemeOther>
+  <w:LidThemeAsian>JA</w:LidThemeAsian>
+  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+  <w:Compatibility>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:SplitPgBreakAndParaMark/>
+   <w:DontVertAlignCellWithSp/>
+   <w:DontBreakConstrainedForcedTables/>
+   <w:DontVertAlignInTxbx/>
+   <w:Word11KerningPairs/>
+   <w:CachedColBalance/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+  <m:mathPr>
+   <m:mathFont m:val="Cambria Math"/>
+   <m:brkBin m:val="before"/>
+   <m:brkBinSub m:val="&#45;-"/>
+   <m:smallFrac m:val="off"/>
+   <m:dispDef/>
+   <m:lMargin m:val="0"/>
+   <m:rMargin m:val="0"/>
+   <m:defJc m:val="centerGroup"/>
+   <m:wrapIndent m:val="1440"/>
+   <m:intLim m:val="subSup"/>
+   <m:naryLim m:val="undOvr"/>
+  </m:mathPr></w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="true"
+  DefSemiHidden="true" DefQFormat="false" DefPriority="99"
+  LatentStyleCount="267">
+  <w:LsdException Locked="false" Priority="0" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Normal"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="heading 1"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="heading 2"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 3"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 4"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 5"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 6"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 7"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 8"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 9"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 1"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 2"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 3"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 4"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 5"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 6"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 7"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 8"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 9"/>
+  <w:LsdException Locked="false" Priority="35" QFormat="true" Name="caption"/>
+  <w:LsdException Locked="false" Priority="10" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Title"/>
+  <w:LsdException Locked="false" Priority="1" Name="Default Paragraph Font"/>
+  <w:LsdException Locked="false" Priority="11" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtitle"/>
+  <w:LsdException Locked="false" Priority="22" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Strong"/>
+  <w:LsdException Locked="false" Priority="20" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Emphasis"/>
+  <w:LsdException Locked="false" Priority="59" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Table Grid"/>
+  <w:LsdException Locked="false" UnhideWhenUsed="false" Name="Placeholder Text"/>
+  <w:LsdException Locked="false" Priority="1" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="No Spacing"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 1"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 1"/>
+  <w:LsdException Locked="false" UnhideWhenUsed="false" Name="Revision"/>
+  <w:LsdException Locked="false" Priority="34" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="List Paragraph"/>
+  <w:LsdException Locked="false" Priority="29" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Quote"/>
+  <w:LsdException Locked="false" Priority="30" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Quote"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 1"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 1"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 2"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 2"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 2"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 3"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 3"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 3"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 4"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 4"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 4"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 5"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 5"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 5"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 6"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 6"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 6"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="19" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtle Emphasis"/>
+  <w:LsdException Locked="false" Priority="21" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Emphasis"/>
+  <w:LsdException Locked="false" Priority="31" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtle Reference"/>
+  <w:LsdException Locked="false" Priority="32" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Reference"/>
+  <w:LsdException Locked="false" Priority="33" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Book Title"/>
+  <w:LsdException Locked="false" Priority="37" Name="Bibliography"/>
+  <w:LsdException Locked="false" Priority="39" QFormat="true" Name="TOC Heading"/>
+ </w:LatentStyles>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:"ＭＳ 明朝";
+	panose-1:2 2 6 9 4 2 5 8 3 4;
+	mso-font-alt:"MS Mincho";
+	mso-font-charset:128;
+	mso-generic-font-family:roman;
+	mso-font-pitch:fixed;
+	mso-font-signature:-536870145 1791491579 18 0 131231 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;
+	mso-font-charset:1;
+	mso-generic-font-family:roman;
+	mso-font-format:other;
+	mso-font-pitch:variable;
+	mso-font-signature:0 0 0 0 0 0;}
+@font-face
+	{font-family:"ＭＳ Ｐゴシック";
+	panose-1:2 11 6 0 7 2 5 8 2 4;
+	mso-font-charset:128;
+	mso-generic-font-family:modern;
+	mso-font-pitch:variable;
+	mso-font-signature:-536870145 1791491579 18 0 131231 0;}
+@font-face
+	{font-family:"\@ＭＳ 明朝";
+	panose-1:2 2 6 9 4 2 5 8 3 4;
+	mso-font-charset:128;
+	mso-generic-font-family:roman;
+	mso-font-pitch:fixed;
+	mso-font-signature:-536870145 1791491579 18 0 131231 0;}
+@font-face
+	{font-family:"\@ＭＳ Ｐゴシック";
+	panose-1:2 11 6 0 7 2 5 8 2 4;
+	mso-font-charset:128;
+	mso-generic-font-family:modern;
+	mso-font-pitch:variable;
+	mso-font-signature:-536870145 1791491579 18 0 131231 0;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0mm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	mso-pagination:widow-orphan;
+	font-size:10.5pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"ＭＳ Ｐゴシック";
+}
+h1
+	{
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"見出し 1 \(文字\)";
+	margin:0mm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:1;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"ＭＳ Ｐゴシック";
+	color:black;
+	font-weight:normal;
+	text-decoration:underline;
+	text-underline:single;
+}
+h2
+	{
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-link:"見出し 2 \(文字\)";
+	margin:0mm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	mso-pagination:widow-orphan;
+	page-break-after:avoid;
+	mso-outline-level:2;
+	font-size:10.5pt;
+	font-family:"Arial","sans-serif";
+	mso-fareast-font-family:"ＭＳ Ｐゴシック";
+	font-weight:normal;
+}
+p.MsoHeader, li.MsoHeader, div.MsoHeader
+	{
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-link:"ヘッダー \(文字\)";
+	margin:0mm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	mso-pagination:widow-orphan;
+	layout-grid-mode:char;
+	font-size:10.5pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"ＭＳ Ｐゴシック";
+}
+p.MsoFooter, li.MsoFooter, div.MsoFooter
+	{
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-link:"フッター \(文字\)";
+	margin:0mm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	mso-pagination:widow-orphan;
+	layout-grid-mode:char;
+	font-size:10.5pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"ＭＳ Ｐゴシック";
+}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+	{
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-link:"吹き出し \(文字\)";
+	margin:0mm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	mso-pagination:widow-orphan;
+	font-size:9.0pt;
+	font-family:"Arial","sans-serif";
+	mso-fareast-font-family:"ＭＳ Ｐゴシック";
+}
+span.MsoPlaceholderText
+	{
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	color:gray;
+}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+	{
+	mso-style-priority:34;
+	mso-style-unhide:no;
+	mso-style-qformat:yes;
+	margin-top:0mm;
+	margin-right:0mm;
+	margin-bottom:0mm;
+	margin-left:42.0pt;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	mso-pagination:widow-orphan;
+	font-size:10.5pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:"ＭＳ Ｐゴシック";
+}
+span.1
+	{mso-style-name:"見出し 1 \(文字\)";
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"見出し 1";
+	font-family:"Times New Roman","serif";
+	mso-ascii-font-family:"Times New Roman";
+	mso-hansi-font-family:"Times New Roman";
+	mso-bidi-font-family:"Times New Roman";
+	color:black;
+	text-decoration:underline;
+	text-underline:single;}
+span.2
+	{mso-style-name:"見出し 2 \(文字\)";
+	mso-style-noshow:yes;
+	mso-style-priority:9;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:"見出し 2";
+	font-family:"Arial","sans-serif";
+	mso-ascii-font-family:Arial;
+	mso-hansi-font-family:Arial;
+	mso-bidi-font-family:Arial;}
+span.a
+	{mso-style-name:"ヘッダー \(文字\)";
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:ヘッダー;}
+span.a0
+	{mso-style-name:"フッター \(文字\)";
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:フッター;}
+span.a1
+	{
+	mso-style-name:"吹き出し \(文字\)";
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:吹き出し;
+	font-family:"Arial","sans-serif";
+	mso-ascii-font-family:Arial;
+	mso-hansi-font-family:Arial;
+	mso-bidi-font-family:Arial;
+}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;}
+.MsoChpDefault
+	{
+	mso-style-type:export-only;
+	mso-default-props:yes;
+	font-size:10.0pt;
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;
+	mso-ascii-font-family:"Times New Roman";
+	mso-hansi-font-family:"Times New Roman";
+	mso-font-kerning:0pt;
+}
+ /* Page Definitions */
+ @page
+	{mso-footnote-separator:url("DelaunayTriangulation.files/header.htm") fs;
+	mso-footnote-continuation-separator:url("DelaunayTriangulation.files/header.htm") fcs;
+	mso-endnote-separator:url("DelaunayTriangulation.files/header.htm") es;
+	mso-endnote-continuation-separator:url("DelaunayTriangulation.files/header.htm") ecs;}
+@page WordSection1
+	{size:595.3pt 841.9pt;
+	margin:99.25pt 30.0mm 30.0mm 30.0mm;
+	mso-header-margin:42.55pt;
+	mso-footer-margin:49.6pt;
+	mso-paper-source:0;
+	layout-grid:18.0pt;}
+div.WordSection1
+	{
+	page:WordSection1;
+}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:標準の表;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0mm 5.4pt 0mm 5.4pt;
+	mso-para-margin:0mm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif";}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="3074">
+  <v:textbox inset="5.85pt,.7pt,5.85pt,.7pt"/>
+ </o:shapedefaults></xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="2"/>
+ </o:shapelayout></xml><![endif]-->
+<title>制約付きドロネー三角形分割</title>
+</head>
+<body lang="JA" style="tab-interval:42.0pt;text-justify-trim:punctuation">
+    
+              <p><a href="../index.html">戻る</a> <a href="../../index.html">topへ</a><br></p>
+
+
+<div class="WordSection1" style="layout-grid:18.0pt">
+  <p class="MsoNormal" align="left" style="text-align:left"><b><span
+style='font-size:13.0pt;font-family:"ＭＳ 明朝","serif"'>ドロネー三角形分割</span></b><b><span lang="EN-US" style="font-size:13.0pt">Delaunay triangulation</span></b></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><b><span lang="EN-US" style="font-size:10.0pt">&nbsp;</span></b></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><b><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>定義</span></b><b><span lang="EN-US" style="font-size:
+10.0pt"> : </span></b><span lang="EN-US" style="font-size:10.0pt">(</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>一般の</span><span lang="EN-US" style="font-size:10.0pt">)</span><b><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>三角形分割</span></b><b><span style='font-size:10.0pt'>
+</span></b></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">2</span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>次元平面に</span><span lang="EN-US" style="font-size:10.0pt">N</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>個の点群</span><i><span lang="EN-US" style="font-size:10.0pt">P</span></i><span lang="EN-US" style="font-size:10.0pt">={<b>p</b><i><sub>i </sub>|</i><b>p</b><i><sub>i </sub></i></span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>&#8714;</span><span lang="EN-US" style="font-size:10.0pt"> R<sup>2</sup>}</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>が与えられた時，</span><i><span lang="EN-US" style="font-size:10.0pt">P</span></i><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>の凸包の内部を，</span><i><span lang="EN-US" style="font-size:10.0pt">P</span></i><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>に属する点群を頂点とする三角形で分割した図形で，どの三角形も頂点以外に</span><i><span lang="EN-US" style="font-size:10.0pt">P</span></i><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>に属する点を含まないもの．</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><b><span lang="EN-US" style="font-size:10.0pt">&nbsp;</span></b></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><b><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>定義</span></b><b><span lang="EN-US" style="font-size:
+10.0pt"> : </span></b><b><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>ドロネー三角形分割</span></b></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">2</span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>次元平面に</span><span lang="EN-US" style="font-size:10.0pt">N</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>個の点群</span><i><span lang="EN-US" style="font-size:10.0pt">P</span></i><span lang="EN-US" style="font-size:10.0pt">={<b>p</b><i><sub>i </sub>|</i><b>p</b><i><sub>i </sub></i></span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>&#8714;</span><span lang="EN-US" style="font-size:10.0pt"> R<sup>2</sup>}</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>の三角形分割の内，任意の三角形の外接円の内部に</span><i><span lang="EN-US" style="font-size:10.0pt">P</span></i><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>に属する点を含まないもの．</span><span lang="EN-US" style="font-size:10.0pt">4</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>点以上の点が同一円周上る場合，ある三角形の外接円上に，三角形を構成する頂点以外の</span><i><span lang="EN-US" style="font-size:10.0pt">P</span></i><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>に属する点が乗る場合がある</span><span lang="EN-US" style="font-size:10.0pt">[1]</span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>．</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">&nbsp;</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">&nbsp;</span></p>
+  <h1 align="left" style="text-align:left"><b><span style='font-family:"ＭＳ 明朝","serif"'>制約なしドロネー分割</span><span lang="EN-US">---(</span></b><b><span style='font-family:"ＭＳ 明朝","serif"'>逐次加点法</span><span lang="EN-US">)</span></b></h1>
+  <p class="MsoNormal"><span lang="EN-US" style="font-size:10.0pt">&nbsp;</span></p>
+  <p class="MsoNormal"><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>　既にドロネー三角形分割がなされている図形を仮定し，それに新たな点を追加する．この時，追加する点を含む三角形を分割し，ドロネー三角形分割の性質が保たれるように</span><span lang="EN-US" style="font-size:10.0pt">Edge Flip</span><span style='font-size:
+10.0pt;font-family:"ＭＳ 明朝","serif"'>を繰り返す．</span><span style='font-size:10.0pt'>
+</span></p>
+  <p class="MsoNormal"><span lang="EN-US" style="font-size:10.0pt">&nbsp;</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><b><u><span lang="EN-US" style="font-size:10.0pt">A1</span></u></b><span lang="EN-US" style="font-size:
+10.0pt">) </span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>点群を包含する十分大きな三角形</span><span lang="EN-US" style="font-size:10.0pt">(super triangle)</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>を追加する</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><b><u><span lang="EN-US" style="font-size:10.0pt">A2</span></u></b><span lang="EN-US" style="font-size:
+10.0pt">) <span class="SpellE"><i>i</i></span></span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>番目の頂点</span><b><span lang="EN-US" style="font-size:
+10.0pt">p</span></b><i><sub><span lang="EN-US" style="font-size:10.0pt">i</span></sub></i><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>を三角形分割図形に追加</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><b><span lang="EN-US" style="font-size:10.0pt">&nbsp;&nbsp;&nbsp;&nbsp; <u>A2-1</u></span></b><span lang="EN-US" style="font-size:10.0pt">) <b>p</b><i><sub>i</sub></i></span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>を含む三角形</span><span lang="EN-US" style="font-size:10.0pt">ABC</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>を発見し</span><span lang="EN-US" style="font-size:10.0pt">,
+</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>この三角形を</span><span lang="EN-US" style="font-size:10.0pt">AB <b>p</b><i><sub>i</sub></i>, BC <b>p</b><i><sub>i</sub></i>,
+CA <b>p</b><i><sub>i</sub></i> </span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>の</span><span lang="EN-US" style="font-size:10.0pt">3</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>個の三角形に分割．</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>この時</span><span lang="EN-US" style="font-size:10.0pt">, </span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>辺</span><span lang="EN-US" style="font-size:10.0pt">AB,
+BC, CA</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>をスタック</span><span lang="EN-US" style="font-size:10.0pt">S</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>に積む</span><span lang="EN-US" style="font-size:10.0pt">
+(</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>最初の一点のときには，</span><span lang="EN-US" style="font-size:10.0pt">super triangle</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>が見つかる</span><span lang="EN-US" style="font-size:10.0pt">).</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">&nbsp;&nbsp;&nbsp; <b><u>A2-2</u></b>) </span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>スタック</span><span lang="EN-US" style="font-size:10.0pt">S</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>が空になるまで以下を繰り返す</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><u>A2-2-1</u></b>)
+</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>スタック</span><span lang="EN-US" style="font-size:10.0pt">S</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>の一番上の</span><span lang="EN-US" style="font-size:
+10.0pt">edge</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>を</span><span lang="EN-US" style="font-size:10.0pt">pop</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>する．これを辺</span><span lang="EN-US" style="font-size:
+10.0pt">AB</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>とする</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><u>A2-2-2</u></b>)
+</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>辺</span><span lang="EN-US" style="font-size:10.0pt">AB</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>を含む</span><span lang="EN-US" style="font-size:10.0pt">2</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>個の三角形を</span><span lang="EN-US" style="font-size:10.0pt">ABC</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>と</span><span lang="EN-US" style="font-size:10.0pt">ABD</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>とする</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>三角形</span><span lang="EN-US" style="font-size:10.0pt">ABC</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>の外接円内に</span><span lang="EN-US" style="font-size:
+10.0pt">D</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>が入</span><span
+style='font-size:10.0pt'> </span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>る</span><span lang="EN-US" style="font-size:10.0pt">) </span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>辺</span><span lang="EN-US" style="font-size:10.0pt">AB</span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>を</span><span lang="EN-US" style="font-size:10.0pt">flip</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>し，辺</span><span lang="EN-US" style="font-size:10.0pt">AD/DB/BC/CA</span><span style='font-size:
+10.0pt;font-family:"ＭＳ 明朝","serif"'>をスタック</span><span lang="EN-US" style="font-size:10.0pt">S</span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>に</span><span lang="EN-US" style="font-size:10.0pt">push</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>する</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;else </span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>何もしない</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><b><u><span lang="EN-US" style="font-size:10.0pt">A3</span></u></b><span lang="EN-US" style="font-size:
+10.0pt">)super triangle</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>とそれに関する頂点を破棄する．</span></p>
+  <p class="MsoNormal" align="center" style="text-align:center;line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt;mso-no-proof:yes"><img width="577" height="274" id="_x0000_i1026" src="DelaunayTriangulation.files/image001.png" /></span></p>
+  <p class="MsoNormal" align="center" style="text-align:center;line-height:12.0pt"><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>図</span><span lang="EN-US" style="font-size:10.0pt">1</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>このアルゴリズムの重要な点は，新たな点を追加し，その点を含む三角形を分割した後に，すべての三角形がドロネー性を満たすように</span><span lang="EN-US" style="font-size:10.0pt">Edge flip</span><span style='font-size:
+10.0pt;font-family:"ＭＳ 明朝","serif"'>を繰り返す点．この逐次的な</span><span lang="EN-US" style="font-size:10.0pt">Edge flip</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>を効率的に計算するには，方向を持つ</span><span lang="EN-US" style="font-size:10.0pt">Half Edge</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>データ構造を使うとよい．</span><b><u><span lang="EN-US" style="font-size:10.0pt">A2-2-2</span></u></b><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>では，</span><span lang="EN-US" style="font-size:10.0pt">edge
+flip</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>後</span><span lang="EN-US" style="font-size:10.0pt">4</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>辺をスタックに追加しているが，</span><span lang="EN-US" style="font-size:10.0pt">Half edge</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>を用いると，今まで検索してきた方向を考慮し，２辺のみをスタックに積めば良い．</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">&nbsp;</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">&nbsp;</span></p>
+  <h1 align="left" style="text-align:left"><b><span style='font-family:"ＭＳ 明朝","serif"'>制約つきドロネー分割</span><span lang="EN-US">---(</span></b><b><span style='font-family:"ＭＳ 明朝","serif"'>逐次加点法</span><span lang="EN-US">)</span></b></h1>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">&nbsp;</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>　制約付きドロネー分割では，入力点群</span><i><span lang="EN-US" style="font-size:10.0pt">P</span></i><span lang="EN-US" style="font-size:10.0pt">={<b>p</b><i><sub>i
+</sub>|</i><b>p</b><i><sub>i </sub></i></span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>&#8714;</span><span lang="EN-US" style="font-size:10.0pt">
+R<sup>2</sup>, <span class="SpellE"><i>i</i></span>= 0,1,...n-1}</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>に加え，制約線分群</span><span lang="EN-US" style="font-size:10.0pt">E{ (<span class="SpellE"><i>i</i></span><i>,
+j</i>) |<span class="SpellE"><i>i</i></span><i> ,j</i></span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>&#8714;</span><span lang="EN-US" style="font-size:10.0pt">{0,1,...,n-1}}</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>が与えられ，制約線分を跨がない範囲でドロネー性を満たす必要がある．</span><span lang="EN-US" style="font-size:10.0pt">(</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>雑に言うと，制約線分の要素が</span><span lang="EN-US" style="font-size:10.0pt">edge</span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>になるように，かつ，なるべく，ドロネー性が満たされる必要がある．詳しくは</span><span lang="EN-US" style="font-size:10.0pt">[1])</span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>．加点法</span><span lang="EN-US" style="font-size:10.0pt">[2,3]</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>で実装する場合，制約なしとの大きな違いは次の</span><span lang="EN-US" style="font-size:10.0pt">2</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>点，</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">+1) edge flip</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>の条件</span><span lang="EN-US" style="font-size:10.0pt">
+:</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>ドロネー性より制約線分が満たされているかどうかを優先する</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">+2)</span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>制約線分が満たされてない場合の事後処理</span><span lang="EN-US" style="font-size:
+10.0pt"> : Edge flip</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>条件を変更するだけでは，制約線分が満たされない場合があるので後処理で，制約線分の復帰をする必要がある．</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>お茶大</span><span lang="EN-US" style="font-size:10.0pt">,
+</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>伊藤先生ら</span><span lang="EN-US" style="font-size:10.0pt">[3]</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>により，まず制約に関する頂点を追加し，次に制約に関係ない頂点の追加を行うと高速に計算できる事が紹介されているので，以下でもそれを用いる．</span><span
+style='font-size:10.0pt'> </span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">&nbsp;</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><b><u><span lang="EN-US" style="font-size:10.0pt">B1</span></u></b><span lang="EN-US" style="font-size:
+10.0pt">) </span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>点群を包含する十分大きな三角形</span><span lang="EN-US" style="font-size:10.0pt">(super triangle)</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>を追加する</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><b><u><span lang="EN-US" style="font-size:10.0pt">B2</span></u></b><span lang="EN-US" style="font-size:
+10.0pt">) </span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>線分制約にかかわる頂点</span><b><span lang="EN-US" style="font-size:10.0pt">p</span></b><i><sub><span lang="EN-US" style="font-size:10.0pt">i</span></sub></i><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>を図形に追加</span></p>
+  <p class="MsoNormal" style="text-indent:20.1pt;line-height:12.0pt"><b><u><span lang="EN-US" style="font-size:10.0pt">B2-2</span></u></b><span lang="EN-US" style="font-size:10.0pt">) <b>p</b><i><sub>i</sub></i></span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>を含む三角形</span><span lang="EN-US" style="font-size:10.0pt">ABC</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>を発見し</span><span lang="EN-US" style="font-size:10.0pt">,
+</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>この三角形を</span><span lang="EN-US" style="font-size:10.0pt">AB <b>p</b><i><sub>i</sub></i>, BC <b>p</b><i><sub>i</sub></i>,
+CA <b>p</b><i><sub>i</sub></i> </span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>の</span><span lang="EN-US" style="font-size:10.0pt">3</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>個の三角形に分割．</span></p>
+  <p class="MsoNormal" style="text-indent:45.0pt;line-height:12.0pt"><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>この時</span><span lang="EN-US" style="font-size:10.0pt">, </span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>辺</span><span lang="EN-US" style="font-size:10.0pt">AB,
+BC, CA</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>をスタック</span><span lang="EN-US" style="font-size:10.0pt">S</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>に積む．</span><span style='font-size:10.0pt'> </span></p>
+  <p class="MsoNormal" style="text-indent:20.1pt;line-height:12.0pt"><b><u><span lang="EN-US" style="font-size:10.0pt">B2-3</span></u></b><span lang="EN-US" style="font-size:10.0pt">) </span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>スタック</span><span lang="EN-US" style="font-size:10.0pt">S</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>が空になるまで以下を繰り返す</span></p>
+  <p class="MsoNormal" style="text-indent:35.15pt;line-height:12.0pt"><b><u><span lang="EN-US" style="font-size:10.0pt;color:red">B2-3-1</span></u></b><span lang="EN-US" style="font-size:10.0pt;color:red">)</span><span style='font-size:
+10.0pt;font-family:"ＭＳ 明朝","serif";color:red'>スタック</span><span lang="EN-US" style="font-size:10.0pt;color:red">S</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif";color:red'>から辺を</span><span lang="EN-US" style="font-size:10.0pt;color:red">pop</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif";color:red'>し，これを辺</span><span lang="EN-US" style="font-size:10.0pt;color:red">AB</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif";color:red'>とする．</span></p>
+  <p class="MsoNormal" style="text-indent:35.0pt;line-height:12.0pt"><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif";color:red'>辺</span><span lang="EN-US" style="font-size:10.0pt;color:red">AB</span><span style='font-size:
+10.0pt;font-family:"ＭＳ 明朝","serif";color:red'>を含む</span><span lang="EN-US" style="font-size:10.0pt;color:red">2</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif";color:red'>個の三角形を</span><span lang="EN-US" style="font-size:10.0pt;color:red">ABC</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif";color:red'>と</span><span lang="EN-US" style="font-size:10.0pt;color:red">ABD</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif";color:red'>とする</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt;color:red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if(&nbsp;&nbsp; &nbsp;AB</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif";
+color:red'>が線分制約である</span><span lang="EN-US" style="font-size:10.0pt;color:red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+) </span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif";color:red'>何もしない</span></p>
+  <p class="MsoNormal" style="text-indent:35.0pt;line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt;color:red">else if( CD</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif";color:red'>が線分制約であり四角形</span><span lang="EN-US" style="font-size:10.0pt;color:red">ABCD</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif";color:red'>が凸</span><span lang="EN-US" style="font-size:10.0pt;color:red">) </span><span style='font-size:
+10.0pt;font-family:"ＭＳ 明朝","serif";color:red'>辺</span><span lang="EN-US" style="font-size:10.0pt;color:red">AB</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif";color:red'>を</span><span lang="EN-US" style="font-size:10.0pt;color:red">clip</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif";color:red'>，辺</span><span lang="EN-US" style="font-size:10.0pt;color:red">AD/DB/BC/CA</span><span style='font-size:
+10.0pt;font-family:"ＭＳ 明朝","serif";color:red'>をスタックに積む</span></p>
+  <p class="MsoNormal" style="text-indent:35.0pt;line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt;color:red">else if( ABC</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif";color:red'>の外接円内に</span><span lang="EN-US" style="font-size:10.0pt;color:red">D</span><span style='font-size:
+10.0pt;font-family:"ＭＳ 明朝","serif";color:red'>が入る</span><span lang="EN-US" style="font-size:10.0pt;color:red">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;) </span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif";color:red'>辺</span><span lang="EN-US" style="font-size:10.0pt;color:red">AB</span><span style='font-size:
+10.0pt;font-family:"ＭＳ 明朝","serif";color:red'>を</span><span lang="EN-US" style="font-size:10.0pt;color:red">flip</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif";color:red'>，辺</span><span lang="EN-US" style="font-size:10.0pt;color:red">AD/DB/BC/CA</span><span style='font-size:
+10.0pt;font-family:"ＭＳ 明朝","serif";color:red'>をスタックに積む</span></p>
+  <p class="MsoNormal" style="text-indent:35.0pt;line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt;color:red">else </span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif";color:red'>何もしない</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><b><u><span lang="EN-US" style="font-size:10.0pt;color:red">B3</span></u></b><span lang="EN-US" style="font-size:10.0pt;color:red">) </span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif";color:red'>制約線部の復帰を行う</span></p>
+  <p class="MsoNormal" style="text-indent:20.1pt;line-height:12.0pt"><b><u><span lang="EN-US" style="font-size:10.0pt">B3-1</span></u></b><span lang="EN-US" style="font-size:10.0pt">)</span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>各制約線分</span><span lang="EN-US" style="font-size:10.0pt">AB</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>について以下を繰り返す</span></p>
+  <p class="MsoNormal" style="text-indent:20.1pt;line-height:12.0pt"><b><u><span lang="EN-US" style="font-size:10.0pt">B3-2</span></u></b><span lang="EN-US" style="font-size:10.0pt">)</span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>現在図形と</span><span lang="EN-US" style="font-size:10.0pt">AB</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>と交差する全てのエッジをキュー</span><span lang="EN-US" style="font-size:10.0pt">K</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>に挿入</span></p>
+  <p class="MsoNormal" style="text-indent:20.1pt;line-height:12.0pt"><b><u><span lang="EN-US" style="font-size:10.0pt">B3-3</span></u></b><span lang="EN-US" style="font-size:10.0pt">)</span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>キュー</span><span lang="EN-US" style="font-size:10.0pt">K</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>が空になるまで次を繰り返す</span></p>
+  <p class="MsoNormal" style="text-indent:20.1pt;line-height:12.0pt"><b><u><span lang="EN-US" style="font-size:10.0pt">B3-3-1</span></u></b><b><span lang="EN-US" style="font-size:10.0pt">)</span></b><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>キュー</span><span lang="EN-US" style="font-size:10.0pt">K</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>の先頭要素を</span><span lang="EN-US" style="font-size:10.0pt">pop</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>し辺</span><span lang="EN-US" style="font-size:10.0pt">CD</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>とす．</span><span lang="EN-US" style="font-size:10.0pt">CD</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>を含む</span><span lang="EN-US" style="font-size:10.0pt">2</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>個の三角形を</span><span lang="EN-US" style="font-size:10.0pt">CDE, CDF</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>とする</span></p>
+  <p class="MsoNormal" style="text-indent:30.0pt;line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">if( </span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>四角形</span><span lang="EN-US" style="font-size:10.0pt">ECFD</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>が凸</span><span lang="EN-US" style="font-size:10.0pt"> ) </span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>エッジ</span><span lang="EN-US" style="font-size:10.0pt">CD</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>を</span><span lang="EN-US" style="font-size:10.0pt">flip. </span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>新たなエッジ</span><span lang="EN-US" style="font-size:10.0pt">EF</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>をスタック</span><span lang="EN-US" style="font-size:10.0pt">N</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>に</span><span lang="EN-US" style="font-size:10.0pt">push.</span></p>
+  <p class="MsoNormal" style="text-indent:30.0pt;line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>エッジ</span><span lang="EN-US" style="font-size:10.0pt">CD</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>をキュー</span><span lang="EN-US" style="font-size:10.0pt">K</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>に後ろから</span><span lang="EN-US" style="font-size:10.0pt">push. </span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">&nbsp;&nbsp;&nbsp; <b><u>B3-3</u></b>) <b>B-2-3</b></span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>と同様の処理をキュー</span><span lang="EN-US" style="font-size:10.0pt">N</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>に対して行う</span><span lang="EN-US" style="font-size:
+10.0pt">(</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>新たなエッジのドロネー性の確認を行う</span><span lang="EN-US" style="font-size:10.0pt">)</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><b><u><span lang="EN-US" style="font-size:10.0pt">B3</span></u></b><span lang="EN-US" style="font-size:
+10.0pt">) </span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>線分制約にかかわらない頂点</span><b><span lang="EN-US" style="font-size:10.0pt">p</span></b><i><sub><span lang="EN-US" style="font-size:10.0pt">i</span></sub></i><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>の追加</span></p>
+  <p class="MsoNormal" style="text-indent:20.1pt;line-height:12.0pt"><b><u><span lang="EN-US" style="font-size:10.0pt">B3-2</span></u></b><span lang="EN-US" style="font-size:10.0pt">) <b>p</b><i><sub>i</sub></i></span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>を含む三角形</span><span lang="EN-US" style="font-size:10.0pt">ABC</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>を発見し</span><span lang="EN-US" style="font-size:10.0pt">,
+</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>この三角形を</span><span lang="EN-US" style="font-size:10.0pt">AB <b>p</b><i><sub>i</sub></i>, BC <b>p</b><i><sub>i</sub></i>,
+CA <b>p</b><i><sub>i</sub></i> </span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>の</span><span lang="EN-US" style="font-size:10.0pt">3</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>個の三角形に分割．</span></p>
+  <p class="MsoNormal" style="text-indent:45.0pt;line-height:12.0pt"><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>辺</span><span lang="EN-US" style="font-size:10.0pt">AB, BC, CA</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>をスタック</span><span lang="EN-US" style="font-size:
+10.0pt">S</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>に積む．</span><span
+style='font-size:10.0pt'> </span></p>
+  <p class="MsoNormal" style="text-indent:20.1pt;line-height:12.0pt"><b><u><span lang="EN-US" style="font-size:10.0pt">B3-3</span></u></b><span lang="EN-US" style="font-size:10.0pt">) </span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>スタック</span><span lang="EN-US" style="font-size:10.0pt">S</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>について</span><b><u><span lang="EN-US" style="font-size:10.0pt">B2-3-1</span></u></b><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>と同様の処理を繰り返す</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><b><span lang="EN-US" style="font-size:10.0pt">B4</span></b><span lang="EN-US" style="font-size:10.0pt">)
+super triangle</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>頂点とそれに関わる全てのエッジを取り除く</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">&nbsp;</span></p>
+  <p class="MsoNormal" style="text-indent:10.0pt;line-height:12.0pt"><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>上記アルゴリズムも，</span><span lang="EN-US" style="font-size:10.0pt">Half Edge</span><span style='font-size:
+10.0pt;font-family:"ＭＳ 明朝","serif"'>データ構造を利用する事で効率化する事が可能．また，</span><b><u><span lang="EN-US" style="font-size:10.0pt;color:red">B2-3-1</span></u></b><b><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>の</span></b><span lang="EN-US" style="font-size:10.0pt">edge flip</span><span style='font-size:
+10.0pt;font-family:"ＭＳ 明朝","serif"'>時にその</span><span lang="EN-US" style="font-size:10.0pt">edge</span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>を囲む四角形の凸チェックをする必要がある．参考文献</span><span lang="EN-US" style="font-size:10.0pt">[3]</span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>では，上記アルゴリズムより複雑な事をしている．</span><span lang="EN-US" style="font-size:10.0pt">[3]</span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>では，制約線分に関する頂点を一点追加した後，すべての制約線分と生成図形との間で交差判定を行う．もし，一本の制約線分と</span><span lang="EN-US" style="font-size:10.0pt">2</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>辺で交差する三角形が発見された場合，その頂点の追加作業を巻き戻し，その頂点を後回しにする．この方法の利点は，交差判定の回数が減らせ，計算効率が高い点である．ただし，このアルゴリズムを実装してみた結果，複雑な線分制約を与えた場合，どの頂点を追加しても，制約線分と</span><span lang="EN-US" style="font-size:10.0pt">2</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>辺で交差する三角形が生成されてしまうような，手詰まり状態になる事があった．この場合は，</span><span lang="EN-US" style="font-size:10.0pt"> Sloan</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>ら</span><span lang="EN-US" style="font-size:10.0pt">[2]</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>制約線分復帰操作</span><span lang="EN-US" style="font-size:10.0pt">(<b><u>B2</u></b>)</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>をする必要があった．（複雑な制約線分では手詰まりが避けられないと思うが，</span><span lang="EN-US" style="font-size:10.0pt">”</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>必ず手詰まりになる</span><span lang="EN-US" style="font-size:
+10.0pt">”</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>や</span><span lang="EN-US" style="font-size:10.0pt">”</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>手詰まりにならない頂点列順が存在する</span><span lang="EN-US" style="font-size:10.0pt">”</span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>などの証明は今のところ発見できていない。）</span></p>
+  <p class="MsoNormal" align="center" style="text-align:center;line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt;mso-no-proof:yes"><img width="516" height="320" id="_x0000_i1025" src="DelaunayTriangulation.files/image002.png" /></span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">[1] </span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>杉原</span><span style='font-size:10.0pt'> </span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>厚吉</span><span lang="EN-US" style="font-size:10.0pt">, </span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>グラフィックスの数理</span><span lang="EN-US" style="font-size:10.0pt"> (</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>情報数学講座</span><span lang="EN-US" style="font-size:10.0pt"> (13)), </span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>共立出版</span><span lang="EN-US" style="font-size:10.0pt">,
+1995.</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">[2] Sloan, S. W., A Fast Algorithm for Generating
+Constrained Delaunay Triangulations, Computers and Structures, 47, 3, 441-450,
+1993.</span></p>
+  <p class="MsoNormal" style="line-height:12.0pt"><span lang="EN-US" style="font-size:10.0pt">[3]</span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>伊藤貴之</span><span lang="EN-US" style="font-size:10.0pt">, </span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>山田敦</span><span lang="EN-US" style="font-size:10.0pt">, </span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>井上恵介</span><span lang="EN-US" style="font-size:10.0pt">,
+</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>古畑智武</span><span lang="EN-US" style="font-size:10.0pt">, </span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>嶋田憲司</span><span lang="EN-US" style="font-size:10.0pt">,
+</span><span style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>制約つき</span><span lang="EN-US" style="font-size:10.0pt">Delaunay</span><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>三角メッシュ生成法の効率的な実装方法</span><span lang="EN-US" style="font-size:10.0pt">, </span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>全国大会講演論文集</span><span style='font-size:10.0pt'> </span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>第</span><span lang="EN-US" style="font-size:10.0pt">55</span><span style='font-size:10.0pt;font-family:
+"ＭＳ 明朝","serif"'>回平成</span><span lang="EN-US" style="font-size:10.0pt">9</span><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>年後期</span><span lang="EN-US" style="font-size:10.0pt">(4), 252-253, 1997-09-24</span></p>
+  <p class="MsoNormal" align="right" style="text-align:right;line-height:12.0pt"><b><span
+style='font-size:10.0pt;font-family:"ＭＳ 明朝","serif"'>井尻敬</span></b><b><span lang="EN-US" style="font-size:10.0pt"> @ </span></b><b><span style='font-size:
+10.0pt;font-family:"ＭＳ 明朝","serif"'>生物情報基盤</span></b><b><span lang="EN-US" style="font-size:10.0pt">, </span></b><b><span style='font-size:10.0pt;
+font-family:"ＭＳ 明朝","serif"'>理研</span></b><b><span style='font-size:10.0pt'> </span></b></p>
+  <p class="MsoNormal" align="right" style="text-align:right;line-height:12.0pt"><b><span lang="EN-US" style="font-size:10.0pt">2011/12/26</span></b></p>
+</div>
+</body>
+</html>

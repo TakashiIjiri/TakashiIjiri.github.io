@@ -1,0 +1,267 @@
+﻿<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="Keywords" content="井尻敬,User Interface,Computer Graphics">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.1.0 for Windows">
+<title>確率論</title>
+<link rel="stylesheet" type="text/css" media="screen" href="brict.css">
+<style type="text/css" media="screen">
+
+<!--
+/* Source Code CSS */
+pre.code {
+    font-size: 12px;
+    /* line-height:1.2em; */
+    border:1px solid #aaa;
+    background:#e0f0e0;
+    padding:0.5em; 
+    overflow: auto;
+}
+pre.code span.tag		{
+	color: #0000ff;	
+}
+pre.code span.attr 		{
+	color: #000; 		
+}
+pre.code span.value		{
+	color: #900; 		
+}
+pre.code span.str 		{
+	color: #009900; 	
+}
+pre.code span.num 		{
+	color: #009900; 	
+}
+pre.code span.keyword	{
+	color: #0000ff; 	
+}
+pre.code span.rem		{
+	color: #909; 		
+}
+pre.code span.variable	{
+	color: #500050;	
+}
+
+
+
+<!--
+
+-->
+</style>
+</head>
+<body>
+<div id="headerspacer"></div>
+<div id="col2o2">
+  <blockquote>
+  <div id="col2o2content">
+    <hr>
+    <h1>確率論 2</h1>
+    <hr>
+    <hr>
+    <br>
+    　必要となるたびに勉強しては、すぐ忘れてしまう確率論の用語等を、自分のために一通りまとめておく。<br>
+    　今回参考にしたのは、以下の2冊。(両方とも値段以上の価値のある良書だと思います。)<br>
+    <ul>
+      <li>[1]結城浩, 数学ガール(乱択アルゴリズム)
+      <li>[2]平岡和幸, 堀玄 プログラミングのための確率統計
+    </ul>
+    <br>
+    　　<a href="index.html">戻る</a>　　<a href="probability3.html">確率論3へ</a> <br>
+    <hr>
+    <h2>複数の事象, 複数の確率変数(離散分布)</h2><!-------------------------------------------------------------------------------------------------------------------------------------------->　
+-離散確率分布の場合 : 標本空間Ωにおける2個の事象A, Bを考える．<br>
+    <ul>
+      <li>　　<b>同時確立</b>　　　 : P(A,B) 　　 　　　　　　　　　: 事象A∧Bが起こる確率
+      <li>　　<b>周辺確立</b> 　　　: P(A)， P(B) 　　　　　　　　 : (事象Bはなんでもいいから)事象Aが起こる確率, と, (事象Aはなんでもいいから)事象Bが起こる確率
+      <li>　　<b>条件付き確率</b> ： P(B|A) = P(B,A)/P(A) : 事象Aが起こった下で事象Bが起こる確率 
+    </ul>
+    　　　　　　　　　　　　　　　　　　P(A|B) = P(A,B)/P(B) : 事象Bが起こった下で事象Aが起こる確率<br>
+    　　　　　　　　　　　　　　　　　　(ベイズ推定においては事後確率とも呼ばれる)<br>
+    <br>
+    　　例. Ω : 日本人, 　A : 男性, 　B:血液型がO型<br>
+    　　　　　P(A∧B) : 日本人を一人サンプリングしたときに, その人が, 男性かつO型である 確率<br>
+    　　　　　P(A) 　　 : 日本人を一人サンプリングしたときに, その人が, 男性である 確率<br>
+    　　　　　P(B|A) 　:日本人を一人サンプリングして, その人が 男性である 事を確認した下で、彼がO型である確率<br>
+    　　　　　　　　　　　　<img src="fig111.png" width="228" height="149" border="0"><br>
+    <br>
+    　- 確率変数を導入 : 2個のランダムな値をとる確率変数XYに対して,<br>
+    <ul>
+      <li>　　<b>同時確立</b>　　　 : P(X=a,Y=b) 　　　　　　　　　　　　　　　: X=a , Y=b となる起こる確率．　　
+      <li>　　<b>周辺確立</b> 　　　: P(X=a), P(Y=b) 　　　　　　　　　　　　　: Yはどんな値をとっても良いがX=aとなる確率， と,　Xはどんな値をとっても良いがY=bとなる確率．
+      <li>　　<b>条件付き確率</b> ： P(Y=b|X=a)=P(X=a,Y=b)/P(X=a) : X=aを観測した下で，Y=bとなる確率．
+    </ul>
+    <br>
+    　例 ： 出る目が等確率なサイコロを2回振ったときに, 確率変数Xを1回目のサイコロの数字, 確率変数Yを2回のサイコロの和, とする <br>
+    　　　P(X=4,Y=9) = 1/36<br>
+    　　　P(X=4) = 1/6<br>
+    　　　P(Y=9) = 4/36<br>
+    　　　P(Y=9|X=4) = 1/6<br>
+    　　<br>
+    　　-　<b>同時確立と周辺確立には以下の関係がある</b>
+    <div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px"><br>
+    　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle P(X=a) = \sum_{b}^{}P(X=a, Y=b)" align="top"/> X=aを固定して，Yが取り得る値全てを入れてその確率を足し合わせると、P(X=a)<br>
+    <br>
+    　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle P(Y=b) = \sum_{a}^{}P(X=a, Y=b)" align="top"/> Y=bを固定して，Xに取り得る値全てをいれて その確率を足し合わせると、P(Y=b)<br>
+    <br>
+    </div>
+    　　同時確率分布がわかれば(すべてのXYの取り得る値の組み合わせに対して，それの起こる確率がわかれば)，XYの周辺分布や条件付き確率などが計算できる．<br>
+    <br>
+    <hr>
+    <h2>ベイズの公式 (離散分布)</h2><!-------------------------------------------------------------------------------------------------------------------------------------------->　
+    <div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px">　<br>
+    　　二つのランダムに値の変わる確率変数X={a0, a1,...,an}, Y={b1,b2,...,bm}について以下が成り立つ.<br>
+    　　
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle P(Y=b_i|X=a) = \frac{ P(X=a|Y=b_i)P(Y=b_i) } { P(X=a) } " align="top"/> 
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle             = \frac{ P(X=a|Y=b_i)P(Y=b_i) } { \sum_{b_i}^{}P(X=a, Y=b_i) } " align="top"/> 
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle             = \frac{ P(X=a|Y=b_i)P(Y=b_i) } { \sum_{b_i}^{}P(X=a | Y=b_i) P(Y=b_i) } " align="top"/> 
+<br>
+    <br>
+    </div>
+    <br>
+    　<b>ベイズの公式でできる事をまとめると...</b><br>
+    <ul>
+      <li><font color="#ff0000">ランダムに変化する原因Y</font>の起こる確率が分かっており,( P(Y=b1), P(Y=b2) ,..., P(Y=bN)はknown )
+      <li>任意の原因 Y=bi の下で，<font color="#ff0000">結果X</font>がaになる確率が分かっている, ( P(X=a|Y=b1), P(X=a|Y=b2),..., P(X=a|Y=bN) もknown)
+    </ul>
+    　　　　　 　　　　　...この下で...　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　↓
+    <ul>
+      <li>結果X = a が観察されたとき,その原因Yがbiである確率が分かる P(Y=bi|X=a)
+    </ul>
+    　<br>
+    <div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px"><b>例題.</b> 関西人,  宇宙人, その他、を識別できる器械を開発した．<br>
+    1) 東京の人口の<br>
+    　　30.00%が関西人,<br>
+    　　00.01%が宇宙人,<br>
+    　　69.99%がその他<br>
+    とする．<br>
+    <br>
+    2) この識別器に<br>
+    　　宇宙人を入れると，　 　1%の確率で関西人, <font color="#009900">99%の確率で宇宙人</font>, 　0%の確率でその他, <br>
+    　　関西人を入れると，　95%の確率で関西人, 　<font color="#0000ff">2%の確率で宇宙人</font>, 　3%の確率でその他, <br>
+    　　その他を入れると，　 9%の確率で関西人, 　<font color="#e1891e">1%の確率で宇宙人</font>, 90%の確率でその他,<br>
+    と判別する. <br>
+    <br>
+    問) 東京で一人サンプリングして識別器に入れたところ、宇宙人と判定された．この人が本当に宇宙人である確率は?<br>
+    <br>
+    </div>
+    　<br>
+    　(1)が原因Y={関西, 宇宙, 他}の確率を表し<br>
+    　(2)が原因の下での結果の確率 P{X={関西, 宇宙, 他} | Y={ 関西, 宇宙, 他}}を表している事に注意．<br>
+    <br>
+    　図を使った解法)<br>
+    <img src="bayseTrain.png" width="817" height="304" border="0" style="margin-left:10px"><br>
+    <br>
+    <br>
+    <br>
+    　ベイズの公式を使った解法) <br>
+    　<br>
+    　ベイズの公式より<br>
+    　　　P(Y=宇宙人|X=宇宙人判定) <br>
+    　=<font color="#0000ff"> </font><font color="#009900">P(X=宇宙人判定|Y=宇宙人)</font>P(Y=宇宙人) / P(X=宇宙人判定)<br>
+    　= <font color="#009900">P(X=宇宙人判定|Y=宇宙人)</font>P(Y=宇宙人) / { P(Y=関西 , X=宇宙人判定) 　　　　　　　　　+ P(Y=宇宙 , X=宇宙人判定)　　　　　　　　　+ P(Y=その他
+    , X=宇宙人判定)}<br>
+    　= <font color="#009900">P(X=宇宙人判定|Y=宇宙人)</font>P(Y=宇宙人) / { <font color="#009900">P(X=宇宙人判定|Y=宇宙人)</font>P(Y=宇宙人) +<font color="#0000ff">P(X=宇宙人判定|Y=関西人)</font>P(Y=関西人) +<font color="#e1891e"> P(X=宇宙人判定|Y=その他)</font>P(Y=その他)}<br>
+    　= {<font color="#009900">0.99</font>*0.0001}/{<font color="#009900">0.99</font>*0.0001+ <font color="#0000ff">0.02</font>*0.3+<font color="#e1891e">0.01</font>*0.6999}<br>
+    　=0.007558 　つまりこの精度の機械で宇宙人と判断されたら，0.75%程度の確率でその人は宇宙人<br>
+    　<br>
+    <br>
+    　問題の前提条件(2)の一部(色つき)しか利用していない事に注意する．<br>
+    　細かいことだが、ここではXYは事象として扱っており， 確率変数ではない（確率変数は個々の事象を実数にマップする関数．）． <br>
+    　<br>
+    <br>
+    <br>
+    　結局ベイズ推定は、<br>
+    　　<font color="#ff0000">原因Yの起こる確率</font> + <font color="#ff0000">ある原因のもので結果Xが観察される確率</font> 　がわかっている下で, <br>
+    　　<font color="#ff0000">結果X=xを観察</font> したとき、そもそもの<font color="#ff0000">原因Yがyである確率</font>を求められる P(Y=y|X=x) <br>
+    <br>
+    <br>
+
+
+
+
+
+
+    <hr>
+    <h2>複数の事象, 複数の確率変数(連続分布)</h2>
+    　　- ランダムに値の変化する2個の連続な確率変数 XとYを考える.<br>
+    　　　連続変数の場合，ちょうどXとYがある値になる確率，P(X=x,Y=y)，は0なので、<br>
+    　　　確率密度関数を用いて, <b>同時分布</b>, <b>周辺分布</b>, <b>条件付き分布</b>を表す． <br>
+    <br>
+    <ul>
+      <li><b>同時分布</b> :
+    </ul>
+    　　　　　　-　同時分布は同時確率密度関数<img src="http://chart.apis.google.com/chart?cht=tx&chl=f_{XY}(X=x, Y=y) =f_{XY}(x,y)  = f_{YX}(Y=y,X=x) = f_{YX}(y,x)" align="top"/> により定義される<br>
+    　　　　　　-　同時分布が与えられれば，XとYの作る任意の集合に対して,<br>
+    　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle P(a_0 \le X \le a_1,\:\: b_0 \le Y \le b_1) = \int_{a_0}^{a^1}\int_{b_0}^{b^1} \:\; f_{XY}(x,\:y) dxdy" align="top"/> <br>
+    　　　　　　　 と確率が計算できる.(同時分布が得られたら、任意のXYの集合に対する確率分布が分かる)<br>
+    <br>
+    <br>
+    　　　　　　-　下図は，2次元標準正規分布の同時確率密度関数<br>
+    　　　　<img src="2Dgaussian.png" width="383" height="179" border="0"><br>
+    　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f(x,y) = \frac{1}{2\pi\sigma_x\sigma_y}\sqrt{1-p^2} \exp\left{ \frac{(x-\mu_x)^2}{\sigma_x^2} %2B \frac{(y-\mu_y)^2}{\sigma_y^2}- \frac{ 2p(x-\mu_x)(y-\mu_y)}{\sigma_x\sigma_y}\right}" align="top"><br>
+    　　　　この例ではμx=0.5, μy=1.0, σx=σy=1.0, p = 0.8とした.<br>
+    <br>
+    <br>
+    <br>
+    <ul>
+      <li><b>周辺分布</b> :
+    </ul>
+    　　　　　　- 確率変数Xの周辺分布とは, 確率変数Yの値を気にせずに 確率変数Xの確率分布を考えたもの<br>
+    　　　　　　- 確率変数Yの周辺分布とは, 確率変数Xの値を気にせずに 確率変数Yの確率分布を考えたもの<br>
+    　　　　　　- 確率密度関数，f<sub>X</sub>(X=x), f<sub>Y</sub>(Y=y)で表される．<br>
+    　　　　　　- 周辺確率密度関数は，同時確率密度関数から計算できる<br>
+    　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f_X(X=x)=\int_{-\infty}^{\infty} \:\: f_{XY}(x,\:y) dy" align="top"/> <br>
+    　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f_Y(Y=y)=\int_{-\infty}^{\infty} \:\: f_{XY}(x,\:y) dx" align="top"/> <br>
+    　　　　　　　　-上式より明らかだが，次の式の形を覚えておく.<br>
+    　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle P(a_0 \le X \le a_1) = \int_{a_0}^{a^1}\:\:f_X(x)dx  =  \int_{a_0}^{a^1}\:\:\int_{-\infty}^{\infty}\:\:f_{XY}\:\:(x,\:\:y) dydx" align="top"/> <br>
+    <br>
+    <br>
+    <br>
+
+
+    <ul>
+      <li><b>条件付き分布</b>
+    </ul>
+    　　　　　 - X=a<sub>0</sub>が観察された下で, Yの条件付き確率分布は, 条件付き確率密度関数 f<sub>Y|X</sub>(Y=y|X=a<sub>0</sub>)を用いて表される<br>
+    　　　　　 - Y=b<sub>0</sub>が観察された下で, Xの条件付き確率分布は, 条件付き確率密度関数 f<sub>X|Y</sub>(X=x|Y=b<sub>0</sub>)を用いて表される<br>
+    　　　　　 - 条件付き密度関数は，同時密度関数から次のとおり計算できる<br>
+    　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f_{Y|X}(y|a_0) = \frac{f_{YX}(y,\:a_0)}{ f_X(a_0) }, \;\;\;\;\;\; f_{X|Y}(x|b_0) = \frac{f_{XY}(x,\:b_0)}{ f_Y(b_0) }" align="top"/> <br>
+    <br>
+    <ul>
+      <li><b>ベイズの公式</b>
+    </ul>
+    　　　　　　- 連続確率変数XYでは、ベイズの公式も同時/周辺確率密度関数を用いて表される．<br>
+    　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f_{X|Y}(a|b) = \frac{f_{XY}(a,\:b)}{ f_Y(b) } = \frac{f_{XY}(a,\:b)}{ \int_{-\infty}^{\infty} f_{XY}(x,b)dx } = \frac{f_{Y|X}(b|a)f_X(a)}{ \int_{-\infty}^{\infty} f_{Y|X}(b|x)f_X(x)dx}" align="top"/> <br>
+    <br>
+    <br>
+
+    <hr>
+    <h2>確率変数の独立性</h2>
+    <ul>
+      <li>離散確率変数の場合
+    </ul>
+    　　　　　 - 2つの確率変数X Y が, 任意の事象の組み合わせ a,bに対して次(のどれか)を満たすとき, XとYは独立であるという．<br>
+   　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle P(X=a , Y=b ) = P(X=a) P(Y=b) " align="top"/><br>
+    　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle P(X=a | Y=b ) = P(X=a)" align="top"/><br>
+    　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle P(Y=b | X=a ) = P(Y=b)" align="top"/> <br>
+
+    <br>
+    <ul>
+      <li>連続確率変数の場合 　　　　　 
+    </ul>
+    　　　　　　- 2つの確率変数X Y が, 任意の事象の組み合わせ a,bに対して次(のどれか)を満たすとき, XとYは独立であるという．<br>
+      　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f_{XY}(X=a,Y=b)     = f_X(X=a) f_Y(Y=b) " align="top"><br>
+    　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f_{X|Y}(X=a | Y=b ) = f_X(X=a)" align="top"><br>
+    　　　　 　　 <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f_{Y|X}(Y=b | X=a ) = f_Y(Y=b)" align="top"><br>
+    　　　　　<br>
+    　　　　　確率変数XYが独立とは，XとYのあいだに関わりがないということ.　<br>
+    　　　　　XとYが独立なら、上記のとおり,同時分布や条件付き分布が, もう一方に依存しないものとなる．<br>
+    　　　　　XとYが独立なら、ベイズ推定のように， X=aを観察してbの値を推測するなどはナンセンスになる．<br>
+    　　　　　<br>
+    　　　　　<a href="index.html">戻る</a>　　<a href="probability3.html">確率論3へ</a> <div id="footer">
+      Copyright 2010~ Takashi Ijiri(井尻敬), All rights reserved.
+    </div>
+  </div></blockquote>
+</div>
+</body></html> 

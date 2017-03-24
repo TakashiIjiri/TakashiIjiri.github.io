@@ -1,0 +1,91 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.1.0 for Windows">
+<meta name="Keywords" content="井尻敬,User Interface,Computer Graphics">
+<title>Visual Studio memo</title>
+<link rel="stylesheet" type="text/css" media="screen" href="brict.css">
+<style type="text/css" media="screen">
+<!--
+
+-->
+</style>
+</head>
+<body>
+<div id="headerspacer"></div>
+<div id="col2o2">
+  <blockquote>
+  <div id="col2o2content">
+    <hr>
+    <h1>Graph Cut Image Segmentation</h1>
+    <br>
+    <b>概要:</b> 非常に有名な画像領域分割手法．代表的な2通りの使い方がある． 　<br>
+    1)バイナリラべリング(前景/背景ラべリング). ユーザ(または自動アルゴリズム)が，前景領域内部と背景領域に複数のSeedを指定すると，「指定された前景/背景Seedに似た色を持つ画素が前景/背景になるよう」，「隣接画素の色の差が大きい部分にラベル境界が来るよう」，最適なラべリングが計算される．
+    　<br>
+    2) 複数領域ラべリング. 抽出したい領域の複数の代表画素を，ラベル毎に指定しておくと，「あるラベルの代表画素値と似た色の画素はそのラベルに属すよう」「隣接画素の色の差が大きい部分にラベル境界が来るよう」各画素をラべリングする． 　<br>
+    <br>
+    この手法の最大の特徴は，上記の要求を満たすエネルギー関数をうまく定義し，その最小化解が最大フロー(最小カット)問題を解くことで得られる事を利用して，高速に最適解(ラべリング)を計算する点である．Boykov先生らのグループがこの分野の先駆けで，基礎理論から応用まで幅広く発表している[1,2]．ここでは，ざっとGraph
+    cut画像領域分割の基礎をまとめておく． <br>
+    <br>
+    [1]Yuri Boykov, Olga Veksler, Ramin Zabih, Fast Approximate Energy Minimization
+    via Graph Cuts, PAMI, 1999. <br>
+    [2]Yuri Boykov, Marie-Pierre Jolly, Interactive Organ Segmentation Using
+    Graph Cuts, MICCAI, 2000. <br>
+    [3]LI, Y., SUN, J., TANG, C. K., SHUM, H. Y.: Lazys-napping. In Proc. of
+    ACM SIGGRAPH '04, 303–308, 2004. <br>
+    <br>
+    <br>
+<h1>画像のバイナリラべリング</h1>
+    <br>
+　前景領域の代表画素群Pfと背景領域の代表画素群Pbが与えられた下で，全ての画素xi∊Pに前景ラベルFか背景ラベルBのどちらか一つを対応付けるバイナリラべリングを考える．前述した要求を満たすため，ラべリングは，なめらかで，かつ，画素値とconsistent(一貫している)である必要がある．なめらかさと一貫性に関する項を持った，以下のようなエネルギー関数が用いられる．
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <ul>
+      <li><b>総和計算にはreduction使う</b>
+    </ul>
+    for ループの中で，変数vの総和を計算する時，以下のように書く. <br>
+    <table border="1" width="763">
+      <tbody>
+        <tr>
+          <td height="95">    double v = 0;<br>#pragma omp parallel for reduction( + : v )<br>
+    for( int i=0; i&lt;100; ++i){ ...; v+=??; }<br>
+          &nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    スレッド数が4個のときの行われる計算のイメージは以下<br>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td width="756" height="171">    まず並列にfor文を計算<br>
+    スレッド1 : doble v1=0; for( int i=　0; i&lt;　25; ++i){ ...; v1+=??; }<br>
+    スレッド2 : doble v2=0; for( int i=25; i&lt;　50; ++i){ ...; v2+=??; }<br>
+    スレッド3 : doble v3=0; for( int i=50; i&lt;　75; ++i){ ...; v3+=??; }<br>
+    スレッド4 : doble v4=0; for( int i=75; i&lt;100; ++i){ ...; v4+=??; }<br>
+    <br>
+    for文が終わったら、全ての結果を足し合わせ．<br>
+          v = v1 + v2 + v3 + v4;&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    OpenMPはプログラマを甘やかし過ぎなんじゃないかと思うくらい便利．2行書いただけで数倍高速になったりする。。。<br>
+    <br>
+    <hr />
+    <a name="education"><br>
+    <br>
+    <br>
+    </a><br>
+    <hr />
+    
+    <div id="footer">Copyright 2010~ Takashi Ijiri, All rights reserved.</div>
+  </div>
+  </blockquote>
+</div>
+</body>
+</html>

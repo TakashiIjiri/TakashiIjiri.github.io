@@ -1,0 +1,244 @@
+﻿<html>
+<head>
+<meta charset="utf-8">
+<title>曲線曲面の曲率</title>
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.0.1 Trial for Windows">
+<style type="text/css">
+<!--
+body       {
+	margin:0px 0px 0px 0px;
+}
+p          {
+	margin:0px; text-align:left; line-height:150%; font-size:100%; font-family:"ＭＳ 明朝","serif";
+}
+h1         {
+	margin:0px; text-align:left; line-height:150%; font-size:100%; font-family:"ＭＳ 明朝","serif";
+}
+h2         {
+	margin:0px; text-align:left; line-height:150%; font-size:100%; font-family:"Arial","sans-serif";
+}
+div.WordSection1
+           {
+	page:WordSection1;
+}
+.c1        {
+	layout-grid:24px;
+}
+.c2        {
+	text-align:center;
+}
+.c3        {
+	text-align:right;
+}
+.c4        {
+	font-size:125%; line-height:150%;
+}
+.c5        {
+	font-size:92%; line-height:150%;
+}
+.c6        {
+	font-size:104%; line-height:150%;
+}
+.c7        {
+	font-size:104%; line-height:150%; font-family:"ＭＳ ゴシック";
+}
+.c8        {
+	font-size:100%; line-height:150%; font-family:"ＭＳ 明朝","serif"; position:relative; top:12px;
+}
+.c9        {
+	font-size:100%; line-height:150%; font-family:"ＭＳ 明朝","serif"; position:relative; top:11px;
+}
+.c10       {
+	font-size:100%; line-height:150%; font-family:"ＭＳ 明朝","serif"; position:relative; top:19px;
+}
+.c11       {
+	font-size:100%; line-height:150%; font-family:"ＭＳ 明朝","serif";
+}
+.c12       {
+	font-size:100%; line-height:150%; font-family:"ＭＳ 明朝","serif"; position:relative; top:13px;
+}
+.c13       {
+	font-size:92%; line-height:150%;
+}
+.c14       {
+	font-size:117%; line-height:150%;
+}
+.c15       {
+	font-size:92%; line-height:150%; font-family:"Cambria Math","serif";
+}
+.c16       {
+	font-size:92%; line-height:150%; font-family:"Batang","serif";
+}
+-->
+</style>
+</head>
+<body lang="ja">
+<blockquote>
+<div align="center">
+  <div class="WordSection1 c1">
+    <p class="c2"><strong><span class="c4">微分幾何学1</span></strong></p>
+
+
+      <p><a href="../index.html">戻る</a> <a href="../../index.html">topへ</a><br></p>
+
+
+    <p><strong><span class="c5">&nbsp;</span></strong></p>
+    <p><strong><span class="c5">概要:&nbsp;</span></strong><span class="c5">パラメータ表示された曲線と曲面の曲率の導出をまとめておく．</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <h2><strong><span class="c6">1</span></strong><strong><span class="c7">平面曲線の表現方法</span></strong></h2>
+    <p><span class="c5">　</span><span class="c6">平面</span><span class="c5">曲線には3種類の表現方法がある．右は半径<em>r</em>の円の例．</span></p>
+    <p><span class="c5">-&nbsp;Explicit&nbsp;&nbsp;(</span><span class="c5">陽的表現)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</span><span class="c8"><img width="56" height="36" src="curve1Image/Curvature-001.png" alt=""></span><span class="c5">&nbsp;&nbsp;&nbsp;</span><span class="c5">　:&nbsp;&nbsp;</span><span class="c9"><img width="112" height="36" src="curve1Image/Curvature-002.png" alt=""></span></p>
+    <p><span class="c5">-&nbsp;Implicit&nbsp;&nbsp;(</span><span class="c5">陰的表現)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;</span><span class="c8"><img width="70" height="36" src="curve1Image/Curvature-003.png" alt=""></span><span class="c5">&nbsp;</span><span class="c5">　:&nbsp;&nbsp;</span><span class="c8"><img width="125" height="36" src="curve1Image/Curvature-004.png" alt=""></span></p>
+    <p><span class="c5">-&nbsp;Parametric(</span><span class="c5">パラメータ表示)&nbsp;:&nbsp;</span><span class="c8"><img width="59" height="36" src="curve1Image/Curvature-005.png" alt=""></span><span class="c5">　　:　</span><span class="c8"><img width="205" height="36" src="curve1Image/Curvature-006.png" alt=""></span></p>
+    <p><span class="c5">ここではパラメータ表記に注目する．</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <h2><strong><span class="c6">1-1</span></strong><strong><span class="c7">平面曲線の弧長パラメータ表記</span></strong></h2>
+    <p><span class="c5">&nbsp;</span></p>
+    <p><span class="c5">　あるパラメータ<em>t</em>&nbsp;により表現された，2次元曲線<em>C</em>上の点<strong>p</strong>(<em>t</em>)を考える．ただし，パラメータ<em>t</em>が増加するとき，<strong>p</strong>(<em>t</em>)は常に同じ方向に進むものとする．</span></p>
+    <p class="c2"><span class="c5">C:&nbsp;</span><span class="c10"><img width="88" height="48" src="curve1Image/Curvature-007.png" alt=""></span><span class="c5">&nbsp;…(1)</span></p>
+    <p><strong><span class="c5">p</span></strong><span class="c5">(<em>t</em>)</span><span class="c5">を<em>t</em>で微分すると，<em>t</em>を時間と考えた時の，曲線の速度ベクトルが得られる．時間での微分であるためニュートンのドットを用いて，</span><span class="c10"><img width="41" height="48" src="curve1Image/Curvature-008.png" alt=""></span><span class="c5">，と書かれる事が多い．</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="221" height="72" src="curve1Image/Curvature-009.png" alt=""></span></p>
+    <p class="c2"><span class="c5"><img width="243" height="194" src="curve1Image/Curvature-010.png" alt=""></span></p>
+    <p><span class="c5">端点O(<em>t</em>=0)から点P(<em>t</em>=<em>t</em>)の距離(弧長)は，速度ベクトルの大きさの時間積分で得られる．</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="385" height="72" src="curve1Image/Curvature-011.png" alt=""></span></p>
+    <p><span class="c5">ここで，式(3)には，点Pの位置を表す<em>t</em>と<strong>p</strong>のパラメータとしての<em>t</em>が入っており，ややこしいので，</span><span class="c12"><img width="77" height="36" src="curve1Image/Curvature-012.png" alt=""></span><strong><span class="c5">&nbsp;</span></strong><span class="c5">=<strong>&nbsp;</strong></span><span class="c12"><img width="82" height="36" src="curve1Image/Curvature-013.png" alt=""></span><span class="c5">と書いても良い．式(3)は定性的には，弧長<em>s</em>は<em>t</em>の関数であるという意味(当たり前)なので，</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="89" height="36" src="curve1Image/Curvature-014.png" alt=""></span></p>
+    <p><span class="c5">と書ける．パラメータ<em>t</em>が増加するとき<strong>p</strong>(<em>t</em>)は止まることなく常に同じ方向に進むので，<em>f</em>(<em>t</em>)は単調増加関数になる．つまり，<em>f</em>には逆関数<em>f</em><sup>-1</sup>が存在する．</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="104" height="36" src="curve1Image/Curvature-015.png" alt=""></span></p>
+    <p><span class="c5">この<em>t</em>を式(1)に代入すると，曲線<em>C</em>上の点<strong>p</strong>をその弧長<em>s</em>をパラメータとして表現できる．</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="305" height="48" src="curve1Image/Curvature-016.png" alt=""></span></p>
+    <p><span class="c5">これを曲線の弧長パラメータ表現と呼ぶ．ただし，</span><span class="c8"><img width="68" height="36" src="curve1Image/Curvature-017.png" alt=""></span><span class="c5">は，存在が明らかでも，<em>f<sup>--1</sup></em>を綺麗な形で書く事が困難な場合が多く，実際の計算にはほとんど必要ない(教科書中では必要とされているのをあまり見ない)．</span></p>
+    <p><span class="c5">&nbsp;&nbsp;</span><span class="c5">弧長パラメータ<em>s</em>で表される曲線<strong>p</strong>の速度ベクトル<strong>p</strong>'の長さを考える．('は，パラメータsでの微分を表す．)</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="264" height="48" src="curve1Image/Curvature-018.png" alt=""></span></p>
+    <p><span class="c11"><img width="3" height="36" src="curve1Image/Curvature-019.png" alt=""></span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="397" height="72" src="curve1Image/Curvature-020.png" alt=""></span></p>
+    <p><span class="c5">弧長パラメータ<em>s</em>による微分は，’を用いて表現されることが多い．ここで式(3)の両辺をで微分すると，下記の通り孤長パラメータ<em>s</em>と時間パラメータ<em>t</em>の関係式が得られる．</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="439" height="72" src="curve1Image/Curvature-021.png" alt=""></span></p>
+    <p><span class="c5">ここで，式(8)は式(9)用いると，以下の通り計算できる．</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="649" height="72" src="curve1Image/Curvature-022.png" alt=""></span></p>
+    <p><span class="c5">つまり，孤長パラメータであらわされた平面曲線の速度ベクトルの長さは1になる．また，曲線<em>C</em>上の点(<em>s=s<sup>0</sup></em>)において，曲線<em>C</em>の式をテイラー展開し2次以上の項を無視すると，</span></p>
+    <p class="c2"><span class="c11"><img width="421" height="48" src="curve1Image/Curvature-023.png" alt=""></span></p>
+    <p><span class="c5">この式は，点<em>s=s0</em>で曲線Cの一次近似，すなわち接線を表す．つまり．<strong>p'</strong></span><span class="c13">は接線方向のベクトルを表す．</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <h2><strong><span class="c6">1-2</span></strong><strong><span class="c7">平面曲線の曲率</span></strong></h2>
+    <p><span class="c5">&nbsp;</span></p>
+    <p><span class="c5">　平面曲線上の点<strong>p</strong>(<em>t</em>)における単位接線ベクトルを<strong>e</strong><sub>1</sub>と定義し，これを90度反時計周りに回転したベクトルを<strong>e</strong><sub>2</sub>とすると，<strong>p</strong>(<em>t</em>)における局所座標系が定義できる．</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="573" height="72" src="curve1Image/Curvature-024.png" alt=""></span></p>
+    <p><span class="c5">ただし，sは弧長パラメータである．曲線上を微小距離進んだ時の接線ベクトル<strong>e</strong><sub>1</sub>の変化割合を，曲線の曲率ベクトル<strong>k</strong>と定義する．</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="153" height="48" src="curve1Image/Curvature-025.png" alt=""></span></p>
+    <p><strong><span class="c5">e</span></strong><sub><span class="c5">1</span></sub><span class="c5">・<strong>e</strong><sub>1</sub>=1の両辺を微分すると，<strong>e</strong><sub>1</sub>・<strong>e'</strong><sub>1</sub>=0より，<strong>e</strong><sub>1</sub>と<strong>e'</strong><sub>1</sub>は直行する．つまり，<strong>e'</strong><sub>1</sub>は<strong>e</strong><sub>2</sub>のスカラー倍(<em>k</em>)で表せる．</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="163" height="36" src="curve1Image/Curvature-026.png" alt=""></span></p>
+    <p><span class="c5">この係数<em>k</em>を曲率と呼ぶ．<strong>k</strong>が<strong>e</strong><sub>2</sub>方向を向いているときに正になる．</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <p><span class="c5">　ざっくりまとめると，曲線<strong>p</strong>を弧長パラメータ<em>s</em>であらわした時,&nbsp;<strong>p</strong>(<em>s</em>)の1階微分が接線<strong>p</strong>'<strong>=e</strong><sub>1</sub>に，2階微分が曲率ベクト<strong>p</strong>''=<strong>k</strong>になりその大きさ<em>k</em>=||<strong>p</strong>''||が曲率になる．曲率の正負は，接線ベクトル<strong>e</strong><sub>1</sub>=&nbsp;<strong>p'</strong>を90度回転したベクトル<strong>e</strong><sub>2</sub>と曲率ベクトル<strong>k</strong>とが同じ方向を向く時，正となる．また，曲率ベクトルと<strong>e</strong><sub>2</sub>は平行になる．</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <p><span class="c5">練習．&nbsp;平面曲線<strong>p</strong>(<em>t</em>)&nbsp;=&nbsp;(<em>x</em>(<em>t</em>),&nbsp;<em>y</em>(<em>t</em>))の曲率を求めよ．ただし，<em>t</em>は任意のパラメータとする．&nbsp;</span></p>
+    <p><span class="c5">以下，ドットは<em>t</em>での微分を表す．</span></p>
+    <p><span class="c5">まず，<strong>p</strong>(t)を弧長パラメータsで表した時の<em>s</em>と<em>t</em>の関係式は以下である．</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="432" height="72" src="curve1Image/Curvature-027.png" alt=""></span></p>
+    <p><span class="c5">平面曲線の曲率は弧長パラメータの二階微分の絶対値なので，(i)に注意して式変形を施すと，</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="586" height="72" src="curve1Image/Curvature-028.png" alt=""></span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="470" height="48" src="curve1Image/Curvature-029.png" alt=""></span></p>
+    <p><span class="c5">よって</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="570" height="48" src="curve1Image/Curvature-030.png" alt=""></span></p>
+    <p><span class="c5">また，tが弧長パラメータなら，(<em>x'x'+y'y'</em>)=1の下で，上記と同様の計算を行い</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="102" height="36" src="curve1Image/Curvature-031.png" alt=""></span></p>
+    <p><span class="c5">となる．</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <h2><strong><span class="c6">1-3</span></strong><strong><span class="c7">空間曲線</span></strong></h2>
+    <p><span class="c6">&nbsp;</span></p>
+    <p><span class="c5">　パラメータ<em>t</em>により表記される三次元空間曲線を考える．</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="93" height="72" src="curve1Image/Curvature-032.png" alt=""></span></p>
+    <p><span class="c5">平面曲線のときと同様に，弧長<em>s</em>を求める事が出来，</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="242" height="48" src="curve1Image/Curvature-033.png" alt=""></span></p>
+    <p><span class="c5">この弧長パラメータで，曲線を再定義する事が出来る．</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="644" height="72" src="curve1Image/Curvature-034.png" alt=""></span></p>
+    <p><span class="c5">この曲線の接線ベクトル<strong>e</strong><sub>1</sub>と加速度ベクトル<strong>e'</strong><sub>1</sub>は，それぞれ1階微分，2階微分により，以下の通り求まる．&nbsp;</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="344" height="48" src="curve1Image/Curvature-035.png" alt=""></span></p>
+    <p><span class="c5">弧長パラメータ<em>s</em>を用いると接線ベクトルの長さ||</span><span class="c8"><img width="13" height="36" src="curve1Image/Curvature-036.png" alt=""></span><span class="c5">|</span><span class="c5">が自然に1になる．また，加速度ベクトルの大きさを曲率<em>k</em>と定義する．また，<strong>e</strong><sub>1</sub>・<strong>e</strong><sub>1</sub>=1の両辺を微分すると<strong>e</strong><sub>1</sub>・<strong>e'</strong><sub>1</sub>=0なので，<strong>e</strong><sub>1</sub>と<strong>e</strong>'<sub>1</sub>は直行する．上記の<strong>e</strong><sub>1</sub>,&nbsp;<strong>e'</strong><sub>1</sub>,&nbsp;<em>k</em>を用いると曲線<strong>p</strong>上に正規直行座標系が定義できる．</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="347" height="48" src="curve1Image/Curvature-037.png" alt=""></span></p>
+    <p><span class="c5">この<strong>e</strong><sub>1</sub>,&nbsp;<strong>e</strong><sub>2</sub>,&nbsp;<strong>e</strong><sub>3</sub>をそれぞれ，接線，主法線，従法線と呼ぶ．</span></p>
+    <p class="c2"><span class="c5"><img width="282" height="230" src="curve1Image/Curvature-038.png" alt=""></span></p>
+    <p><span class="c5">　曲線関係で重要な事を以下にまとめておく．</span></p>
+    <p><span class="c5">-</span><span class="c5">任意のパラメータ<em>t</em>で表現された曲線pを，弧長<em>s</em>をパラメータとして表現できる．(tが増加するとき<strong>p</strong>(<em>t</em>)が停留することなく同一方向に進む必要はある)</span></p>
+    <p><span class="c5">-</span><span class="c5">弧長パラメータ<em>s</em>を用いると，接線の長さ||<strong>p</strong>'||=1となる．また，</span><span class="c10"><img width="126" height="48" src="curve1Image/Curvature-039.png" alt=""></span><span class="c5">という関係式が必要になる事が多い</span></p>
+    <p><span class="c5">-</span><span class="c5">曲率は，弧長パラメータ表現した下での，加速度ベクトルの長さで定義される．</span><span class="c8"><img width="82" height="36" src="curve1Image/Curvature-040.png" alt=""></span></p>
+    <p><span class="c5">-</span><span class="c5">曲線上の点に，正規直行座標系<strong>e</strong><sub>1</sub>,&nbsp;<strong>e</strong><sub>2</sub>,&nbsp;<strong>e</strong><sub>3</sub>を定義する事が出来，その方向を，接線，主法線，従法線と呼ぶ．</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <h1><strong><span class="c14">曲面の曲率</span></strong></h1>
+    <p><span class="c5">&nbsp;</span></p>
+    <p><span class="c5">曲面は，2個のパラメータにより表現される位置ベクトル<strong>p</strong>(<em>u,&nbsp;v</em>)の動く軌跡として表現される．</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="126" height="72" src="curve1Image/Curvature-041.png" alt=""></span></p>
+    <p><span class="c5">このパラメータ<em>u</em>と<em>v</em>一方の変数を固定し，もう一方を動かすと，曲面に乗る2本の曲線が描かれる．</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="124" height="36" src="curve1Image/Curvature-042.png" alt=""></span></p>
+    <p><span class="c5">また，この曲線の接線ベクトル(速度ベクトル)は以下で表せる。</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="225" height="48" src="curve1Image/Curvature-043.png" alt=""></span></p>
+    <p class="c2"><span class="c5"><img width="549" height="191" src="curve1Image/Curvature-044.png" alt=""></span></p>
+    <p><span class="c5">ここでは，<strong>p</strong><em><sub>u</sub></em>，<strong>p</strong><em><sub>v</sub></em>が一次独立である場合を考える．曲面</span><span class="c8"><img width="44" height="36" src="curve1Image/Curvature-045.png" alt=""></span><span class="c5">の任意の接ベクトルは<strong>p</strong><em><sub>u</sub></em>，<strong>p</strong><em><sub>v</sub></em>により張られるので，<em>a</em><strong>p</strong><em><sub>u</sub></em>+<em>b</em><strong>p</strong><em><sub>v</sub></em>と書く事が出来る．このベクトルの長さの二乗は，</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="412" height="36" src="curve1Image/Curvature-046.png" alt=""></span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="136" height="36" src="curve1Image/Curvature-047.png" alt=""></span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="259" height="36" src="curve1Image/Curvature-048.png" alt=""></span></p>
+    <p><span class="c5">これを曲面の第一基本形式と呼ぶ．第一基本形式は全微分d<strong>p</strong>=<strong>p</strong><em><sub>u</sub>du</em>&nbsp;+&nbsp;<strong>p</strong><em><sub>v</sub>dv</em><strong>&nbsp;</strong>を用いて，</span></p>
+    <p class="c2" style="text-align : center;" align="center"><span class="c5">Ⅰ&nbsp;=&nbsp;d<strong>p</strong><strong>・</strong>d<strong>p&nbsp;</strong>=&nbsp;E<em>dudu+&nbsp;2&nbsp;Fdudv+Gdvdv</em></span></p>
+    <p><span class="c5">とも書ける．これは，曲面<strong>p</strong>の微小接ベクトル(d<strong>p&nbsp;</strong>=&nbsp;<strong>p</strong><em><sub>u</sub>du</em>+&nbsp;<strong>p</strong><em><sub>v</sub>dv</em>)の長さの二乗を表す．全微分(d<strong>p</strong>=<strong>p</strong><em><sub>u</sub>du</em>&nbsp;+&nbsp;<strong>p</strong><em><sub>v</sub>dv</em>)とは，多変数関数の全ての変数が微小量動いた時の全体の変化量である．<em>duやdv</em>微小変化量を表す変数と考えておけば良い．</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <p class="c2"><span class="c5"><img width="525" height="205" src="curve1Image/Curvature-049.png" alt=""></span></p>
+    <p style="text-align : center;" align="center"><span class="c5">&nbsp;&nbsp;u-v</span><span class="c5">空間中に曲線<em>C</em>:&nbsp;(<em>u</em>(s),&nbsp;<em>v</em>(s))があるとき，この曲線は，曲面<strong>p</strong>上でも曲線<em>C<sub>p</sub></em>を描く.</span><span class="c15"><br>
+    </span><span class="c11"><img width="251" height="72" src="curve1Image/Curvature-050.png" alt=""></span></p>
+    <p><span class="c5">パラメータsは，曲線<strong>p</strong>(<em>s</em>)の弧長になるように定められているとする．</span></p>
+    <p><span class="c5">この曲線のuv平面での接ベクトルは，(<em>du</em>/<em>ds</em>,&nbsp;<em>dv</em>/<em>ds</em>)であり,三次元空間での接ベクトルは，以下の通りである．&nbsp;(二変数関数のチェーン規則を適用した)</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="217" height="48" src="curve1Image/Curvature-051.png" alt=""></span></p>
+    <p><span class="c5">さらに，この曲線の曲率<em>k</em>は<strong>p</strong>(<em>s</em>)の二階微分の長さであり，この曲線の法線ベクトル<strong>e</strong><sub>2</sub>は<strong>p</strong>(<em>s</em>)の二階微分を正規化したものなので，以下の通りとなる，</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="413" height="48" src="curve1Image/Curvature-052.png" alt=""></span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="446" height="48" src="curve1Image/Curvature-053.png" alt=""></span></p>
+    <p><span class="c5">一般に，上式の表す曲線<strong>p</strong>(<em>s</em>)の法線<em>k</em><strong>e</strong><sub>2</sub>と，曲面<strong>p</strong>(<em>u,v</em>)の法線<strong>n</strong>は平行で無い事に注意．今，曲面<strong>p</strong>(<em>u,v</em>)の法線<strong>n</strong>は，2本の接線ベクトルを用いて以下のように書ける．</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="253" height="48" src="curve1Image/Curvature-054.png" alt=""></span></p>
+    <p><span class="c5">ここで，曲面上を動く曲線<strong>p</strong>(<em>s</em>)の二階微分(<em>k</em><strong>e</strong><sub>2</sub>)を，曲面<strong>p</strong>(<em>u,v</em>)の法線<strong>n</strong>に射影した量を考える．</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="448" height="48" src="curve1Image/Curvature-055.png" alt=""></span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="267" height="48" src="curve1Image/Curvature-056.png" alt=""></span></p>
+    <p><span class="c5">これを曲線<strong>p</strong>の法曲率と呼び，この式の形を第二基本形式と呼ぶ．ただし，L=<strong>p</strong><em><sub>uu</sub></em>・<strong>n</strong>,&nbsp;M=<strong>p</strong><em><sub>uv</sub></em>・<strong>n</strong>,&nbsp;N=<strong>p</strong><em><sub>vv</sub></em>・<strong>n</strong>は第二基本形式の係数である．式(15)は曲線<strong>p</strong>(<em>s</em>)の曲率ベクトルを表し，曲面<strong>p</strong>(<em>u,v</em>)の法線とは無関係なのに対して，式(16)の法曲率は，曲線曲率の曲面に依存する成分を取りだしたものである．</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <p><span class="c5">ややこしいので噛み砕く．</span></p>
+    <p><span class="c5">1)</span><span class="c5">三次元空間に曲面&nbsp;<strong>p</strong>(<em>u</em>,<em>v</em>)がある．</span></p>
+    <p><span class="c5">2)uv</span><span class="c5">空間の平面曲線C:&nbsp;(<em>u</em>(<em>s</em>),&nbsp;<em>v</em>(<em>s</em>))は，曲面上でも曲線C<em><sub>p</sub></em>:(<strong>&nbsp;p</strong>(<em>u</em>(<em>s</em>),<em>v</em>(<em>s</em>))&nbsp;)を描く&nbsp;(パラメータsをC<sub>p</sub>の弧長になるようにとる)</span></p>
+    <p><span class="c5">3)</span><span class="c5">曲線Cの接線は，(<em>du/ds</em>,&nbsp;<em>dv/ds</em>)</span></p>
+    <p><span class="c5">4)</span><span class="c5">曲線C<sub>p</sub>の接線は<strong>p</strong><em><sub>u&nbsp;</sub>du/ds</em>&nbsp;+<strong>&nbsp;p</strong><em><sub>v</sub></em>&nbsp;<em>dv/ds&nbsp;</em>(<strong>p</strong><em><sub>u</sub></em><strong>&nbsp;p</strong><em><sub>v</sub></em>が作る行列を<strong>p</strong>のヤコビヤンと考えても，2変数チェーンルールを使ったと考えてもOK)</span></p>
+    <p><span class="c5">5)</span><span class="c5">曲線C<sub>p</sub>の曲率は式15</span></p>
+    <p><span class="c5">6)</span><span class="c5">曲線C<sub>p</sub>の法曲率は式16</span></p>
+    <p><span class="c5">7)</span><span class="c5">式16をよく見ると，法曲率は，曲面から得られる量(L=<strong>p</strong><em><sub>uu</sub></em>・<strong>n</strong>,&nbsp;M=<strong>p</strong><em><sub>uv</sub></em>・<strong>n</strong>,&nbsp;N=<strong>p</strong><em><sub>vv</sub></em>・<strong>n</strong>)だけでなく，接線方向を表す量(<em>du/ds</em>,&nbsp;<em>dv/ds</em>)に依存する．(このu(s),v(s)は，||<strong>&nbsp;p</strong><em><sub>u&nbsp;</sub>du/ds</em>&nbsp;+<strong>&nbsp;p</strong><em><sub>v</sub></em>&nbsp;<em>dv/ds</em>&nbsp;||=1を満たすようになっている必要がある．)</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <p><span class="c5">&nbsp;&nbsp;</span><span class="c5">今，曲面<strong>p</strong>(<em>u,v</em>)上のある点Pにおける任意の接ベクトルは，<em>u</em>方向<em>v</em>方向への微小変化量<em>ab</em>を用いて，<strong>p</strong><em><sub>u</sub>a</em>+<strong>p</strong><em><sub>v</sub>b</em>とかける．この接ベクトルの長さを<em>A</em>とすると，正規化した</span><span class="c16">接ベクトルは</span><strong><span class="c5">p</span></strong><em><sub><span class="c5">u</span></sub></em><em><span class="c5">a</span></em><span class="c5">/A+<strong>p</strong><em><sub>v</sub>b/A</em></span><span class="c5">であり,式16から，点Pにおける法曲率は，</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="546" height="48" src="curve1Image/Curvature-057.png" alt=""></span></p>
+    <p><span class="c5">となる．ここで(<em>du,&nbsp;dv</em>)を色々と変化させた時の法曲率の最大最小値をそれぞれ<em>k<sub>1</sub>k<sub>2</sub></em>とし，(<em>k<sub>1</sub>+k<sub>2</sub></em>)<em>/2</em>を平均曲率，<em>k<sub>1</sub>k<sub>2</sub></em>をガウス曲率と呼ぶ．上式の極値を求めるため，<em>∂k/∂a=</em>0,&nbsp;<em>∂k/∂b=</em>0計算したいが，複雑すぎてうまくいかない．そのため，式(17)を次のように変形し，</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="302" height="36" src="curve1Image/Curvature-058.png" alt=""></span></p>
+    <p><span class="c5">両辺を<em>,&nbsp;ab</em>で偏微分して<em>∂k/∂a=</em>0,&nbsp;<em>∂k/∂b=</em>0と置く．</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="172" height="36" src="curve1Image/Curvature-059.png" alt=""></span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="174" height="36" src="curve1Image/Curvature-060.png" alt=""></span></p>
+    <p><span class="c5">この式を満たす(<em>a,b</em>)!=(0,0)が法曲率の最大最小値を与える方向ベクトルで，この式を満たす<em>k</em>がその<em>a,&nbsp;b</em>に対する法曲率の極値になる．ここで，(<em>a,&nbsp;b</em>)!=(0,0)となる<em>a,b</em>のペアが存在するためには，上の連立方程式が解をもってはいけないので，行列式がゼロ，つまり，</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="285" height="36" src="curve1Image/Curvature-061.png" alt=""></span></p>
+    <p><span class="c5">が満たされる必要がある．さらに，上式は<em>k</em>の二次式なので2個の<em>k<sub>1</sub>k<sub>2</sub></em>が解となり，</span></p>
+    <p style="text-align : center;" align="center"><span class="c11"><img width="303" height="48" src="curve1Image/Curvature-062.png" alt=""></span></p>
+    <p><span class="c5">が得られる．この時，最大値を</span><span class="c8"><img width="15" height="36" src="curve1Image/Curvature-063.png" alt=""></span><span class="c5">最小値を</span><span class="c8"><img width="15" height="36" src="curve1Image/Curvature-064.png" alt=""></span><span class="c5">とし，それを与える(<em>a<sub>1</sub>,&nbsp;b<sub>1</sub></em>)，(<em>a<sub>2</sub>,&nbsp;b<sub>2</sub></em>)をを主方向と呼ぶ．以上より，ガウス曲率と平均曲率が，第一，第二基本形式の係数のみで求まる事がわかった．</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <p><span class="c5">今後の予定</span></p>
+    <p><span class="c13">+</span><span class="c13">曲面上の幾何とラプラスベルトラミオペレータ</span></p>
+    <p><span class="c5">+</span><span class="c5">陰関数表現における曲率</span></p>
+    <p><span class="c5">&nbsp;</span></p>
+    <p class="c3"><strong><span class="c5">井尻敬&nbsp;@&nbsp;生物情報基盤,&nbsp;理研&nbsp;</span></strong></p>
+    <p class="c3"><strong><span class="c5">勉強した日&nbsp;2011/2/10</span></strong></p>
+  </div>
+</div>
+</blockquote>
+</body>
+</html>
+

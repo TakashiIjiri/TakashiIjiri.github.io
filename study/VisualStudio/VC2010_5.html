@@ -1,0 +1,164 @@
+﻿<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="Keywords" content="井尻敬,User Interface,Computer Graphics">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.1.0 for Windows">
+<title>Visual Studio memo 5</title>
+<link rel="stylesheet" type="text/css" media="screen" href="brict.css">
+
+
+<style type="text/css" media="screen">
+<!--
+/* Source Code CSS */
+pre.code {
+    font-size: 12px;
+    /* line-height:1.2em; */
+    border:1px solid #aaa;
+    background:#f0f0f0;
+    padding:0.5em; 
+    overflow: auto;
+}
+pre.code span.tag		{
+	color: #0000ff;	
+}
+pre.code span.attr 		{
+	color: #000; 		
+}
+pre.code span.value		{
+	color: #900; 		
+}
+pre.code span.str 		{
+	color: #009900; 	
+}
+pre.code span.num 		{
+	color: #009900; 	
+}
+pre.code span.keyword	{
+	color: #0000ff; 	
+}
+pre.code span.rem		{
+	color: #909; 		
+}
+pre.code span.variable	{
+	color: #500050;	
+}
+
+
+
+<!--
+
+-->
+</style>
+</head>
+<body>
+<div id="headerspacer"></div>
+<div id="col2o2">
+  <blockquote>
+  <div id="col2o2content">
+    <hr>
+    <h1>Visual studio メモ 5 --CDC::SetPixelが遅いのを何とかする--</h1>
+    <hr>
+ <h2>問題</h2>
+    <ul>
+      <li>MFCの**viewやら, Picture Controlに絵を描くとき、各pixelにアクセスしたいことが非常に多くある
+      <li>MSDNを調べるとCDC::SetPixel や CDC::GetPixelを使えといわれる
+      <li>CDC::SetPixel や CDC::GetPixelは、驚くほど遅い
+      <li>CBitmap::CreateBitmapでCBitmapを作ればいいのでは？ ←モノクロしか作れない
+    </ul>
+ <h2>解決策</h2>
+    <ul>
+      <li>CreateDIBSection でデバイスに依存しないBitmapを作って、各ピクセルに直接アクセスする
+      <li>CDC::BitBltでCDCに書き込む
+    </ul>
+    <br>
+    <hr>
+    　　 <h2>例 - DialogのPictureControlに絵を描く</h2>
+    <ul>
+      <li>1. Dialogベースのプロジェクトを作成
+      <li>2. Picture Controlを真ん中に配置して、IDをIDC_MY_PICT_CONTROLとしておく
+    </ul>
+    　　　　　　　　　　　　　　　<img src="vs5_1.png" width="305" height="297" border="0"> <br>
+    <br>
+    <ul>
+      <li>3. OnPaint()を以下の通り実装する
+    </ul>
+<pre class="code">    <span class="rem">//A. picture ControlのCWndを取得</span>
+    CWnd *pcWnd = GetDlgItem(IDC_MY_PICT_CONTROL ); 
+    CDC  *pcDC  = pcWnd-&gt;GetDC();  <span class="rem">//pcDC-&gt;SetPixel( 3, 4, RGB(10, 10, 10)); これが速ければ何の問題もないのに・・・</span>
+
+    <span class="rem">//B. picture controlのサイズ(Width, Height)を取得する</span>
+    CRect rect;
+    pcWnd-&gt;GetWindowRect( rect );
+    <span class="keyword">const</span> <span class="keyword">int</span> W = rect.right - rect.left;
+    <span class="keyword">const</span> <span class="keyword">int</span> H = rect.bottom- rect.top ;
+
+    <span class="rem">//C. デバイスに依存しないカラービットマップを作成</span>
+    BITMAPINFO binfo;
+    ZeroMemory( &amp;binfo, sizeof(binfo));
+    binfo.bmiHeader.biSize     = sizeof(BITMAPINFOHEADER);
+    binfo.bmiHeader.biBitCount = <span class="num">32</span>;<span class="rem">//1pixel 32-bit (4-byte)</span>
+    binfo.bmiHeader.biPlanes   =  <span class="num">1</span>;
+    binfo.bmiHeader.biWidth    =  W;
+    binfo.bmiHeader.biHeight   =  H; <span class="rem">//ここが負だと、左上が原点になる(正なら左下が原点)</span>
+
+    <span class="keyword">byte</span>    *bmpbits; <span class="rem">//この byte *bmpbits に HBITMAP の中身へのポインタが入る</span>
+    HBITMAP  hbmp = CreateDIBSection( NULL, &amp;binfo, DIB_RGB_COLORS, (<span class="keyword">void</span> **)(&amp;bmpbits), NULL, <span class="num">0</span>); 
+            
+    <span class="rem">//D. hbmpに関連付けた CBitmapと、CDCを作成</span>
+    CBitmap *cbmp = CBitmap::FromHandle( hbmp );<span class="rem">//hbmpをCBitmap cbmpに変換</span>
+    CDC cbmpDC; 
+    cbmpDC.CreateCompatibleDC( pcDC );          <span class="rem">//cbmpに関連づけたCDCを準備</span>
+    CBitmap *oldBmp = cbmpDC.SelectObject( cbmp ); 
+        
+    <span class="rem">//E. hbmp(cbmp)に ポインタから (bmpbits) から高速にアクセスできる</span>
+    <span class="keyword">for</span>( <span class="keyword">int</span> y = <span class="num">0</span>; y &lt; H; ++y)
+    <span class="keyword">for</span>( <span class="keyword">int</span> x = <span class="num">0</span>; x &lt; W; ++x)
+    {
+        <span class="keyword">int</span> idx = (x + y * W ) * <span class="num">4</span>;
+        bmpbits[ idx + <span class="num">0</span> ] = <span class="num">128</span>        ; <span class="rem">//b channel</span>
+        bmpbits[ idx + <span class="num">1</span> ] = min(<span class="num">255</span>, x); <span class="rem">//g channel</span>
+        bmpbits[ idx + <span class="num">2</span> ] = min(<span class="num">255</span>, y); <span class="rem">//r channel</span>
+    }
+
+    <span class="rem">//F. CDC cbmpDCからもアクセスできて結構便利</span>
+    cbmpDC.MoveTo( <span class="num">10</span>, <span class="num">10</span>);
+    cbmpDC.LineTo( <span class="num">10</span>, <span class="num">60</span>);
+    cbmpDC.LineTo( <span class="num">60</span>, <span class="num">60</span>);
+    cbmpDC.LineTo( <span class="num">60</span>, <span class="num">10</span>);
+    cbmpDC.LineTo( <span class="num">10</span>, <span class="num">10</span>);
+
+    <span class="rem">//G. pcDCにhbmpをコピーする</span>
+    pcDC-&gt;BitBlt( <span class="num">1</span>,<span class="num">1</span>, W-<span class="num">2</span>, H-<span class="num">2</span>, &amp;cbmpDC, <span class="num">0</span>,<span class="num">0</span>,SRCCOPY);
+
+    <span class="rem">//H. 解放を忘れない</span>
+    cbmpDC.SelectObject( oldBmp );
+    DeleteDC( cbmpDC );
+    DeleteObject( hbmp );<span class="rem">//HBITMAPを解放</span></pre>
+    　　これを実行するとこんな感じ...<br>
+    　　　　　　　<img src="vc5_2.png" width="305" height="297" border="0"><br>
+    <br>
+    　　若干長くなったけど、やっていることは、<br>
+    <ul>
+      <li>A. Picture ControlのCDC取得
+      <li>B. Picture Controlのサイズ取得
+      <li>C. デバイスに依存しないカラービットマップ HBITMAP hbmp を作成
+      <li>D. hbmpを CBitmap cbmpに変換し、cbmpに関連づけたCDCを生成 (MFCのこういう作業は本当に面倒)
+      <li>E. hbmpの各bitに、byte *bmpbitsを利用して高速にアクセス (SetPixelより断然速い)
+      <li>F. hbmpにCDCを利用して線を描画 
+      <li>G. Picture control に BitBltを利用してhbmpをコピー (hbmpを変換したcbmpを関連づけたCDCを利用している(MFC・・・))
+      <li>H. 解放　（byte *bmpbitsをdelete[]とかはしちゃだめ）
+    </ul>
+    <br>
+    　　　　MFCを使ってると、単純なことがしたいだけなのに、不等にコードが長くなって、醜くなる。<br>
+    　　　　他によい方法があるといいんだけど・・・<br>
+    <br>
+    
+    <div id="footer">
+      <h2>Copyright 2010~ Takashi Ijiri(井尻敬), All rights reserved.</h2>
+    </div>
+  </div>
+  </blockquote>
+</div>
+</body>
+</html>

@@ -1,0 +1,244 @@
+﻿<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="Keywords" content="井尻敬,User Interface,Computer Graphics">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.1.0 for Windows">
+<title>確率論</title>
+<link rel="stylesheet" type="text/css" media="screen" href="brict.css">
+<style type="text/css" media="screen">
+
+<!--
+/* Source Code CSS */
+pre.code {
+    font-size: 12px;
+    /* line-height:1.2em; */
+    border:1px solid #aaa;
+    background:#e0f0e0;
+    padding:0.5em; 
+    overflow: auto;
+}
+pre.code span.tag		{
+	color: #0000ff;	
+}
+pre.code span.attr 		{
+	color: #000; 		
+}
+pre.code span.value		{
+	color: #900; 		
+}
+pre.code span.str 		{
+	color: #009900; 	
+}
+pre.code span.num 		{
+	color: #009900; 	
+}
+pre.code span.keyword	{
+	color: #0000ff; 	
+}
+pre.code span.rem		{
+	color: #909; 		
+}
+pre.code span.variable	{
+	color: #500050;	
+}
+
+
+
+<!--
+
+-->
+</style>
+</head>
+<body>
+<div id="headerspacer"></div>
+<blockquote>
+<div id="col2o2content">
+  <hr>
+  <h1>確率論 3</h1>
+  <hr>
+  　　そろそろ慣れてきたので、標本空間や事象を考えず、確率変数に注目していく.<br>
+  <br>
+  　　「確率変数」とは，ランダムに値の変化する実数変数で, その値の出やすさは確率分布によって決まる.<br>
+  <br>
+  　　「確率分布」とは, 確率1を，確率変数が取りうるすべての値に,どう振り分けるかを表現するもの.<br>
+  　　　　-　離散的な確率変数を考えるとき,確率分布は対応表で表現できる. (取りうるすべての値X=aがどの程度の確率で起こるかを表でまとめられる)<br>
+  　　　　-　連続的な確率変数を考えるとき,確率分布は確率密度関数とその積分で表現できる．<br>
+  　　<br>
+  　　　<a href="index.html">戻る</a>　　<a href="probability4.html">確率論4へ</a> <br>
+  <hr>
+  <h2>確率変数の変換</h2>
+  　　　
+  <ul>
+    <li><b>離散確率変数の場合</b> (すごい簡単)
+  </ul>
+  <br>
+  　　　　下の表の確率分布に従う離散型の確率変数Xを考える.
+  <table border="1" style="margin-left: 50px">
+    <tbody>
+      <tr>
+        <td>X</td>
+        <td>P(X=x)</td>
+      </tr>
+      <tr>
+        <td>100</td>
+        <td>0.1</td>
+      </tr>
+      <tr>
+        <td>200</td>
+        <td>0.1</td>
+      </tr>
+      <tr>
+        <td>300</td>
+        <td>0.2</td>
+      </tr>
+      <tr>
+        <td>400</td>
+        <td>0.2</td>
+      </tr>
+      <tr>
+        <td>500</td>
+        <td>0.2</td>
+      </tr>
+      <tr>
+        <td>600</td>
+        <td>0.2</td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  　　　　確率変数Xに対し， 確率変数Y Zを,　Y = 2X+10, Z = X^2　と定義する．<br>
+  　　　　単純に考えて，X=100の時 Y=210という値を取るから, P(X=100) = P(Y=210)=0.1が成り立つ, <br>
+  　　　　　　　　　　　　　　X=300の時 Z=90000という値を取るから，P(X=300) = P(Z=90000)=0.2となる.　この要領で表を埋めると，
+  <br>
+  <table border="1" style="margin-left: 50px">
+    <tbody>
+      <tr>
+        <td>Y=2X+10</td>
+        <td>P(Y=y)</td>
+        <td></td>
+        <td></td>
+        <td>Z=X^2</td>
+        <td>P(Z=z)</td>
+      </tr>
+      <tr>
+        <td>210</td>
+        <td>0.1</td>
+        <td></td>
+        <td></td>
+        <td>10000</td>
+        <td>0.1</td>
+      </tr>
+      <tr>
+        <td>410</td>
+        <td>0.1</td>
+        <td></td>
+        <td></td>
+        <td>40000</td>
+        <td>0.1</td>
+      </tr>
+      <tr>
+        <td>610</td>
+        <td>0.2</td>
+        <td></td>
+        <td></td>
+        <td>90000</td>
+        <td>0.2</td>
+      </tr>
+      <tr>
+        <td>810</td>
+        <td>0.2</td>
+        <td></td>
+        <td></td>
+        <td>160000</td>
+        <td>0.2</td>
+      </tr>
+      <tr>
+        <td>1010</td>
+        <td>0.2</td>
+        <td></td>
+        <td></td>
+        <td>250000</td>
+        <td>0.2</td>
+      </tr>
+      <tr>
+        <td>1210</td>
+        <td>0.2</td>
+        <td></td>
+        <td></td>
+        <td>360000</td>
+        <td>0.2</td>
+      </tr>
+    </tbody>
+  </table>
+  　　　　<br>
+  　　　　確率変数は離散的な値しか取らず, 各値に対して確率が決まっているので，<br>
+  　　　　単純に確率変数の値を, 変換式に代入した表を作れば良い. (離散の場合は非常に簡単)<br>
+  <br>
+  <br>
+  <br>
+  <ul>
+    <li><b>連続確率変数の場合</b>
+  </ul>
+  　　　　　- Xを標準正規分布N(0,1)に従う確率変数とすると, 確率密度関数f<sub>X</sub>(x)は以下の通り.<br>
+  　　　　　　<img src="gauss1.png" width="371" height="188" border="0"><br>
+  <br>
+  <br>
+  <br>
+  <br>
+  　<b>- ここで，確率変数 <font color="#ff0000">Y = X + 2</font> の確率密度関数f<sub>Y</sub>(y)がどうなるか考える. </b><br>
+  <br>
+  <font color="#003355">　　　　　- 例えば　　,　X=2　の時Y=4　　,なので,　f<sub>Y</sub>(4) = f<sub>X</sub>(2)<br>
+  　　　　　- 同様に　　,　X=x　の時Y=x+2,なので,　f<sub>Y</sub>(x+2) = f<sub>X</sub>(x)<br>
+  　　　　　- くどいけど,　X=y-2の時Y=y　　,なので,　f<sub>Y</sub>(y) = f<sub>X</sub>(y-2)<br>
+  </font><br>
+  　　　　　　つまり，f<sub>Y</sub>(y)は f<sub>x</sub>(x)を+2平行移動したものに一致する<br>
+  <br>
+  　　　　　　<img src="gauss2.png" width="373" height="186" border="0"><br>
+  <br>
+  　　　　 - 区間　0≦X≦2　のf<sub>X</sub>(x) の形と，　区間2≦Y≦4　のf<sub>Y</sub>(y) の形が一致していることに注目. <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  　<b>- ここで，確率変数 Y = 3X + 2 の確率密度関数f<sub>Y</sub>(y)がどうなるか考える. </b><br>
+  <br>
+  　　　　　-先の例と同様すると，<br>
+  <br>
+  <font color="#ff0000">　　　　　- X=2　　　　 の時Y=8　　,なので　,　f<sub>Y</sub>(4) = f<sub>X</sub>(2)<br>
+  　　　　　- X=x　　　　 の時Y=3x+2,なので,　f<sub>Y</sub>(3x+2) = f<sub>X</sub>(x)<br>
+  　　　　　- X=(y-2)/3の時Y=y　　,なので　,　f<sub>Y</sub>(y) = f<sub>X</sub>((y-2)/3)</font> <br>
+  <br>
+  　　　　　　つまり，f<sub>Y</sub>(y)は f<sub>x</sub>(x)を 横軸方向に+2平行移動して1/3倍したものに一致する<br>
+  <br>
+  <br>
+  　　　　　　<img src="gauss3.png" width="381" height="192" border="0"><br>
+  　　　　　　<b><u><font color="#ff0000">としたいところだがこれは誤り.</font></u></b> <br>
+  　　　　　　XとYの値の対応は良いのだが, 確率密度関数f<sub>X</sub>(x)を横軸方向に1/3倍（引き伸ばし）しているため,<img src="http://chart.apis.google.com/chart?cht=tx&chl=\int_{-\infty}^{\infty}f_X(x)dx=1" align="middle"> を満たさなくなる．<br>
+  <br>
+  　　　　　　結局, 全体を積分したら1になるという条件を満たすため, x方向に引き伸ばしたぶん, y方向に縮めれば良い. つまり...<br>
+  <br>
+  <font color="#ff0000">　　　　　- X=2　　　　 の時Y=8　　,なので　,　f<sub>Y</sub>(4) = 1/3 f<sub>X</sub>(2)<br>
+  　　　　　- X=x　　　　 の時Y=3x+2,なので,　f<sub>Y</sub>(3x+2) = 1/3 f<sub>X</sub>(x)<br>
+  　　　　　- X=(y-2)/3の時Y=y　　,なので　,　f<sub>Y</sub>(y) = 1/3 f<sub>X</sub>((y-2)/3)</font> 　　<br>
+  <br>
+  　　　　　<img src="gauss4.png" width="390" height="196" border="0"><br>
+  　　　　　これが Y = 3X + 2の確率密度関数<br>
+  <br>
+  <br>
+<div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px">　<b>確率変数の変換</b><br>
+  　連続確率変数Xの確率密度関数f<sub>X</sub>(x)が与えられている下で， Y = g(X)という確率変数を考える. <br>
+  　確率変数Yの確率密度関数は以下で与えられる<br>
+ 　 <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f_Y(y) = \left| \frac{f_X(x)}{g'(x)}\right| = \left| \frac{f_X(g^{-1}(y)}{g'(g^{-1}(y))}\right|" align="top"><br>
+  　ただしg(X)は, 微分可能, 逆関数g<sup>-1</sup>が存在, g'(x)≠0, 単射(a≠bならばg(a)≠g(b))　である事を仮定している.<br>
+
+</div>
+  <br>
+  <hr>
+  <h2>2変数の変換 </h2>
+  <br>
+  　　　　　todo<br>
+  <br>
+  <!--------------------------------------------------------------------------------------------------------------------------------------------><br>  　　　<a href="index.html">戻る</a>　　<a href="probability4.html">確率論4へ</a> <div id="footer"> Copyright 2010~ Takashi Ijiri(井尻敬), All rights reserved.</div>
+</div></blockquote>
+</body></html> 

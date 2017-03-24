@@ -1,0 +1,243 @@
+﻿<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="Keywords" content="井尻敬,User Interface,Computer Graphics">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.1.0 for Windows">
+<title>Visual Studio memo</title>
+<link rel="stylesheet" type="text/css" media="screen" href="brict.css">
+
+
+<style type="text/css" media="screen">
+<!--
+/* Source Code CSS */
+pre.code {
+    font-size: 12px;
+    /* line-height:1.2em; */
+    border:1px solid #aaa;
+    background:#f0f0f0;
+    padding:0.5em; 
+    overflow: auto;
+}
+pre.code span.tag		{
+	color: #0000ff;	
+}
+pre.code span.attr 		{
+	color: #000; 		
+}
+pre.code span.value		{
+	color: #900; 		
+}
+pre.code span.str 		{
+	color: #009900; 	
+}
+pre.code span.num 		{
+	color: #009900; 	
+}
+pre.code span.keyword	{
+	color: #0000ff; 	
+}
+pre.code span.rem		{
+	color: #909; 		
+}
+pre.code span.variable	{
+	color: #500050;	
+}
+
+
+
+<!--
+
+-->
+</style>
+</head>
+<body>
+<div id="headerspacer"></div>
+<div id="col2o2">
+  <blockquote>
+  <div id="col2o2content">
+    <hr>
+    <h1>Visual studio メモ 4 --BundlerをVisual Studio 2010でコンパイルしてつかう--</h1>
+    <hr>
+    <hr>
+    <h2>BundlerをVisual Studioでコンパイル(バイナリが公開されてるので自分でコンパイルする必要はないが)<br>
+    </h2>
+  
+<h2><b>参考にしたページ</b></h2>
+    <ul>
+      <li>[1] <a href="http://phototour.cs.washington.edu/bundler/">http://phototour.cs.washington.edu/bundler/</a> (本家)
+      <li>[2] <a href="http://tiger73.blog.fc2.com/blog-entry-50.html">http://tiger73.blog.fc2.com/blog-entry-50.html</a> (VC2008でコンパイル)
+      <li>[3] <a href="http://www.ite.or.jp/data/journal/passed_issues/tool1104/index.html">http://www.ite.or.jp/data/journal/passed_issues/tool1104/index.html</a> (Bundler + PMVS実行)
+      <li>[4] <a href="http://blog.livedoor.jp/hen_cyberne/archives/51255896.html">http://blog.livedoor.jp/hen_cyberne/archives/51255896.html</a>　(Bundler + PMVS実行)
+    </ul>
+    <br>
+    <h2><b>コンパイル手順</b></h2>
+    <ul>
+      <li>(i) <a href="http://phototour.cs.washington.edu/bundler/">[1]</a>からbundler-v0.4-source.zipをダウンロード
+      <li>(ii) 適当な場所に展開し./bundler-v0.4-source/vc++/Bundler.slnをVisual studio 2010で開く
+      <ul>
+        <li>適当に次へをクリックすれば、プロジェクトファイルがVS2010用に変換される
+        <li>とりあえずリビルドすると、warning と errorが沢山出る
+      </ul>
+      <li>(iii) [2]にならって、
+      <ul>
+        <li>(iii-1) ./lib/f2c/sysdep1.h0 --&gt; sysdep1.h にrename
+        <li>(iii-2) ./lib/f2c/signal1.h0 　--&gt; signal1.h にrename
+        <li>(iii-3) ./lib/f2c/　に　arith.hを作成。内容は以下
+      </ul>
+    </ul>
+    <pre class="code">file - ./lib/f2c/arith.h
+#define IEEE_8087
+#define Arith_Kind_ASL <span class="num">1</span>
+#define Double_Align
+#define QNaN0 <span class="num">0</span>x0
+#define QNaN1 <span class="num">0</span>xfff80000</pre>
+    <ul>
+      <li>(iv) Bundler2PMVS.cpp内でmkdir()関数にエラーが出るので、_mkdir()と#include &lt;direct.h&gt;に書き替える(Visual
+      Studioでmkdirはこっちを利用する)
+      <li>(v) RadialUndistort.cpp内のReadListFile関数の中のindex()関数でエラーが出るのでstd::string::findを使って書き直す
+    </ul>
+    <pre class="code"><span class="keyword">char</span> *space = index(buf, <span class="str">' '</span>); 
+<span class="keyword">if</span> (space) *space = <span class="num">0</span>;  </pre>
+    　を例えば以下の様にする(ちゃんと動作確認してない)
+    <pre class="code"><span class="keyword">int</span> i = std::string(buf).find( <span class="str">' '</span> ); 
+<span class="keyword">if</span>( i != std::string::npos ) buf[ i ] = <span class="num">0</span>; </pre>
+    <ul>
+      <li>(vi) 「error MSB6003: 指定されたタスク実行可能ファイル &quot;CL.exe&quot; を実行できませんでした。別のプロセスで使用されているため、プロセスはファイル
+      'C:\MyProgram\Bundler\Bundler001\vc++\Release\cl.read.1.tlog' にアクセスできません。」というエラーをとる．これは、中間ディレクトリを共有しているため起こるもので、ソリューション内の各プロジェクトに対して固有の中間ディレクトリを指定すればＯＫ
+      (プロジェクトをVisual Studio 2010に変更すると起こる不具合らしい)。
+      <li>(vii) LoadJPEG.cppで #include &lt;jpeglib.h&gt;が見えないとエラーが出るので、(もう面倒だから)相対パス#include
+      &quot;../lib/jpeg/src/jpeglib.h&quot;を指定したらOKだった
+      <li>(viii) (PMVSを利用するのであれば必要) なんか、Bundle2Vis.exeがどこにも存在しないので、プロジェクトを作ってコンパイルする。
+      <ul>
+        <li>Bundler.slnを開いて、プロジェクトの新規作成からwin32コンソールアプリケーションを選択して、Bundle2Visという名前の、空のプロジェクトを作る
+        <li>ソリューションエクスプローラから、追加&gt;既存の項目　で　&quot;Bundle2Vis.cpp&quot;を追加
+        <li>プロジェクトのプロパティを開いて、追加のインクルードディレクトリを編集。(Bundle2PMVSからコピーでOK)
+        <li>ビルドする
+      </ul>
+    </ul>
+    <hr>
+    <hr>
+    <hr>
+    <br>
+    <br>
+    <h2><b>使う (cygwinを利用する)  </b></h2>
+    <ul>
+      <li>準備1) 以下の様にディレクトリ構造を作り、2個のディレクトリ共にパスを通す(/cygdrive/binにも通しておく) (<font color="#ff0000">たぶん結構重要</font>)
+      <li>c:\cygwin\bin\bundler
+      <ul>
+        <li>c:\cygwin\bin\Bundler\bin
+      </ul>
+    </ul>
+    <ul>
+      <li>準備2)c:\cygwin\bin\Bundler に <a href="http://phototour.cs.washington.edu/bundler/">[1]</a>からダウンロードした.zipに入っていたRunBundler.shをコピー
+      <li>準備3)c:\cygwin\bin\Bundler\binに　i)<a href="http://phototour.cs.washington.edu/bundler/">[1]</a>からダウンロードした.zipのbinフォルダの中身 と ii)コンパイルして得られた*.exe達(ダウンロードしたバイナリでもたぶんOK)をコピー
+    </ul>
+    <ul>
+      <li>準備4)c:\cygwin\bin\Bundler\bin に、<a href="http://www.cs.ubc.ca/~lowe/keypoints/">David Loweさんのページ</a>からSift特徴点検出のバイナリをダウンロードし、SiftDemo4.zip内部のsiftWin32.exeをコピー
+      <li>準備5)c:\cygwin\bin\Bundler\binに、<a href="http://grail.cs.washington.edu/software/pmvs/">Patch-based Multi-View Stereo</a>の<a href="http://francemapping.free.fr/Portfolio/Prog3D/PMVS2.html">Windowsバイナリをここからダウンロードし</a>、コピー (MPVSを利用しないなら必要ない)
+    </ul>
+    <table border="0">
+      <tbody>
+        <tr>
+          <td><br>
+          Bundler/binの中身はこんな感じに必要なファイルがごちゃごちゃ入る<img src="bundlerBin.png" width="831" height="214" border="0">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    　ここまでで準備はほぼ完了で、ここから使っていく。<br>
+    <ul>
+      <li>cygwingで、画像の入っているディレクトリ(例えばBundlerに付属しているsamle/ETフォルダ)に移動して、sh RunBundler.shを実行
+      <ul>
+        <li>BASE_PATH=$(dirname $(which $0))　の行がうまく動かないというコメントがweb上にいくつかあったが、私の環境では問題なく動いた
+      </ul>
+    </ul>
+
+<pre class="code">$cd samle/ET
+$sh RunBundler.sh </pre>
+    　この例ではETフォルダ内にいろいろとファイルができるが大切なのは、samlpe/ET/bundle/bundle.outファイル　(中身はbundlerのページ[1]参照)<br>
+    　bundler.outには特徴点の三次元座標や、三次元空間(世界座標系)におけるカメラパラメータ等がはいっており、以下のような可視化が可能になる。<br>
+    <br>
+    <table border="0">
+      <tbody>
+        <tr>
+          <td><img src="bundlerTest.png" width="581" height="350" border="0"></td>
+        </tr>
+      </tbody>
+    </table>
+    <hr>
+    <hr>
+    <h2><b>Patch-based Multi-View Stereoで3次元の点の密度を上げる </b></h2>
+    
+    <br>
+    <ul>
+      <li>1) cygwinでBundle2PMVSを実行
+    </ul>
+<pre class="code">$cd samle/ET <b>
+$sh RunBundler.sh
+$Bundle2PMVS.exe list.txt bundle/bundle.out</b>　</pre>
+    　sample/ET/pmvsというフォルダができ、*.txtやprep_pmvs.shなどのファイルが生成される<br>
+    <br>
+    <ul>
+      <li>2) cygwinでpmvs/prep_pmvs.shとpmvs2を順番に実行
+    </ul>
+    <br>
+    　まず、pmvs/prep_pmvs.shの改行コードがCRLFなのでLFになおす<br>
+    
+    <pre class="code">$tr -d '\r' &lt; pmvs/prep_pmvs.sh &gt; pmvs/prep_pmvs1.sh 
+
+もしくはperlで \r\n を \n で置き換え
+<b>$perl -p -e &quot;s/\x0d\x0a/\x0a/g&quot; pmvs/prep_pmvs.sh &gt; pmvs/prep_pmvs1.sh</b>  </pre>
+    　pmvs/prep_pmvs1.shの4行目を書き直す<br>
+    <pre class="code">BUNDLER_BIN_PATH=&quot;/usr/bin/Bundler/bin&quot;
+
+もしくはperlで
+$perl -p -e &quot;s/ # Edit this line before running/\/usr\/bin\/Bundler\/bin/g&quot; pmvs/prep_pmvs1.sh &gt; pmvs/prep_pmvs2.sh</pre>
+    　で、cygwinで以下を実行<br>
+    <pre class="code">$cd samle/ET
+$sh RunBundler.sh 
+$Bundle2PMVS.exe list.txt bundle/bundle.out
+
+$perl -p -e &quot;s/\x0d\x0a/\x0a/g&quot; pmvs/prep_pmvs.sh &gt; pmvs/prep_pmvs1.sh
+$perl -p -e &quot;s/ # Edit this line before running/\/usr\/bin\/Bundler\/bin/g&quot;  pmvs/prep_pmvs1.sh &gt; pmvs/prep_pmvs2.sh
+               
+<b>$sh pmvs/prep_pmvs2.sh
+$pmvs2.exe pmvs/ pmvs_options.txt</b>    </pre>
+    　結果、pmvs/models/pmvs_options.txt.ply　が出来、この中に頂点群が入っている。<br>
+    <table border="0">
+      <tbody>
+        <tr>
+          <td>&nbsp;<img src="pmvsTest.png" width="549" height="312" border="0"></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+    <br>
+    　<b>自分で撮影した写真には、上記の設定のみだとうまく動かなかったが。。。</b><br>
+    　BundlerのFAQにあるように、利用したカメラのccd widthの設定を指定したらうまく動いた。<br>
+    　私の場合は、bin/extract_focal.plに以下を追加した。<br>
+    <pre class="code">
+    &quot;NIKON CORPORATION NIKON D7000&quot; =&gt; 23.7,
+</pre>
+    　デスクの後ろの棚を撮ってみた例。テクスチャのない部分は、PMVSでも点群を発生できていない.文字等のtextureがあれば、かなり密に点群を発生できる。すごい！<br>
+    <table border="0">
+      <tbody>
+        <tr>
+          <td><img src="BundlerMyResult.png" width="776" height="393" border="0"></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+    <br>
+    
+    <div id="footer">
+      <h2>Copyright 2010~ Takashi Ijiri(井尻敬), All rights reserved.</h2>
+    </div>
+  </div>
+  </blockquote>
+</div>
+</body>
+</html>

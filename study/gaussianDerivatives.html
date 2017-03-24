@@ -1,0 +1,123 @@
+﻿<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="Keywords" content="井尻敬,User Interface,Computer Graphics">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.1.0 for Windows">
+<title> Gaussian Derivatives</title>
+<link rel="stylesheet" type="text/css" media="screen" href="brict.css">
+<style type="text/css" media="screen">
+<!--
+/* Source Code CSS */
+pre.code {
+    font-size: 12px;
+    /* line-height:1.2em; */
+    border:1px solid #aaa;
+    background:#f0f0f0;
+    padding:0.5em; 
+    overflow: auto;
+}
+pre.code span.tag		{
+	color: #0000ff;	
+}
+pre.code span.attr 		{
+	color: #000; 		
+}
+pre.code span.value		{
+	color: #900; 		
+}
+pre.code span.str 		{
+	color: #009900; 	
+}
+pre.code span.num 		{
+	color: #009900; 	
+}
+pre.code span.keyword	{
+	color: #0000ff; 	
+}
+pre.code span.rem		{
+	color: #909; 		
+}
+pre.code span.variable	{
+	color: #500050;	
+}
+
+
+<!--
+
+-->
+</style>
+</head>
+<body>
+<div id="headerspacer"></div>
+<div id="col2o2">
+  <blockquote>
+  <div id="col2o2content">
+    <hr>
+    <h1>ガウス関数(1次元, 2次元, 3次元)の微分</h1>
+
+      
+      <p><a href="../index.html">戻る</a> <a href="../../index.html">topへ</a><br></p>
+      
+
+    <hr>
+<h2>要旨</h2>
+    　　よく使うので、ガウス関数の1階、2階微分をまとめておく<br>
+    　　<br>
+    <hr> <h2>1次元</h2>
+    　　ガウス関数　　 <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle G(x,s) = \frac{1}{\sqrt{2 \pi}s}\exp\left( -\frac{x^2}{2s^2} \right)" align="top"/> <br>
+    <br>
+    <br>
+    　　1階微分　 　 　 <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \frac{d}{dx}G(x,s) = \frac{-x}{\sqrt{2 \pi}s^3}\exp\left( -\frac{x^2}{2s^2} \right)" align="top"><br>
+    <br>
+    <br>
+    　　2階微分　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \frac{d^2}{dx^2}G(x,s) = \frac{1}{\sqrt{2 \pi}s^5}(x^2 - s^2)\exp\left( -\frac{x^2}{2s^2} \right)" align="top"><br>
+    <br>
+    <hr> <h2>2次元</h2>
+    　　ガウス関数　　 <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle G(x,y,s) = \frac{1}{2 \pi s^2}\exp\left( -\frac{x^2%2By^2}{2s^2} \right)" align="top"/> <br>
+    <br>
+    <br>
+    　　1階微分　 　 　 <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \frac{\partial}{\partial x}G(x,y,s) = \frac{- x}{ 2 \pi s^4}\exp\left( -\frac{x^2%2By^2}{2s^2} \right)" align="top"><br>
+    <br>
+    <br>
+    　　2階微分　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \frac{\partial^2}{\partial x^2} G(x,y,s) = \frac{1}{2 \pi s^6}(x^2 - s^2) \exp\left( -\frac{x^2%2By^2}{2s^2} \right)" align="top">　　　　　　　
+                       <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \frac{\partial^2}{\partial x \partial y} G(x,y,s) = \frac{1}{2 \pi s^6}xy\exp\left( -\frac{x^2%2By^2}{2s^2} \right)" align="top">
+<br>
+    <br>
+    <br>
+    　　ヘッシアン 　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle H G(x,y,s) = \frac{1}{2\pi s^6} \exp\left( -\frac{x^2%2By^2}{2s^2} \right)\left{  x^2-s^2 \;\;\;\;\;\;\; xy \\ xy \;\;\;\;\;\;\;\; y^2-s^2 \right}" align="top"><br>
+    <br>
+    <br>
+    　　以下、2次元ガウス関数の一階微分のs=1, s=2の場合のプロット。<br>
+    <br>
+    <br>
+    　　　　<img src="gaussianDerivative2D.png" width="383" height="245" border="0"><br>
+    　　　スケールスペースの考え方では、画像I(x,y)の微分は、<br>
+    　　　▽ I(x, y) = I(x,y) * ▽G(x,y,s) という感じに、画像とgaussianカーネルのコンボリューションで表される．<br>
+    　　　確かに、上のGaussianカーネルのx方向の微分は、よく見るソーベルフィルタ(x方向と)よく似ている．<br>
+    　　　実際に, s = 0.05, pixel pitch = 0.05くらいに取ると、ソーベルフィルタ{{10-1}{20-2}{10-1}}になる.<br>
+    <br>
+    <hr> <h2>3次元</h2>
+    　　　ガウス関数　　 <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle G(x,y,z,s) = \frac{1}{\sqrt{2 \pi}^3 s^3}\exp\left( -\frac{x^2%2By^2%2Bz^2}{2s^2} \right)" align="top"> <br>
+    <br>
+    <br>
+    　　　1階微分　 　 　 <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \frac{\partial}{\partial x}G(x,y,z,s) = \frac{-x}{\sqrt{2 \pi}^3 s^5} \exp\left( -\frac{x^2%2By^2%2Bz^2}{2s^2} \right)" align="top"><br>
+    <br>
+    <br>
+    　　　2階微分　 　 　 <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \frac{\partial^2}{\partial x^2}G(x,y,z,s) = \frac{(x^2-s^2)}{\sqrt{2 \pi}^3 s^7} \exp\left( -\frac{x^2%2By^2%2Bz^2}{2s^2} \right)" align="top">
+ 　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \frac{\partial^2}{\partial x\partial y}G(x,y,z,s) = \frac{xy}{\sqrt{2 \pi}^3 s^7} \exp\left( -\frac{x^2%2By^2%2Bz^2}{2s^2} \right)" align="top"><br>
+    <br>
+    <br>
+    　　　ヘッシアン 　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle H G(x,y,,zs) = \frac{1}{\sqrt{2 \pi}^3 s^7} \exp \left(-\frac{x^2%2By^2%2Bz^2}{2s^2} \right)" align="top">
+                           <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \left{  x^2-s^2\;\;\;\;\;\;\;xy\;\;\;\;\;\;\; xz \\ xy \;\;\;\;\;\;\;\; y^2-s^2 \;\;\;\;\;\;\;yz \\ zx\;\;\;\;\;\;\;zy\;\;\;\;\;\;\;z^2-s^2\right}" align="top"><br>
+    <br>
+    　　<br>
+    　　一階微分は、ソーベルフィルタ等よく必要になるが、ヘッシアンも結構重要らしい．<br>
+    　　3次元で各ボクセルのヘッシアンを作成して、その固有値分解をすると、その周囲が血管などの円筒状なのか膜状なのかが分かるよ、と言う論文がたくさん出ている。<br>
+    　　<br>
+    <div id="footer">Copyright 2010~ Takashi Ijiri(井尻敬), All rights reserved.</div>
+  </div>
+  </blockquote>
+</div>
+</body>
+</html>

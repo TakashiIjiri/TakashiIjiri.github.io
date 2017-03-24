@@ -1,0 +1,159 @@
+﻿<html>
+<head>
+
+
+<meta charset="utf-8">
+<title></title>
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.1.0 for Windows">
+<style type="text/css">
+<!--
+body       {
+	margin:0px 0px 0px 0px;
+}
+p          {
+	margin:0px; text-align:left; font-size:88%; font-family:"ＭＳ 明朝","serif";
+}
+h1         {
+	margin:0px; text-align:left; font-size:100%; font-family:"ＭＳ 明朝","serif";
+}
+div.WordSection1
+           {
+	page:WordSection1;
+}
+.c1        {
+	layout-grid:24px;
+}
+.c2        {
+	text-align:center; line-height:27px;
+}
+.c3        {
+	line-height:27px;
+}
+.c4        {
+	text-align:left; line-height:27px;
+}
+.c5        {
+	text-align:right; line-height:27px;
+}
+.c6        {
+	font-size:133%; font-family:"ＭＳ ゴシック";
+}
+.c7        {
+	font-size:95%; font-family:"ＭＳ ゴシック";
+}
+.c8        {
+	font-size:86%; font-family:"ＭＳ ゴシック";
+}
+.c9        {
+	font-family:"ＭＳ ゴシック";
+}
+.c10       {
+	font-size:100%; font-family:"ＭＳ 明朝","serif"; position:relative; top:7px;
+}
+.c11       {
+	font-size:100%; font-family:"ＭＳ 明朝","serif";
+}
+.c12       {
+	text-align:left; line-height:27px;
+}
+.c13       {
+	text-align:left;
+}
+-->
+</style>
+</head>
+<body lang="ja">
+<blockquote>
+
+    
+      <p><a href="../index.html">戻る</a> <a href="../../index.html">topへ</a><br></p>
+
+
+
+<div align="center">
+  <div class="WordSection1 c1">
+    <p class="c2"><strong><span class="c6">Graph&nbsp;Cut&nbsp;Image&nbsp;Segmentation</span></strong></p>
+    <p class="c3"><strong><span class="c7">&nbsp;</span></strong></p>
+    <p class="c3"><strong><span class="c7">概要:&nbsp;</span></strong><span class="c7">非常に有名な画像領域分割手法．代表的な2通りの使い方がある．</span></p>
+    <p class="c3"><span class="c7">　1)<strong>バイナリラべリング(前景/背景ラべリング)</strong>.&nbsp;ユーザ(または自動アルゴリズム)が，前景領域内部と背景領域に複数のSeedを指定すると，「指定された前景/背景Seedに似た色を持つ画素が前景/背景になるよう」，「隣接画素の色の差が大きい部分にラベル境界が来るよう」，最適なラべリングが計算される．</span></p>
+    <p class="c3"><span class="c7">　2)&nbsp;<strong>複数領域ラべリング.</strong>&nbsp;&nbsp;抽出したい領域の複数の代表画素を，ラベル毎に指定しておくと，「あるラベルの代表画素値と似た色の画素はそのラベルに属すよう」「隣接画素の色の差が大きい部分にラベル境界が来るよう」各画素をラべリングする．</span></p>
+    <p class="c3"><span class="c7">　この手法の最大の特徴は，上記の要求を満たすエネルギー関数をうまく定義し，その最小化解が最大フロー(最小カット)問題を解くことで得られる事を利用して，高速に最適解(ラべリング)を計算する点である．Boykov先生らのグループがこの分野の先駆けで，基礎理論から応用まで幅広く発表している[1,2]．ここでは，ざっとGraph&nbsp;cut画像領域分割の基礎をまとめておく．</span></p>
+    <p class="c3"><strong><span class="c8">&nbsp;</span></strong></p>
+    <p class="c3"><strong><span class="c8">&nbsp;</span></strong></p>
+    <p class="c3"><strong><span class="c8">&nbsp;</span></strong></p>
+    <h1 align="left" class="c4"><strong><span class="c9">画像のバイナリラべリング</span></strong></h1>
+    <p class="c3"><span class="c8">　</span><span class="c7">前景領域の代表画素群<em>P<sub>f</sub></em>と背景領域の代表画素群<em>P<sub>b</sub></em>が与えられた下で，全ての画素<em>x<sub>i</sub></em>&#8714;<em>P</em>に前景ラベル<em>F</em>か背景ラベル<em>B</em>のどちらか一つを対応付けるバイナリラべリングを考える．前述した要求を満たすため，ラべリングは，なめらかで，かつ，画素値とconsistent(一貫している)である必要がある．なめらかさと一貫性に関する項を持った，以下のようなエネルギー関数が用いられる．</span></p>
+    <p class="c2"><span class="c10"><img width="114" height="24" src="GraphCut/GraphCut-001.png" alt=""></span><span class="c7">　　　　　　...(1)</span></p>
+    <p class="c3"><span class="c7">ここでは，なめらかなラべリングとは，ラべリング結果の領域境界があまり入り組んでないという意味である．画像とラべリングがConsistentである(一貫している)とは，「似た色の画素どうしは同じラベルに属する」「あるラベルの代表色に似た色を持つ画素はそのラベルに属する」という意味である．まず，E<sub>data</sub>は，各画素<em>x<sub>i</sub></em>にラベル<em>F&nbsp;or&nbsp;B</em>どちらをつけるのが不適当かを測る項で，以下のように定義する．</span></p>
+    <p class="c3" style="text-align : center;" align="center"><span class="c11"><img width="109" height="72" src="GraphCut/GraphCut-002.png" alt=""></span></p>
+    <p class="c3"><em><span class="c7">D</span></em><span class="c7">(<em>x<sub>i</sub></em>)</span><span class="c7">は，<em>x<sub>i</sub></em>にラベル<em>F&nbsp;</em>か<em>B</em>をつけるのがどの程度不適当かを測る関数で以下の通り定義する[3].</span></p>
+    <p class="c3" style="text-align : center;" align="center"><span class="c11"><img width="504" height="96" src="GraphCut/GraphCut-003.png" alt=""></span></p>
+    <p class="c3"><span class="c7">　エネルギー関数なので，付加するラベルが適当だと小さく，不適当だと大きな値になる事に注意．例えば一行目は，<em>x<sub>i</sub></em>が前景領域の代表画素である場合に，<em>x<sub>i</sub></em>にラベルBをつけるのは不適当であるためエネルギーが無限大になる．また，三行目の|<em>p<sub>f&nbsp;</sub>-&nbsp;x<sub>i</sub></em>|は画素間の色の差を表す．複数の代表画素を指定する場合は注意が必要で，[3]では<em>x</em><sub>i</sub>に一番近い色を持つ<em>x<sub>f</sub></em>&#8714;<em>P<sub>f</sub></em>と<em>x<sub>b</sub></em>&#8714;<em>P<sub>b</sub></em>用いて，色の差を計算している．</span></p>
+    <p class="c3"><span class="c7">&nbsp;&nbsp;E<sub>smooth</sub></span><span class="c7">は，ラべリングのなめらかさを制御する項で，以下のようなエネルギー関数が良く用いられる．</span></p>
+    <p class="c3" style="text-align : center;" align="center"><span class="c11"><img width="141" height="48" src="GraphCut/GraphCut-004.png" alt=""></span></p>
+    <p class="c3" style="text-align : center;" align="center"><span class="c11"><img width="202" height="72" src="GraphCut/GraphCut-005.png" alt=""></span></p>
+    <p class="c3"><span class="c7">これは，隣接する2画素に異なるラベルが付けられた場合に，隣接画素の色の差に反比例するエラーを足すという意味になる．つまり，色差が大きい画素間に異なるラベルが付加されても大きなペナルティにはならないが，似た色を持つ隣接画素間に異なるラベルが付加されると大きなペナルティになる（discontinuity-preservingなどと呼ばれる性質）．&nbsp;</span></p>
+    <p class="c3"><span class="c7">&nbsp;</span></p>
+    <p class="c3"><span class="c7">&nbsp;</span></p>
+    <h1 align="left" class="c13"><strong><span class="c9">Graph&nbsp;Cut</span></strong><strong><span class="c9">によるエネルギー最小化</span></strong></h1>
+    <p class="c3"><span class="c8">&nbsp;</span></p>
+    <p class="c3"><span class="c7">ここで，重み付き無効グラフ<em>G=</em>{<em>E,N</em>}を次のように定義する．</span></p>
+    <p class="c3"><span class="c7">&nbsp;&nbsp;-</span><span class="c7">ノード<em>N</em>:&nbsp;全ての画素<em>x<sub>i</sub></em>と前景ノード<em>F</em>背景ノード<em>B</em>&nbsp;(下図a)</span></p>
+    <p class="c3"><span class="c7">&nbsp;&nbsp;-</span><span class="c7">エッジE:&nbsp;次のn-linkとt-lingの集合</span></p>
+    <p class="c3"><span class="c7">&nbsp;&nbsp;&nbsp;&nbsp;---&nbsp;&nbsp;n-link&nbsp;:&nbsp;</span><span class="c7">隣接画素間をつなぎ，重みV(<em>x<sub>i</sub>,&nbsp;x<sub>j</sub></em>)を持つエッジ(下図b)</span></p>
+    <p class="c3"><span class="c7">&nbsp;&nbsp;&nbsp;&nbsp;---&nbsp;&nbsp;t-link&nbsp;:</span><span class="c7">ノードF/Bと全ての画素間をつなぎ，重み<em>D</em>(<em>x<sub>i</sub>=F</em>)&nbsp;<em>/&nbsp;D</em>(<em>x<sub>i</sub>=B</em>)を持つエッジ&nbsp;(下図c)</span></p>
+    <p class="c3" style="text-align : center;" align="center"><span class="c7"><img width="650" height="174" src="GraphCut/GraphCut-006.png" alt=""></span></p>
+    <p class="c3"><span class="c7">このグラフを，前景ノード<em>F</em>と背景ノード<em>B</em>をそれぞれ含む2個の部分グラフに分割する最小カットが，前述したエネルギー(1)の最小解となる．最小カットは，多項式時間でとける事が知られている．とりわけ上図のような構造のグラフであれば，実用的にはほぼ線形な計算時間で解く事が出来る．下図は2次元画像，3次元画像に関する実装結果．</span></p>
+    <p class="c3" style="text-align : center;" align="center"><span class="c7"><img width="650" height="184" src="GraphCut/GraphCut-007.png" alt=""></span></p>
+    <p class="c3"><span class="c7">&nbsp;</span></p>
+    <p class="c3"><span class="c7">&nbsp;</span></p>
+    <h1 align="left" class="c13"><strong><span class="c9">複数領域ラべリング</span></strong></h1>
+    <p class="c3"><span class="c7">　ラベルが<em>F/B</em>の2通りの場合は，前述の通り，ほぼ線形時間で計算できる．しかし，複数ラベル(領域)を扱おうとすると，複数の部分グラフに分ける最小カットを求める必要があり，その問題はNP困難になる&nbsp;[1]．そこで，[1]の論文では，NP困難な問題をそのまま解くのでなく，バイナリラべリングを繰り返す事で，近似解を得る2通りの方法を提案している．以下では，付加するラベルの集合を&nbsp;&#8466;とし，ラベルと画素の対応(ラべリング)を<em>f</em>と書く，f(<em>x<sub>i</sub></em>)&nbsp;&#8714;&nbsp;&#8466;．</span></p>
+    <p class="c3"><span class="c7">&nbsp;</span></p>
+    <p class="c3"><span class="c7">&nbsp;</span></p>
+    <p class="c3"><strong><span class="c7">α-β&nbsp;swap</span></strong><strong><span class="c7">法．</span></strong><span class="c7">あるラべリング<em>f</em>を異なるラべリング<em>f'</em>へ変更する時，次の条件を満たす物をα-β&nbsp;swapと呼ぶ．</span></p>
+    <p class="c3"><span class="c7">&nbsp;</span></p>
+    <p class="c4"><span class="c7">　　　α-β&nbsp;swap&nbsp;:&nbsp;任意のラベル<em>γ</em>&nbsp;≠&nbsp;<em>α,&nbsp;β&nbsp;</em>(<em>α,&nbsp;β,&nbsp;γ</em>&#8714;&#8466;)についてf(<em>x<sub>i</sub></em>)=γ&nbsp;ならば&nbsp;f(<em>x<sub>i</sub></em>)&nbsp;=&nbsp;f'(<em>x<sub>i</sub></em>)</span></p>
+    <p class="c3"><span class="c7">&nbsp;</span></p>
+    <p class="c3"><span class="c7">これはつまり，<em>α，β</em>以外の領域は変化しないラべリングの変更という意味であり，このα-β&nbsp;swapを用いて，以下のようなアルゴリズムが提案されている．</span></p>
+    <p class="c3"><span class="c7">Algorithm&nbsp;A.</span></p>
+    <p class="c3"><strong><u><span class="c7">A-1</span></u></strong><span class="c7">)&nbsp;</span><span class="c7">任意の初期ラべリング<em>f</em>から開始</span></p>
+    <p class="c3"><strong><u><span class="c7">A-2</span></u></strong><span class="c7">)&nbsp;</span><span class="c7">全てのα,&nbsp;β&nbsp;&#8714;&nbsp;&#8466;&nbsp;のペアに対し以下を繰り返す．</span></p>
+    <p class="c3"><span class="c7">&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>A-2-1</u></strong>)</span><span class="c7">エネルギーEを最小化する<em>f'</em>を<em>α-β</em>&nbsp;swapの範囲で計算する．</span></p>
+    <p class="c3"><span class="c7">&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>A-2-1</u></strong>)E(<em>f'&nbsp;</em>)&nbsp;&lt;&nbsp;E(<em>f</em>)</span><span class="c7">であれば&nbsp;<em>f=f'</em>とする</span></p>
+    <p class="c3"><strong><u><span class="c7">A-3</span></u></strong><span class="c7">)&nbsp;&nbsp;<strong>A-2</strong></span><span class="c7">で一度でもfに変更があれば，<strong>A-2</strong>に戻る．</span></p>
+    <p class="c3"><span class="c7">&nbsp;</span></p>
+    <p class="c3"><strong><span class="c7">A2-1</span></strong><span class="c7">)</span><span class="c7">では，元のラべリング<em>f</em>の<em>α-β</em>の領域のみに対し，バイナリラべリングを行えば良い事になる．つまり，<em>α，β</em>の領域のみから重み付きグラフを作成し，最小カットを計算すればよい．また，<strong>A2-2)</strong>のE(f)を計算する際には，グラフの最小カットの値でなく，全体のラべリング<em>f</em>を考慮したenergy&nbsp;E(<em>f</em>)の計算が必要なので注意する．論文[1]では，<em>α-β</em>&nbsp;swapの範囲で最小カットを計算しつつ，画像全体を考慮したエネルギーE(<em>f</em>)を求める手法が紹介されている．</span></p>
+    <p class="c3"><span class="c7">&nbsp;</span></p>
+    <p class="c3"><span class="c7">&nbsp;</span></p>
+    <p class="c3"><strong><span class="c7">α-expansion</span></strong><strong><span class="c7">法:&nbsp;</span></strong><span class="c7">あるラべリング<em>f</em>を異なるラべリング<em>f'</em>へ変更する時，次の条件を満たす物をα-expansionと呼ぶ．</span></p>
+    <p class="c3"><span class="c7">　　　α-expansion:&nbsp;α&nbsp;&#8714;&nbsp;&#8466;,&nbsp;&nbsp;X<sub>α&nbsp;</sub>⊂&nbsp;X'<sub>α</sub>&nbsp;かつ，任意の<em>l</em>&#8714;&#8466;について&nbsp;X'<em><sub>l</sub></em><sub>&nbsp;</sub>⊂&nbsp;X<em><sub>l</sub></em></span></p>
+    <p class="c3"><span class="c7">ただし，X<em><sub>l</sub></em>&nbsp;,&nbsp;X'<em><sub>l</sub></em>&nbsp;は，ラべリング<em>f,&nbsp;f'</em>によるラベル<em>l</em>を持つ画素集合である，(X<em><sub>l</sub></em>=&nbsp;{<em>x<sub>i&nbsp;</sub>|&nbsp;f(x<sub>i</sub>)&nbsp;=&nbsp;l</em>},&nbsp;X'<em><sub>l</sub></em>=&nbsp;{<em>x<sub>i&nbsp;</sub>|&nbsp;f'(x<sub>i</sub>)&nbsp;=&nbsp;l</em>}．この意味は，ラベルαを持つ領域のみが膨張し，他の領域を侵食する様なラべリングの変更である．これを用いて次のアルゴリズムが得られる．</span></p>
+    <p class="c3"><span class="c7">Algorithm&nbsp;B</span></p>
+    <p class="c3"><strong><u><span class="c7">B-1</span></u></strong><span class="c7">)&nbsp;</span><span class="c7">任意のラべリング<em>f</em>から開始</span></p>
+    <p class="c3"><strong><u><span class="c7">B-2</span></u></strong><strong><span class="c7">)</span></strong><span class="c7">&nbsp;</span><span class="c7">全てのα&nbsp;&#8714;&nbsp;&#8466;&nbsp;について以下を繰り返す．</span></p>
+    <p class="c3"><span class="c7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>B-2-1</u></strong>)&nbsp;</span><span class="c7">エネルギーEを最小化する<em>f'</em>をα-expansionの範囲で計算する．</span></p>
+    <p class="c3"><span class="c7">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong><u>B-2-2</u></strong>)&nbsp;E(<em>f'&nbsp;</em>)&nbsp;&lt;&nbsp;E(<em>f</em>)</span><span class="c7">であれば&nbsp;<em>f=f'</em>とする</span></p>
+    <p class="c3"><strong><u><span class="c7">B-3</span></u></strong><span class="c7">)&nbsp;&nbsp;<strong>B-2</strong></span><span class="c7">で一度でも<em>f</em>に変更があれば，<strong>B-2</strong>に戻る．</span></p>
+    <p class="c3"><span class="c7">&nbsp;</span></p>
+    <p class="c3"><strong><u><span class="c7">B-2-1</span></u></strong><span class="c7">では，元ラべリング<em>f</em>におけるα領域とそれ以外</span><span class="c10"><img width="13" height="24" src="GraphCut/GraphCut-008.png" alt=""></span><span class="c7">領域とのバイナリラべリングをα-expansionの範囲で行う．これは単純にα領域のt-linkの値をD(<em>xi=</em></span><span class="c10"><img width="13" height="24" src="GraphCut/GraphCut-008.png" alt=""></span><span class="c7">)=∞</span><span class="c7">と置けばよい．得られた結果から，α，</span><span class="c10"><img width="13" height="24" src="GraphCut/GraphCut-008.png" alt=""></span><span class="c7">領域の更新を行う．計算前に</span><span class="c10"><img width="13" height="24" src="GraphCut/GraphCut-008.png" alt=""></span><span class="c7">領域で，かつ計算後も</span><span class="c10"><img width="13" height="24" src="GraphCut/GraphCut-008.png" alt=""></span><span class="c7">領域の画素は元のラベルを保持するようにする.&nbsp;<strong><u>B-2-2</u></strong>でE(f)を計算する際には，画像全体を考慮する必要がある．&nbsp;</span></p>
+    <p class="c3"><span class="c8">&nbsp;</span></p>
+    <h1><strong><span class="c9">Max&nbsp;flow&nbsp;/&nbsp;Min&nbsp;cut&nbsp;algorithm</span></strong></h1>
+    <p><span class="c9">&nbsp;</span></p>
+    <p class="c3"><span class="c8">実際に重み付きグラフの最大フロー最小カット問題を解くアルゴリズムについては，Boykov先生のページ参照．高速なアルゴリズムが，ソースごと公開されているので非常に便利．</span></p>
+    <p class="c3"><span class="c8">&nbsp;</span></p>
+    <p class="c3"><span class="c8">[1]Yuri&nbsp;Boykov,&nbsp;Olga&nbsp;Veksler,&nbsp;Ramin&nbsp;Zabih,&nbsp;Fast&nbsp;Approximate&nbsp;Energy&nbsp;Minimization&nbsp;via&nbsp;Graph&nbsp;Cuts,&nbsp;PAMI,&nbsp;1999.</span></p>
+    <p class="c3"><span class="c8">[2]Yuri&nbsp;Boykov,&nbsp;Marie-Pierre&nbsp;Jolly,&nbsp;Interactive&nbsp;Organ&nbsp;Segmentation&nbsp;Using&nbsp;Graph&nbsp;Cuts,&nbsp;MICCAI,&nbsp;2000.</span></p>
+    <p class="c3"><span class="c8">[3]LI,&nbsp;Y.,&nbsp;SUN,&nbsp;J.,&nbsp;TANG,&nbsp;C.&nbsp;K.,&nbsp;SHUM,&nbsp;H.&nbsp;Y.:&nbsp;Lazys-napping.&nbsp;In&nbsp;Proc.&nbsp;of&nbsp;ACM&nbsp;SIGGRAPH&nbsp;'04,&nbsp;303&#8211;308,&nbsp;2004.</span></p>
+    <p class="c3"><span class="c8">&nbsp;</span></p>
+    <p class="c3"><span class="c8">&nbsp;</span></p>
+    <p class="c5"><strong><span class="c8">井尻敬&nbsp;@&nbsp;生物情報基盤,&nbsp;理研&nbsp;</span></strong></p>
+    <p class="c5"><strong><span class="c8">2011/11/15</span></strong></p>
+  </div>
+</div>
+</blockquote>
+</body>
+</html>
+

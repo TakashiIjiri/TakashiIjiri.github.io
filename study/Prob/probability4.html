@@ -1,0 +1,271 @@
+﻿<html>
+<head>
+
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="Keywords" content="井尻敬,User Interface,Computer Graphics">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.1.0 for Windows">
+
+
+<title>確率論</title>
+<link rel="stylesheet" type="text/css" media="screen" href="brict.css">
+
+<style type="text/css" media="screen">
+
+<!--
+/* Source Code CSS */
+pre.code {
+    font-size: 12px;
+    /* line-height:1.2em; */
+    border:1px solid #aaa;
+    background:#e0f0e0;
+    padding:0.5em; 
+    overflow: auto;
+}
+pre.code span.tag		{
+	color: #0000ff;	
+}
+pre.code span.attr 		{
+	color: #000; 		
+}
+pre.code span.value		{
+	color: #900; 		
+}
+pre.code span.str 		{
+	color: #009900; 	
+}
+pre.code span.num 		{
+	color: #009900; 	
+}
+pre.code span.keyword	{
+	color: #0000ff; 	
+}
+pre.code span.rem		{
+	color: #909; 		
+}
+pre.code span.variable	{
+	color: #500050;	
+}
+
+
+
+<!--
+
+-->
+</style>
+</head>
+
+
+
+<body>
+<div id="headerspacer"></div>
+<blockquote>
+<div id="col2o2content">
+  <hr>
+  <h1>確率論 4</h1>
+  <hr>
+  　　そろそろ慣れてきたので、標本空間や事象を考えず、確率変数に注目していく.<br>
+  <br>
+  　　「確率変数」とは，ランダムな値をとる実数変数で, その値の出やすさは確率分布によって決まる.<br>
+  <br>
+  　　「確率分布」とは, 確率1を，確率変数が取りうるすべての値に,どう振り分けるかを表現するもの.<br>
+  　　　　-　離散的な確率変数を考えるとき,確率分布は対応表で表現できる. (取りうるすべての値aがどの程度の確率で起こるかを表でまとめられる)<br>
+  　　　　-　連続的な確率変数を考えるとき,確率分布は確率密度関数とその積分で表現できる．<br>
+  <br>
+  　　<br>
+  　　　<a href="index.html">戻る</a>　　<a href="probability5.html">確率論5へ</a> <br>
+  <hr>
+  <h2>期待値と分散</h2>
+  <div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px">
+　<b><font size="+2" style="font-size : 150%;">○期待値○<br>
+  　</font></b>「<b>確率変数Xの期待値とは, &quot;ランダムな値をとる確率変数Xの取り得る値の平均&quot;のこと」 </b><br>
+  　　--<b>離散確率変数の場合</b><br>
+  　　　　確率変数Xの確率分布をP(X=x)とすると, その期待値E(X)は以下の通り定義される．<br>
+  　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle E(X) = \sum_{i=1}^{\infty}\left{ x_iP(X=x_i)\right}" align="top"><br>
+  <br>　<b>--連続確率変数の場合</b><br>
+  　　　　確率変数Xの確率密度関数をf<sub>X</sub>(x)とすると, その期待値E(X)は以下の通り定義される．<br>
+  　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle E(X) = \int_{-\infty}^{\infty} xf_X(x)dx" align="top"><br>
+  　<br>
+
+</div>
+  　<br>
+  　多少ややこしいが，確率変数Xとは，ランダムな値をとりうる変数で、一度しか引けないくじみたいなもの．<br>
+  　なので，確率変数Xの期待値E(X)は，「Xをたくさん(無限回)観察したその平均。」と定義してしまうと、(結果はあっているけど)誤り．<br>
+  　E(X)は，Xの取りうる値の平均値、位がただしい（と思っている)。<br>
+  <br>
+  <br>
+  　次の計算式は頻出なので押さえておく. <br>
+<div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px">
+    　<b><font size="+2" style="font-size : 150%;">○Law of the unconscious statistician ○</font></b>　<br>
+  　　<b>離散確率変数の場合</b><br>
+  　確率変数Xの確率分布をP(X=x)とし，その期待値E(g(X))は<br>
+ 　 <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle E(g(X)) = \sum_{i=1}^{\infty}\left{ g(x_i)P(X=x_i)\right}" align="top"><br>
+  <br>　<b>連続確率変数の場合</b><br>
+  　確率変数Xの確率密度関数をf<sub>X</sub>(x)とすると, その期待値E(g(X))は, <br>
+ 　 <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle E(g(X)) = \int_{-\infty}^{\infty} g(x)f_X(x)dx" align="top"><br>
+  <br>
+
+</div>
+<br>
+  　　　離散確率変数の場合は，Y=g(X)という変数変換をしたと考えればよい．<br>
+  　　　y=g(x)という値を取る確率P(Y=y=g(x))は，P(X=x)なので，明らか．<br><br>
+
+    <div style ="border:thin solid #c0c0c0;line-height:1.5;margin-left:30px">
+        (-- 追記：2015/11/26、上の２行は間違い。明らかじゃない。すみません。。)<br>
+        <br>
+        <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle Y = g(X)" align="top"> として,<br>
+        <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle E(g(X)) = E(Y) = \sum_{y}yP(Y=y)" align="top"><br>
+        <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = \sum_{y} y\sum_{\left{x|g(x)=y\right}} P(X=x)" align="top"><br>
+        <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = \sum_{y} \sum_{\left{x|g(x)=y\right}} yP(X=x)" align="top"><br>
+        <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = \sum_{y} \sum_{\left{x|g(x)=y\right}} g(x)P(X=x)" align="top"><br>
+        <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = \sum_{x} g(x)P(X=x)" align="top"><br>
+        <br>
+        <a href="http://math.arizona.edu/~tgk/464_10/chap2_9_7.pdf">参考にしたpdf</a>．<br>
+        <br>
+        (--追記ここまで--)<br>
+    </div>
+    <br>
+    <br>
+  　　　<br>
+    <a href="http://math.la.asu.edu/~jtaylor/teaching/Fall2010/STP421/lectures/lecture15.pdf">連続変数の場合は，期待値の定義から証明できる(pdf)</a>．<br>
+  　　　リンク先では，g(x)≧0のケースに限定して証明している． (2重責分の積分領域の変換に若干戸惑ったが,領域を図示してしまえば理解できる)<br>
+  　　　<br>
+  <br>
+  　<br>
+  <div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px">　
+<b><font size="+2" style="font-size : 150%;">○分散○</font></b>　<br>
+  　　<b>確率変数Xの分散とは，「ランダムに変化する確率変数Xのばらつき具合」を表すもの</b>．<br>
+  　　--<b>離散確率変数の場合</b><br>
+  　　　　確率変数Xの確率分布をP(X=x)，期待値をμとすると，その分散V(X)は以下の通り定義される．<br>
+  　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle V(X) = E( (X-\mu)^2 ) =  \sum_{i=1}^{\infty}\left{ (x_i-\mu)^2 P(X=x_i)\right}" align="top"><br>
+  <br>
+  　　--<b>連続確率変数の場合</b><br>
+  　　　　確率変数Xの確率密度関数をf<sub>X</sub>(x), その期待値をμとすると, その分散V(X)は以下の通り定義される．<br>
+  　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle V(X)=E((X-\mu)^2) = \int_{-\infty}^{\infty} (x-\mu)^2f_X(x)dx" align="top"><br>
+  　<br>
+  　　　　また, <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \sigma = \sqrt{V(X)}" align="top">を標準偏差と呼ぶ. <br>
+  <br>
+
+</div>
+  　<br>
+  　　Law of the unconscious statisticianを定義しないで、上記の説明をされて、二個目のイコールが理解できなかったんだけど(一個目のイコールは定義)、<br>
+  　　今は、Law of the unconscious statisticianがあるので、上の式変形はすっと呑み込める。<br>
+  <br>
+  <br>
+  <br>
+  <hr>
+  <h2>期待値の線形性, 分散の変形</h2>
+  　期待値は, 和分や積分で定義されるため，以下の通り線形性を持つ． <br>
+  <div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px">　
+<b><font size="+2" style="font-size : 150%;">○期待値の線形性○</font></b>　<br>
+  　　期待値の定義より，n個の確率変数X<sub>i</sub>とスカラー値a<sub>i</sub>について以下が導かれる．<br>
+  　 　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle E( a_1 X_1 %2B a_2 X_2 %2B...%2Ba_nX_n ) =  a_1E(X_1) %2B a_2 E(X_2) %2B...%2B a_nE(X_n )" align="top">　　<br>
+  　　　 <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle E\left( \sum_{i=1}^{n}a_i X_i \right) = \sum_{i=1}^{n} \left{ a_iE(X_i) \right}" align="top"><br>
+  <br>
+  　　特に独立な確率変数XYに対して, f<sub>XY</sub>(x,y) = f<sub>X</sub>(x)f<sub>Y</sub>(y)より以下が導かれる．<br>
+  　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle E(XY)=E(X)E(Y)" align="top"><br>
+</div>
+  <br>
+  <br>
+  <div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px">　
+  　　<b><font size="+2" style="font-size : 150%;">○分散の変形○</font></b>　<br>
+  　　　a)期待値の線形性より以下が導かれる<br>
+　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle V(X)=E( (X-\mu)^2 ) = E(X^2)-\mu^2" align="top"><br>
+  　　　b)確率変数Xにスカラー値aを足した分散は，以下の通り．(Xの期待値をμとした)<br>
+　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle V(X%2Ba)=V(X)" align="top"><br>
+  　　　c)確率変数Xにスカラー値aをかけた分散は，以下の通り．(Xの期待値をμとした)<br>
+　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle V(aX)=a^2V(X)" align="top"><br>
+  　　　d)互いに独立な確率変数XYについて，以下が成り立つ (Xの期待値をμ, Yの期待値をνとした))<br>
+　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle V(X%2BY)= V(X)%2BV(Y)" align="top"><br>
+  　　</div>
+  　　　簡単だけど証明)<br>
+  　　　a) <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle V(X)=E( (X-\mu)^2 ) = E( X^2 -2\mu X %2B \mu^2) = E(X^2)-2\mu E(X) %2B\mu^2=E(X^2)-\mu^2" align="top"><br>
+  <br>
+  　　　b) <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle V(X%2Ba)=E( (X%2Ba-(\mu%2Ba))^2 ) = E( (X-\mu)^2 ) = V(X)" align="top"><br>
+  <br>
+  　　　c) <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle V(aX)=E( (aX-a\mu)^2 ) = a^2E( (X-\mu)^2 ) = a^2V(X)" align="top"><br>
+  <br>
+  　　　d)<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle V(X%2BY)=E\left( ((X %2B Y) - (\mu%2B\nu))^2 \right) = E\left( (X - \mu)^2 %2B (Y - \nu)^2  %2B 2(X - \mu)(Y - \nu) \right)" align="top"><br>
+　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle =V(X) %2B V(Y) %2B 2E\left( (X - \mu)(Y - \nu) \right)" align="top"><br>
+　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle =V(X) %2B V(Y) %2B 2E(XY) - 2\mu E(Y) - 2\nu E(X) %2B 2\mu\nu" align="top"><br>
+　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle =V(X) %2B V(Y) %2B 2\mu\nu - 2\mu\nu - 2\nu\mu %2B 2\mu\nu" align="top">　　　　　 (独立なのでE(XY)=E(X)E(Y))<br>
+　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle =V(X) %2B V(Y) " align="top"><br>
+  <br>
+  <hr> <h2>大数の法則</h2>
+<div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px">　　　<br>
+  　　　X<sub>1</sub>, X<sub>2</sub>,..., X<sub>n</sub>, を互いに独立で同じ分布に従う確率変数とし．各X<sub>i</sub>の期待値をμ，分散をσ<sup>2</sup>とする．<br>
+  　　　(<b>独立同一分布</b>(independent and identically distributed (i.i.d))などと呼ばれる．)<br>
+　　　<br>
+  　　　このn個の確率変数の平均をZ<sub>n</sub>とする. <br>
+　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle Z_n= \frac{X_1 %2B X_2 %2B...%2B X_n }{n}" align="top"><br>
+  <br>
+  　　　a) Z<sub>n</sub>の期待値は，　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle E(Z_n)= \mu" align="top"> となる<br>
+  　　　b) Z<sub>n</sub>の分散は，　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle V(Z_n)=  \frac{\sigma}{n}" align="top">　となる<br>
+<br>
+  　　　ここから，n→∞ とすると，<br>
+  　　　　　- <b>独立同一分布の平均Z<sub>n</sub>の期待値は元の分布の期待値に一致し，<br>
+  　　　　 - 独立同一分布の平均Z<sub>n</sub>の分散は0になる<br>
+  </b>　　　事が分かる．<br>
+  <br>
+  　　　つまり，nが充分大きければ，<br>
+  　　　　<font color="#ff0000">Z<sub>n</sub> ≒ E(X)</font> <br>
+  　　　としても良い．この関係は後でモンテカルロ法を勉強するときに使う．<br>
+  　　　</div>
+  　 　　簡単だけど証明)<br>
+  　　　a)　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle E(Z_n)= E \left( \frac{X_1 %2B X_2 %2B...%2B X_n }{n} \right) = \frac{n\mu}{n} = \mu" align="top"><br>
+  　　　b)　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle V(Z_n)= V \left( \frac{X_1 %2B X_2 %2B...%2B X_n }{n} \right) = \frac{V( X_1 %2B X_2 %2B...%2B X_n )}{n^2}" align="top">
+<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = \frac{V(X_1) %2B V(X_2) %2B...%2B V(X_n)}{n^2} = \frac{n \sigma^2}{n^2} = \frac{\sigma^2}{n}" align="top"> (独立の場合V(X+Y)=V(X)+V(Y)を利用した)<br>
+  <br>
+  　　　「<font color="#ff0000">確率変数Xの期待値とは，試行を無限回行ってXの値を観察しその平均をとったもの」という説明は誤り</font>だが，大数の法則からぎりぎり許される．<br>
+  　　　(たぶん)正しくは，「<font color="#ff0000">確率変数Xの期待値とは，Xのとりうる値の平均値</font>」．<br>
+  　　　(確率変数(random variable)Xは，ランダムに揺れる変数で，何回も試行したり観察したりできるものではない．[平岡et alプログラミングのための確率統計]に良い説明がある．)
+
+<br><br>
+  　以下は大数の法則の亜種．<br>
+<div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px">　　　<b><font size="+2" style="font-size : 150%;">○Uniform Law of Large Numbers○</font></b>
+<br>
+  　　　X<sub>1</sub>, X<sub>2</sub>,..., X<sub>n</sub>, 期待値をμ分散をσ<sup>2</sup>の独立同一分布に従う確率変数とし，f(x)を連続な関数として，Z<sub>n</sub>を以下のように定義する.<br>
+  　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle Z_n= \frac{f(X_1) %2B f(X_2) %2B...%2B f(X_n) }{n}" align="top"><br>
+  　　　<br>
+  　　　Z<sub>n</sub>は，E(f(X))に確率収束する．<br>
+  　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \lim_{n\to \infty} Z_n \to E(f(X)) \;\;\;\;\;\;a.s." align="top"><br>
+</div>
+  　　　　証明等，詳細は<a href="http://en.wikipedia.org/wiki/Law_of_large_numbers">こちらを参照</a><br>
+  <br>
+  <br>
+  <hr> <h2>中心極限定理</h2>
+
+<div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px">　　　<b><font size="+2" style="font-size : 150%;">○正規分布○</font></b>
+<br>
+  　　　次の確率密度関数に従う確率分布を平均μ分散σ<sup>2</sup>の正規分布 N(μ,σ<sup>2</sup>) と呼ぶ．<br>
+　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f_X(x) = \frac{1}{\sqrt{2\pi\sigma^2}} \exp\left( -\frac{(x-\mu)^2}{2\sigma^2} \right)" align="top"><br>
+  　　　特にN(0,1)を標準正規分布と呼ぶ．<br>
+　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f_X(x) = \frac{1}{\sqrt{2\pi}} \exp\left( -\frac{x^2}{2} \right)" align="top"><br>
+  <br>
+</div>
+  　<br>
+  　よく「次の確率密度関数に従う確率分布を平均μ分散σ<sup>2</sup>の正規分布 N(μ,σ<sup>2</sup>) と呼ぶ．」こんな説明を見るし使うけど、なれないうちは、もう少し正しく以下の感じの記述が良いと思う。<br>
+  　「確率変数Xの確率分布が次の確率密度関数で表せるとき，確率変数Xは平均μ分散σ<sup>2</sup>の正規分布 N(μ,σ<sup>2</sup>) に従うという」<br>
+  　上の説明では確率変数が省略されてて，ちょっと戸惑う．<br>
+  　<br>
+  <br>
+<div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px">　　　<b><font size="+2" style="font-size : 150%;">○中心極限定理○</font></b>
+  <br>
+  　　　期待値μ, 分散σ<sup>2</sup>の独立同一分布に従う確率変数 X<sub>1</sub>,...,X<sub>n</sub>, について，<br>
+  　　　以下の確率変数S<sub>n</sub>を考える．<br>
+  　　　 　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle S_n = \frac{\sum_{i=1}^{n}(X_i-\mu)} {\sqrt{n\sigma}}}" align="top"><br>
+  　<br>
+  　　　このS<sub>n</sub>の分布は，n→∞の時，標準正規分布N(0,1)に収束する．式で書くと以下の通り．. <br>
+  　　 　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle P(S_n \le a) \to \frac{1}{\sqrt{2\pi}} \int_{-\infty}^{a} exp( -\frac{x^2}{2} )dx " align="top"><br>
+  　　　　<br>
+
+
+</div>
+  　　　この定理の面白いところは,もとのXがどんな分布だろうと，<br>
+  　　　それをたくさん集めて足してsqrt(n×分散)で割れば，その分布が標準正規分布になるということ。<br>
+  　　　次項で，大数の法則と，中心極限定理を実験的に確かめてみる．<br>
+  <br>  　　　<a href="index.html">戻る</a>　　<a href="probability5.html">確率論5へ</a> <br>
+  <div id="footer"> Copyright 2010~ Takashi Ijiri(井尻敬), All rights reserved.</div>
+</div></blockquote>
+</body></html> 

@@ -1,0 +1,169 @@
+﻿<html>
+<head>
+<meta charset="utf-8">
+
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="Keywords" content="井尻敬,User Interface,Computer Graphics">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.1.0 for Windows">
+<title>Visual Studio memo</title>
+<link rel="stylesheet" type="text/css" media="screen" href="brict.css">
+<style type="text/css" media="screen">
+<!--
+/* Source Code CSS */
+pre.code {
+    font-size: 12px;
+    /* line-height:1.2em; */
+    border:1px solid #aaa;
+    background:#f0f0f0;
+    padding:0.5em; 
+    overflow: auto;
+}
+pre.code span.tag		{
+	color: #0000ff;	
+}
+pre.code span.attr 		{
+	color: #000; 		
+}
+pre.code span.value		{
+	color: #900; 		
+}
+pre.code span.str 		{
+	color: #009900; 	
+}
+pre.code span.num 		{
+	color: #009900; 	
+}
+pre.code span.keyword	{
+	color: #0000ff; 	
+}
+pre.code span.rem		{
+	color: #909; 		
+}
+pre.code span.variable	{
+	color: #500050;	
+}
+
+
+<!--
+
+-->
+</style>
+</head>
+<body>
+<div id="headerspacer"></div>
+<div id="col2o2">
+  <blockquote>
+  <div id="col2o2content">
+    <hr>
+    <h1>CLAPACKをVisual Studio 2010上で使う(32/64bit) (高速にLU分解がしたいので)　2012/05/18--</h1>
+    <hr>
+    <hr>
+    <ul>
+      <li><b>サーベイ </b>
+    </ul>
+    + ATLASは，64bitでコンパイルするのが難しいらしい<br>
+    + GOTOBLAS + LAPACKは，Core i7(Sandy Bridge CPU)<a href="http://lists.freebsd.org/pipermail/freebsd-ports-bugs/2011-October/220422.html">ではうまくいかない(?)</a>。解決できるんだろうけど時間がかかりそう<br>
+    + <a href="https://github.com/xianyi/OpenBLAS">OpenBLAS</a> + LAPACKは，MinGW+Cygwin環境でコンパイルできた．が、headerでVisual Sutio 2010にはもう入っていないcomplex.hを要求されたりしてちょっと使い難い．<br>
+    <br>
+    +よって<a href="http://www.netlib.org/clapack/">ここのCLAPACK</a>を利用する．<br>
+    <br>
+    <hr>
+    <ul>
+      <li><b>*.h と *.libをダウンロード </b>
+    </ul>
+    +<a href="http://www.netlib.org/clapack/">ここから</a>f2c.hとclapack.hをもらってくる<br>
+    +<a href="http://www.netlib.org/clapack/LIB_WINDOWS/prebuilt_libraries_windows.html">ここから</a>コンパイル済みの*.libをもらってくる(自分でコンパイルした方が速そうだけど・・・上記のサーベイに丸1日かかってもう疲れた)<br>
+    +Visual Studioのプロジェクトから見えるところに置いておく<br>
+    <br>
+    <hr>
+    <ul>
+      <li><b>ヘッダをインクルードする </b>
+    </ul>
+    <pre class="code"> extern <span class="str">&quot;C&quot;</span>
+{
+#include <span class="str">&quot;f2c.h&quot;</span>
+#include <span class="str">&quot;clapack.h&quot;</span>
+}
+
+#pragma comment(lib, <span class="str">&quot;BLAS_nowrap.lib&quot;</span>)
+#pragma comment(lib, <span class="str">&quot;libf2c.lib&quot;</span>)
+#pragma comment(lib, <span class="str">&quot;clapack_nowrap.lib&quot;</span>)</pre>
+    <br>
+    <hr>
+    <ul>
+      <li><b>コードを書く (LU分解)</b>
+    </ul>
+<pre class="code"><span class="keyword">void</span> test()
+{
+　　　　integer N = <span class="num">4</span>;
+　　　　integer INFO ; 
+　　　　<span class="keyword">long</span> iPiv[<span class="num">4</span> ];
+　　　　<span class="keyword">double</span> a[<span class="num">16</span>]={
+　　　　　　　<span class="num">1.0</span>,　　<span class="num">5.0</span>,　　<span class="num">9.0</span>,　　<span class="num">4.0</span>, 
+　　　　　　　<span class="num">2.0</span>,　<span class="num">11.0</span>,　　<span class="num">7.0</span>,　<span class="num">14.0</span>, 
+　　　　　　　<span class="num">3.0</span>,　<span class="num">10.0</span>,　　<span class="num">6.0</span>,　<span class="num">15.0</span>, 
+　　　　　　<span class="num">13.0</span>,　　<span class="num">2.0</span>,　<span class="num">12.0</span>,　　<span class="num">1.0</span>　}; <span class="rem">//行列はColumn majourなのに注意</span>
+
+　　　　dgetrf_( &amp;N, &amp;N, a, &amp;N, iPiv, &amp;INFO );
+
+　　　　<span class="keyword">for</span> (<span class="keyword">int</span> y= <span class="num">0</span>; y&lt; <span class="num">4</span>; ++y ){ 
+　　　　　　　　<span class="keyword">for</span> (<span class="keyword">int</span> x= <span class="num">0</span>; x&lt; <span class="num">4</span>; ++x ) printf( <span class="str">&quot;a[%d][%d]=%f &quot;</span>,y,x, a[ <span class="num">4</span> * x + y] );
+　　　　　　　　printf( <span class="str">&quot;\n &quot;</span>);
+　　　　}
+
+　　　　<span class="keyword">for</span> (<span class="keyword">int</span> y= <span class="num">0</span>; y&lt; <span class="num">4</span>; ++y )　printf( <span class="str">&quot;iPiv[%d]=%d \n&quot;</span>, y, iPiv[y]);
+} 
+</pre>
+    <br>
+    <hr>
+    <ul>
+      <li><b>結果</b>
+    </ul>
+    <table border="1">
+      <tbody>
+        <tr>
+          <td width="770" height="89">\\aにLU分解結果が入る<br>
+          a[0][0]=9.000000 a[0][1]=7.000000 　a[0][2]=　6.000000 a[0][3]=12.000000<br>
+ a[1][0]=0.444444 a[1][1]=10.888889 a[1][2]=12.333333 a[1][3]=-4.333333<br>
+          a[2][0]=0.555556 a[2][1]=0.653061 　a[2][2]=-1.387755 a[2][3]=-1.836735<br>
+          a[3][0]=0.111111 a[3][1]=0.112245 　a[3][2]=-0.683824 a[3][3]=10.897059<br>
+          <br>
+          //iPiv[i]には、i列目を分解する時に選択したピボット(行番号)が入る．<br>
+          iPiv[0]=3<br>
+          iPiv[1]=4<br>
+iPiv[2]=4<br>
+          iPiv[3]=4<br>
+          <br>
+          //これはつまり<br>
+          1 2 3 4<br>
+          ↓(iPiv[0]=3)<br>
+          3 2 1 4<br>
+          ↓(iPiv[1]=4)<br>
+          3 4 1 2<br>
+          ↓(iPiv[2]=4)<br>
+          3 4 2 1<br>
+          という順序に列が並んでいるという事</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <hr>
+    <ul>
+      <li><b>結局</b>
+    </ul>
+      <p>
+    このサイトのコンパイル済みの.libで，3000×3000程度の密行列のLU分解に30秒強の時間がかかった．<br>
+    ニューメリカルレシピに乗ってたコードをOpenMPを使ってちょっとチューニングした自分のコードの方が速くて残念．<br>
+    OpenMPの製作者ががんばって開発を進めているようなので、そちらに期待しつつ、自分のLU分解を使うことにする．<br>
+    <br>
+    - (追記)BundlerのソースコードにCLapack + BLASをVisual Studioのプロジェクト化したものがあった。これを利用したら速いバージョンのCLAPACKが得られるかも。<br>
+    <br>
+          </p>
+    <hr />
+    
+    <div id="footer">Copyright 2010~ Takashi Ijiri(井尻敬), All rights reserved.</div>
+  </div>
+  </blockquote>
+</div>
+</body>
+</html>

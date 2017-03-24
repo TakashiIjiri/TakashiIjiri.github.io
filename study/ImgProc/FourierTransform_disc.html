@@ -1,0 +1,462 @@
+﻿<html><head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="Keywords" content="井尻敬,User Interface,Computer Graphics">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.1.0 for Windows">
+<title>フーリエ変換</title>
+<link rel="stylesheet" type="text/css" media="screen" href="brict.css">
+<style type="text/css" media="screen">
+
+<!--
+/* Source Code CSS */
+pre.code {
+    font-size: 12px;
+    /* line-height:1.2em; */
+    border:1px solid #aaa;
+    background:#e0e0f0;
+    margin-left:30px;
+    padding:0.5em; 
+    overflow: auto;
+}
+pre.code span.tag		{
+	color: #0000ff;	
+}
+pre.code span.attr 		{
+	color: #000; 		
+}
+pre.code span.value		{
+	color: #900; 		
+}
+pre.code span.str 		{
+	color: #009900; 	
+}
+pre.code span.num 		{
+	color: #009900; 	
+}
+pre.code span.keyword	{
+	color: #0000ff; 	
+}
+pre.code span.rem		{
+	color: #909; 		
+}
+pre.code span.variable	{
+	color: #500050;	
+}
+
+
+
+<!--
+
+-->
+</style>
+</head>
+<body>
+<p>　</p>
+<div id="headerspacer"></div>
+<blockquote>
+<div id="col2o2content">
+  <hr>
+  <h1>フーリエ変換(離散)</h1>
+    
+      <p><a href="../index.html">戻る</a> <a href="../../index.html">topへ</a><br></p>
+
+  <hr>
+  　　　　今まで必要が無くて勉強したことがなかったフーリエ変換について、ざっと勉強したのでまとめておく。<br>
+　　　　参考文献<br>
+<ul>
+    <li>金谷健一, これなら分かる応用数学教室―最小二乗法からウェーブレットまで </li>
+</ul>
+  　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　<a href="../index.html">戻る</a> 　　<a href="FourierTransform_cont.html">フーリエ変換(連続)へ</a><br>
+   <hr> <h2>フーリエ変換(離散)</h2>
+  <table border="0">
+    <tbody>
+      <tr>
+        <td bgcolor="#dfffbf">&nbsp;<br>
+        　　　周期2πの関数 f(θ) を考える (任意の整数 k について f(θ) = f(θ+ 2πk) ) 　　<br>
+        　　　　　- この関数の基本周波数 w は w = 2π / T = 1 である．<br>
+        <br>
+  　　　この周期的な関数の [0,2π]をN等分してリサンプリングし，その値をf<sub>l</sub>とする．<br>
+  <br>
+　　　　　   　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f_l = f \left( \frac{2\pi l }{N} \right)" align="middle">　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle l = 0, 1, ..., N-1" align="middle"><br>
+        <br>
+        <br> 
+　　　f(θ)のサンプル点が N 個で，サンプル点上のみの値が必要な場合，<br />
+        　　　f(θ)は次の通り N 個の正弦波の線形結合で 表せる. <br>
+　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f_l = \sum_{k=0}^{N-1} F_k e^{i 2 \pi k l / N}" align="middle"> 
+　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle F_k = \frac{1}{N} \sum_{l=0}^{N-1} f_l e^{ -i 2 \pi k l / N}" align="middle"> <br>
+        <br>
+        　　　左式を離散逆フーリエ変換と呼び，右式を離散フーリエ変換と呼ぶ<br>
+        <br>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+<br>
+  　　　係数 Fk が，f(θ)に含まれる，k番目の正弦波<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle e^{i 2 \pi k l / N}" align="top"/> の大きさみたいなものを表す．<br>
+　　　係数 Fk を，実部 Rk と 虚部 Ik に分解すると (<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle F_k = R_k %2B i I_k" align="top"/> ) ，逆フーリエ変換は次の通り変形できる．<br><br>
+　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f_l = \sum_{k=0}^{N-1} \left( R_k \cos \frac{2\pi kl}{N} - I_k \sin \frac{2\pi kl}{N} \right) %2B i \sum_{k=0}^{N-1} \left( R_k \sin\frac{2\pi kl}{N} %2B I_k \cos\frac{2\pi kl}{N} \right)" align="middle"/> <br><br>
+  　　　f(θ)が実数関数なら、上式の虚部はゼロになる．<br>
+  　　　実部に注目すると，Fk の実部 Rk が cos(2πkl/N) の係数で，虚部 Ik が sin(2πkl/N) の係数になっている． <br>
+  <br>
+  <br>
+  <br>
+  　　定性的な意味を理解しておきたいのでもう少し詳しく見てみる．<br>
+  <br>
+  　　　1. 元の関数f(θ)は、周期2πの関数で、区間[0,2π]をN等分してサンプリング点を作った<br>
+  <img src="images/fourie_func.png" width="620" height="254" border="0"><br>
+  <br>
+  　　　2. この関数fを　 sin(2π0l/N), sin(2π1l/N), sin(2π2l/N)...，cos(2π0l/N), cos(2π1l/N),
+  cos(2π2l/N)...<br>
+  　　　　 という2N個の関数の重ね合わせで表現した．<br>
+  <img src="images/fourie_discEq.png" width="420" height="194" border="0">　　<img src="images/fourie_sincos.png" width="696" height="190" border="0"><br>
+  　　<br>
+  　　3. 重ね合わせ時の重み Fk = Rk + iIkは、前述のフーリエ変換の式で求まり、対応する cos(2πk), sin(2πk)の重みを表す．<br>
+  <br>
+  <br>
+  <hr> <h2>1の原始N乗根を用いた表現</h2>
+  <table border="0">
+    <tbody>
+      <tr>
+        <td bgcolor="#dfffbf"><br>
+        　　　N乗して初めて1になる数を1の原始N乗根と呼ぶ　　<br>
+        　　　<br>
+        　　　定義： <br>
+        　　　w<sub>N</sub>を1の原始N乗根とすると, <br>
+        　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle w_N^N = 1" align="middle">　　　かつ　　　
+<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle w_N^k \ne 1" align="middle">　for
+　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle k = 1,\;\;2,...\;\;,N-1" align="middle">　　　<br>
+        <br>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <br>
+  <table border="0">
+    <tbody>
+      <tr>
+        <td bgcolor="#dfffbf">&nbsp;<br>
+        　　　1の原始N乗根のひとつ　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle w_N =  e^{i\frac{2\pi}{N}}" align="middle"> 　を使うと離散フーリエ変換はもう少し整理できる．<br>
+        <br>
+　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f_l = \sum_{k=0}^{N-1} F_k w_N^{kl}" align="middle"> 
+　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle F_k = \frac{1}{N} \sum_{l=0}^{N-1} f_l w_N^{-kl}" align="middle"> <br>
+        <br>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+
+  <hr> <h2>離散フーリエ変換の実装</h2>
+  　　　上の式を見れば明らかだが，離散の場合フーリエ係数 Fk を計算するのは非常に簡単で，和分を一回行えばよい．<br><br>
+  　　　　　実部 : <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle R_k = \frac{1}{N} \sum_{l=0}^{N-1} f_l \cos{ \frac{2 \pi k l}{N} }" align="middle"/> 
+　　　　　虚部 : <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle I_k = \frac{1}{N} \sum_{l=0}^{N-1} f_l \sin{ \frac{-2 \pi k l}{N} }" align="middle"/> 　<br>
+<pre class="code">
+<span class="rem">/*--------------------------------------------------------------------------------------
+フーリエ変換   (fl --&gt; Fk = Rk + Ik )
+int N : 配列サイズ
+const double fl : 元画像 (1D)
+const double Rk : フーリエ変換後の実部 cos( 2πkl / N) の係数 (already allocated)
+const double Ik : フーリエ変換後の虚部 sin(-2πkl / N) の係数 (already allocated)
+--------------------------------------------------------------------------------------*/</span>
+<span class="keyword">void</span> t_fourieTrans1D( <span class="keyword">const</span> <span class="keyword">int</span> N, <span class="keyword">const</span> <span class="keyword">double</span> *fl, <span class="keyword">double</span> *Rk, <span class="keyword">double</span> *Ik )
+{
+    <span class="keyword">const</span> <span class="keyword">double</span> w0 = <span class="num">2</span> * M_PI / (<span class="keyword">double</span>)N; 
+
+    <span class="keyword">for</span>( <span class="keyword">int</span> k = <span class="num">0</span>; k &lt; N; ++k)
+    {
+        Rk[k] = <span class="num">0</span>;
+        Ik[k] = <span class="num">0</span>;
+        <span class="keyword">for</span>( <span class="keyword">int</span> m = <span class="num">0</span>; m &lt; N; ++m){
+            Rk[k] +=  fl[m] * cos( w0 * k * m );
+            Ik[k] += -fl[m] * sin( w0 * k * m );
+        }
+        Rk[k] /= N;
+        Ik[k] /= N;
+    }
+}
+</pre>
+  <br>
+  <br>
+  　　　逆フーリエ変換は...<br>
+  　　　実部 : <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle Re(f_l) = \sum_{k=0}^{N-1} R_k \cos{ \frac{2 \pi k l}{N} - I_k \sin \frac{2\pi kl}{N}}" align="middle"> 　　　<br>
+  　　 虚部 : <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle Im(f_l) = \sum_{k=0}^{N-1} R_k \sin{ \frac{2 \pi k l}{N} %2B I_k \cos \frac{2\pi kl}{N}}" align="middle"> （ゼロなので気にしなくてもいいけど）<br>
+  　　<br>
+<pre class="code">
+<span class="keyword">void</span> t_inverseFourieTrans1D( <span class="keyword">const</span> <span class="keyword">int</span> N, <span class="keyword">double</span> *fl, <span class="keyword">const</span> <span class="keyword">double</span> *Rk, <span class="keyword">const</span> <span class="keyword">double</span> *Ik )
+{
+    <span class="keyword">const</span> <span class="keyword">double</span> w0 = <span class="num">2</span> * M_PI / (<span class="keyword">double</span>)N; 
+
+    <span class="keyword">for</span>( <span class="keyword">int</span> m = <span class="num">0</span>; m &lt; N; ++m)<span class="rem">//lはわかりづらいのでm利用</span>
+    {
+        fl[m] = <span class="num">0</span>;
+        //<span class="keyword">double</span> fl_imagi=<span class="num">0</span>;
+        <span class="keyword">for</span>( <span class="keyword">int</span> k = <span class="num">0</span>; k &lt; N; ++k)
+        {
+            fl[m]    += Rk[k] * cos( w0 * k * m ) - Ik[k] * sin( w0 * k * m );
+            //fl_imagi += Rk[k] * sin( w0 * k * m ) + Ik[k] * cos( w0 * k * m );
+        }
+    }
+}</pre>
+  　　<br>
+
+  <hr> <h2>2次元離散フーリエ変換</h2>
+  <table border="0">
+    <tbody>
+      <tr>
+        <td bgcolor="#dfffbf">&nbsp;<br>
+        　　　2次元関数(画像) fxy 　(x = 0,1,..W-1, 　y =0,1,...,H)の離散フーリエ変換は次の通り<br>
+        <br>
+　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f_{xy} =              \sum_{v=0}^{H-1} \sum_{u=0}^{W-1} F_{uv} e^{ i\frac{2\pi xu}{W}} e^{  i\frac{2\pi yv}{H}}" align="middle"> 
+　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle F_{uv} = \frac{1}{WH} \sum_{y=0}^{H-1} \sum_{x=0}^{W-1} f_{xy} e^{-i\frac{2\pi xu}{W}} e^{ -i \frac{2\pi yv}{H}}" align="middle"> 　　　<br>
+        <br>
+        　　　ただし u = 0,1,...,W-1, v = 0,1,...,H-1 <br>
+        <br>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  　　<br>
+  　　これをそのまま実装したのが以下．<br>
+<pre class="code"><span class="rem">/*----------------------------------------------------------------------
+const int W : 画像横サイズ
+const int H : 画像縦サイズ
+double *fxy : 元画像
+double *Ruv : 変換後実部
+double *Iuv : 変換後虚部 (配列はすべてallocate済み)
+fxy, Ruv, Iuvは1次元配列で実現 : fxy[x][y] = fxy[ x + y*W ]
+----------------------------------------------------------------------*/</span>
+
+<span class="rem">//フーリエ変換  2D  (fxy --&gt; Fuv = Ruv + Iuv )</span>
+<span class="keyword">void</span> t_fourieTrans2D_1( <span class="keyword">const</span> <span class="keyword">int</span> W, <span class="keyword">const</span> <span class="keyword">int</span> H, <span class="keyword">const</span> <span class="keyword">double</span> *fxy, <span class="keyword">double</span> *Ruv, <span class="keyword">double</span> *Iuv)
+{
+    <span class="keyword">const</span> <span class="keyword">double</span> wx0 = <span class="num">2</span>*M_PI / (<span class="keyword">double</span>)W;
+    <span class="keyword">const</span> <span class="keyword">double</span> wy0 = <span class="num">2</span>*M_PI / (<span class="keyword">double</span>)H;
+
+    <span class="keyword">for</span>( <span class="keyword">int</span> v = <span class="num">0</span>; v &lt; H; ++v){
+        <span class="keyword">for</span>( <span class="keyword">int</span> u = <span class="num">0</span>; u &lt; W; ++u)
+        {
+            <span class="keyword">const</span> <span class="keyword">int</span> uvIdx = u + W * v;
+            Ruv[ uvIdx ] = <span class="num">0</span>;
+            Iuv[ uvIdx ] = <span class="num">0</span>;
+
+            <span class="keyword">for</span>( <span class="keyword">int</span> y = <span class="num">0</span>; y &lt; H; ++y)
+            <span class="keyword">for</span>( <span class="keyword">int</span> x = <span class="num">0</span>; x &lt; W; ++x){
+                Ruv[ uvIdx ] += fxy[ x + y * W ] * cos( - wx0*x*u - wy0*y*v );
+                Iuv[ uvIdx ] += fxy[ x + y * W ] * sin( - wx0*x*u - wy0*y*v );
+            }
+            Ruv[ uvIdx ] /= (W*H);
+            Iuv[ uvIdx ] /= (W*H);
+        }
+    }
+}
+
+<span class="rem">//逆フーリエ変換  2D  ( Fuv = Ruv + Iuv --&gt; fxy)</span>
+<span class="keyword">void</span> t_fourieTrans2D_invert_1( <span class="keyword">const</span> <span class="keyword">int</span> W, <span class="keyword">const</span> <span class="keyword">int</span> H, <span class="keyword">const</span> <span class="keyword">double</span> *Ruv, <span class="keyword">const</span> <span class="keyword">double</span> *Iuv, <span class="keyword">double</span> *fxy )
+{
+    <span class="keyword">const</span> <span class="keyword">double</span> wx0 = <span class="num">2</span>*M_PI / (<span class="keyword">double</span>)W;
+    <span class="keyword">const</span> <span class="keyword">double</span> wy0 = <span class="num">2</span>*M_PI / (<span class="keyword">double</span>)H;
+
+    <span class="keyword">for</span>( <span class="keyword">int</span> y = <span class="num">0</span>; y &lt; H; ++y)
+    <span class="keyword">for</span>( <span class="keyword">int</span> x = <span class="num">0</span>; x &lt; W; ++x)
+    {
+        <span class="keyword">int</span> xyIdx = x + y * W;
+        fxy[ xyIdx ] = <span class="num">0</span>;
+        <span class="keyword">for</span>( <span class="keyword">int</span> v = <span class="num">0</span>; v &lt; H; ++v)
+        <span class="keyword">for</span>( <span class="keyword">int</span> u = <span class="num">0</span>; u &lt; W; ++u)
+            fxy[ xyIdx ] +=  Ruv[ u + W * v ] * cos( wx0*x*u + wy0*y*v ) 
+                         　- Iuv[ u + W * v ] * sin( wx0*x*u + wy0*y*v );
+    }
+}</pre>
+
+
+  　　<br>
+  　　<br>
+  　　結果が以下. 　絶対値をとって可視化した、 |Fuv|, |Ruv|, |Iuv|．<br>
+  　　<img src="images/fourie_img1.png" width="816" height="181" border="0"><br>
+  <br>
+  <br>
+  <hr> <h2>2次元離散フーリエ変換の定量的な話</h2>
+  　　F<sub>uv</sub> = R<sub>uv</sub> + i I<sub>uv</sub> と置いて、２次元離散逆フーリエ変換の実部を展開すると以下の通り (画像を扱ってるので虚部はゼロだよ)<br>
+  　　　　　　　<img src="images/fourie_2Dfunc.png" width="561" height="77" border="0"><br>
+  <br>
+  　　この式をよく見ると、画像f<sub>xy</sub>は，<br>
+  　　　　　+ 重み R<sub>uv</sub> で cos 2π(ux/W + vy/H)　を重ね合わせ、<br>
+  　　　　　+ 重み I<sub>uv</sub>　で sin 2π(ux/W + vy/H)　を重ね合わせたもの<br>
+  　　ということがわかる．<br>
+  　　<br>
+  　　重ね合わせた関数, cos 2π(ux/W + vy/H), sin 2π(ux/W + vy/H) を基底関数と呼ぶ．<br>
+  　　既定関数は、uとvに応じて形がいろいろと変わる．<br>
+  　　<br>
+  　　W=H=32の既定関数をプロットしたのが以下．<br>
+  　　<img src="images/fourie_kernels.png" width="713" height="326" border="0"><br>
+  　　　<br>
+  　　　ここで確認すべきは、<br>
+  　　　　　1, このたくさんのしましま画像を係数をかけて足すだけで元の複雑な絵が表現できる<br>
+  　　　　　2, uvが小さいとき低周波で大きいとき高周波になりそうなのに、<br>
+  　　　　　　　実際は四隅に低周波の波が集まり、真ん中あたり、u=W/2 v = H/2　に高周波が集まる<br>
+  　　　<br>
+  　　　つまり、上の写真のフーリエ変換の結果を見ると、低周波成分が多いことがわかる．<br>
+  　　　　　　　　　　　　<img src="images/fourie_kernels2.png" width="238" height="196" border="0"><br>
+  　　　<br>
+  　　四隅に低周波があって、真ん中付近に高周波があるのは若干扱いにくいので、<br>
+  　　通常、下図のようにフーリエ変換の結果をタイリングして、中央部分を切りぬく処理を行う．<br>
+  <img src="images/fourie_2DCoef.png" width="563" height="263" border="0"><br>
+  <br>
+  　　これで、中央部分に低周波成分の係数が並び、周囲に高周波成分が並ぶフーリエ変換の(よく見かける)可視化画像ができた ．<br>
+  　　<br>
+  <br>
+  <hr> <h2>FFTの前に少しだけ高速化の話</h2>
+  　　上記のt_fourieTrans2D() と　t_inverseFourieTrans2D　は正直かなり遅い．<br>
+  　　 各pixelについてW×H回の足し合わせをして, pixel数がW×Hなので計算時間は O(N<sup>2</sup>M<sup>2</sup>)かかる。<br>
+  <br>
+  <table border="0">
+    <tbody>
+      <tr>
+        <td bgcolor="#dfffbf">&nbsp;　2次元のフーリエ変換をするときは、次のような式変形をする.<br>
+  <br>
+  　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle F_{uv} = \frac{1}{H} \sum_{y=0}^{H-1} \left{ G_{uy} \right}  e^{-i \frac{2\pi yv}{H}}" align="middle">　　　
+  　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle G_{uy} = \frac{1}{W} \sum_{x=0}^{W-1} f_{xy} e^{-i\frac{2\pi xu}{W}}" align="middle">　　　<br>
+        　　 G<sub>uy</sub>が、f<sub>xy</sub>を横方向(u方向)に1次元フーリエ変換を行ったもので、　　　<br>
+        　　 F<sub>uy</sub>は、G<sub>uy</sub>を縦方向(v方向)にフーリエ変換を行ったものになる。 　　　　　　　　　<br>
+        <br>
+        　　2次元の逆フーリエ変換も同様に<br>
+  <br>  　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f_{xy} = \sum_{v=0}^{H-1} \left{ g_{xv} \right}  e^{i \frac{2\pi yv}{H}}" align="middle">　　　
+  　     　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle  g_{xv} = \sum_{u=0}^{W-1} F_{uv} e^{i\frac{2\pi xu}{W}}" align="middle">　　　<br>
+        　　と式変形すると、まず、横方向にF<sub>uv</sub>を逆フーリエ変換してg<sub>vx</sub>を取得し<br>
+        　　これを縦方向に逆フーリエ変換すればよい事がわかる．<br>
+        <br>
+  </td>
+      </tr>
+    </tbody>
+  </table>
+  　　<br>
+  　　こうすると計算時間は...<br>
+  　　　　　<br>
+  　　　　　横方向にかかる時間 O(W<sup>2</sup>H) + 縦方向にかかる時間O(WH<sup>2</sup>) = O(W<sup>2</sup>H + WH<sup>2</sup>)<br>
+  　　　<br>
+  　　　...になる<br>
+  　　<br>
+  　　ちょっと色気を出して並列化までした実装が以下．(ちょっと長くなってしまいました)<br>
+<pre class="code">
+<span class="rem">/*----------------------------------------------------------------------
+const int W : 画像横サイズ
+const int H : 画像縦サイズ
+double *fxy : 元画像
+double *Ruv : 変換後実部
+double *Iuv : 変換後虚部 (配列はすべてallocate済み)
+fxy, Ruv, Iuvは1次元配列で実現 : fxy[x][y] = fxy[ x + y*W ]
+----------------------------------------------------------------------*/</span>
+
+<span class="rem">//フーリエ変換2D fxy --&gt; Ruv + i Iuv</span>
+<span class="keyword">void</span> t_fourieTrans2D_3( <span class="keyword">const</span> <span class="keyword">int</span> W, <span class="keyword">const</span> <span class="keyword">int</span> H, <span class="keyword">const</span> <span class="keyword">double</span> *fxy, <span class="keyword">double</span> *Ruv, <span class="keyword">double</span> *Iuv)
+{
+    <span class="keyword">double</span> *Guy_R = <span class="keyword">new</span> <span class="keyword">double</span>[W*H];
+    <span class="keyword">double</span> *Guy_I = <span class="keyword">new</span> <span class="keyword">double</span>[W*H];
+    memset( Guy_R, <span class="num">0</span>, sizeof(<span class="keyword">double</span>)*W*H);
+    memset( Guy_I, <span class="num">0</span>, sizeof(<span class="keyword">double</span>)*W*H);
+    memset( Ruv  , <span class="num">0</span>, sizeof(<span class="keyword">double</span>)*W*H);
+    memset( Iuv  , <span class="num">0</span>, sizeof(<span class="keyword">double</span>)*W*H);
+    <span class="keyword">const</span> <span class="keyword">double</span> w0W = <span class="num">2</span> * M_PI / (<span class="keyword">double</span>)W; 
+    <span class="keyword">const</span> <span class="keyword">double</span> w0H = <span class="num">2</span> * M_PI / (<span class="keyword">double</span>)H; 
+
+    <span class="rem">//横方向 fxy --&gt; Guy_Re + i Guy_Im</span>
+#pragma omp parallel <span class="keyword">for</span> 
+    <span class="keyword">for</span>( <span class="keyword">int</span> y = <span class="num">0</span>; y &lt; H; ++y )
+    {
+        <span class="keyword">for</span>( <span class="keyword">int</span> u = <span class="num">0</span>; u &lt; W; ++u)
+        {
+            <span class="keyword">const</span> <span class="keyword">int</span> uyIdx = u + y*W;
+
+            <span class="keyword">for</span>( <span class="keyword">int</span> x = <span class="num">0</span>; x &lt; W; ++x){
+                Guy_R[ uyIdx ] +=  fxy[x + y*W] * cos( w0W * x * u );
+                Guy_I[ uyIdx ] += -fxy[x + y*W] * sin( w0W * x * u );
+            }
+            Guy_R[ uyIdx ] /= W;
+            Guy_I[ uyIdx ] /= W;
+        }
+    }
+
+    <span class="rem">//縦方向 Guy_Re + i Guy_Im --&gt; Ruv + Iuv;</span>
+#pragma omp parallel <span class="keyword">for</span> num_threads(threadNum)
+    <span class="keyword">for</span>( <span class="keyword">int</span> u = <span class="num">0</span>; u &lt; W; ++u)
+    {
+        <span class="keyword">for</span>( <span class="keyword">int</span> v = <span class="num">0</span>; v &lt; H; ++v)
+        {
+            <span class="keyword">const</span> <span class="keyword">int</span> uvIdx = u + v*W;
+
+            <span class="keyword">for</span>( <span class="keyword">int</span> y = <span class="num">0</span>; y &lt; H; ++y)
+            {
+                <span class="keyword">double</span> s = sin( -w0H * y * v ), c = cos( -w0H * y * v );
+                Ruv[ uvIdx ] +=  Guy_R[ u + y*W ] * c - Guy_I[ u + y*W ] * s;
+                Iuv[ uvIdx ] +=  Guy_R[ u + y*W ] * s + Guy_I[ u + y*W ] * c;
+            }
+            Ruv[ uvIdx ] /= H; 
+            Iuv[ uvIdx ] /= H;
+        }
+    }
+    delete[] Guy_R;
+    delete[] Guy_I;
+}
+
+
+<span class="rem">//逆フーリエ変換</span>
+<span class="keyword">void</span> t_fourieTrans2D_invert_3( <span class="keyword">const</span> <span class="keyword">int</span> W, <span class="keyword">const</span> <span class="keyword">int</span> H, <span class="keyword">const</span> <span class="keyword">double</span> *Ruv, <span class="keyword">const</span> <span class="keyword">double</span> *Iuv, <span class="keyword">double</span> *fxy)
+{
+    <span class="keyword">double</span> *gvx_r = <span class="keyword">new</span> <span class="keyword">double</span>[ W*H ];
+    <span class="keyword">double</span> *gvx_i = <span class="keyword">new</span> <span class="keyword">double</span>[ W*H ];
+    memset( gvx_r, <span class="num">0</span>, sizeof(<span class="keyword">double</span>)*W*H);
+    memset( gvx_i, <span class="num">0</span>, sizeof(<span class="keyword">double</span>)*W*H);
+    memset( fxy  , <span class="num">0</span>, sizeof(<span class="keyword">double</span>)*W*H);
+
+    <span class="keyword">const</span> <span class="keyword">double</span> w0W = <span class="num">2</span> * M_PI / (<span class="keyword">double</span>)W; 
+    <span class="keyword">const</span> <span class="keyword">double</span> w0H = <span class="num">2</span> * M_PI / (<span class="keyword">double</span>)H; 
+
+    <span class="rem">//横方向 (u) Ruv + i Iuv --&gt; gxv_r + i gxv_i </span>
+#pragma omp parallel <span class="keyword">for</span> num_threads(threadNum)
+    <span class="keyword">for</span>( <span class="keyword">int</span> v = <span class="num">0</span>; v &lt; H; ++v )
+    {
+        <span class="keyword">for</span>( <span class="keyword">int</span> x = <span class="num">0</span>; x &lt; W; ++x)
+        {
+            <span class="keyword">const</span> <span class="keyword">int</span> vxIdx = x + v*W;
+
+            <span class="keyword">for</span>( <span class="keyword">int</span> u = <span class="num">0</span>; u &lt; W; ++u){
+                <span class="keyword">const</span> <span class="keyword">int</span> uvIdx = u + v*W;
+                <span class="keyword">double</span> c = cos( w0W * x * u ), s = sin( w0W * x * u ) ;
+                gvx_r[vxIdx] += Ruv[uvIdx] * c - Iuv[uvIdx] * s;
+                gvx_i[vxIdx] += Ruv[uvIdx] * s + Iuv[uvIdx] * c;
+            }
+        }
+    }
+
+    <span class="rem">//縦方向 gxv_r + i gxv_i --&gt; fxy</span>
+#pragma omp parallel <span class="keyword">for</span> num_threads(threadNum)
+    <span class="keyword">for</span>( <span class="keyword">int</span> x = <span class="num">0</span>; x &lt; W; ++x )
+    {
+        <span class="keyword">for</span>( <span class="keyword">int</span> y = <span class="num">0</span>; y &lt; H; ++y)
+        {
+            <span class="keyword">const</span> <span class="keyword">int</span> xyIdx = x + y * W;
+            <span class="keyword">for</span>( <span class="keyword">int</span> v = <span class="num">0</span>; v &lt; H; ++v)
+            {
+                fxy[xyIdx] += gvx_r[ x+v*W ] * cos( w0H * y * v )
+                            - gvx_i[ x+v*W ] * sin( w0H * y * v );
+            }
+        }
+    }
+    delete[] gvx_r;
+    delete[] gvx_i;
+}
+
+</pre>
+  　　　この実装のほうが上の実装 (t_fourieTrans2D_1(...), t_fourieTrans2D_invert_1(...))
+  に比べてだいぶ速い<br>
+  <br>
+  <br>
+  　　todo 高速フーリエ変換, 畳み込み <br>
+<br>
+
+  <div id="footer"> Copyright 2010~ Takashi Ijiri(井尻敬), All rights reserved.</div>
+</div></blockquote>
+ </body></html>

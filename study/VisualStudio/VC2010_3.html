@@ -1,0 +1,164 @@
+﻿<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="Keywords" content="井尻敬,User Interface,Computer Graphics">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.1.0 for Windows">
+<title>Visual Studio memo</title>
+<link rel="stylesheet" type="text/css" media="screen" href="brict.css">
+<style type="text/css" media="screen">
+<!--
+/* Source Code CSS */
+pre.code {
+    font-size: 12px;
+    /* line-height:1.2em; */
+    border:1px solid #aaa;
+    background:#f0f0f0;
+    padding:0.5em; 
+    overflow: auto;
+}
+pre.code span.tag		{
+	color: #0000ff;	
+}
+pre.code span.attr 		{
+	color: #000; 		
+}
+pre.code span.value		{
+	color: #900; 		
+}
+pre.code span.str 		{
+	color: #009900; 	
+}
+pre.code span.num 		{
+	color: #009900; 	
+}
+pre.code span.keyword	        {
+	color: #0000ff; 	
+}
+pre.code span.rem		{
+	color: #909; 		
+}
+pre.code span.variable	        {
+	color: #500050;	
+}
+<!--
+-->
+</style>
+</head>
+<body>
+<div id="headerspacer"></div>
+<div id="col2o2">
+  <blockquote>
+  <div id="col2o2content">
+    <hr>
+    <h1>Visual studio メモ 3 --<b>CImage で bmp jpeg png tifを読む</b> (2012/08/14)--</h1>
+    <hr>
+    <hr>
+    　環境 　　: Visual Studio 2010 + Windows 7<br>
+    　参考url : <a href="http://msdn.microsoft.com/ja-jp/library/bwea7by5">http://msdn.microsoft.com/ja-jp/library/bwea7by5</a><br>
+    <hr>
+    　<b><br>
+    　Load (CImage::GetPixelを使う(遅い))</b> <br>
+    <pre class="code">
+<span class="keyword">static</span> bool t_loadImg1(<span class="keyword">const</span> <span class="keyword">char</span> *fname, <span class="keyword">int</span> &amp;W, <span class="keyword">int</span> &amp;H, <span class="keyword">byte</span>* rgba)
+{
+    CImage pic;
+    <span class="keyword">if</span>( !SUCCEEDED( pic.Load( _T(fname) ) ) ) <span class="keyword">return</span> false;<span class="rem">//bmp jpeg png tiff画像の読み込み(bmp jpegのみ動作確認済み)</span>
+    
+    W    = pic.GetWidth ();
+    H    = pic.GetHeight();
+    rgba = <span class="keyword">new</span> <span class="keyword">byte</span>[W*H*<span class="num">4</span>];
+
+    <span class="keyword">for</span>( <span class="keyword">int</span> y=<span class="num">0</span>, i=<span class="num">0</span>; y&lt;H; ++y     )
+    <span class="keyword">for</span>( <span class="keyword">int</span> x=<span class="num">0</span>     ; x&lt;W; ++x, ++i)
+    {
+        COLORREF c = pic.GetPixel( x, y );<span class="rem">//画素値get (ここが非常に遅い)</span>
+        rgba [ i*<span class="num">4</span> + <span class="num">0</span>] = GetRValue(c); <span class="rem">//画素値コピー</span>
+        rgba [ i*<span class="num">4</span> + <span class="num">1</span>] = GetGValue(c); <span class="rem">//画素値コピー</span>
+        rgba [ i*<span class="num">4</span> + <span class="num">2</span>] = GetBValue(c); <span class="rem">//画素値コピー</span>
+        rgba [ i*<span class="num">4</span> + <span class="num">3</span>] = <span class="num">128</span>;
+    }
+    <span class="keyword">return</span> true;
+}</pre>
+    　やってる事は<br>
+    　1)CImage::Load()で画像を読み込んで<br>
+    　2)CImage::GetWidth() / GetHeight()で画像サイズをもらって<br>
+    　3)CImage::GetPixel()で画素値をCOLORREFでもらう<br>
+    <br>
+    <br>
+    　<b>Load (CImage::GetPixelAddressを使う)</b><br>
+    　GetPixelが遅いので、PixelのAddressに直接アクセスした方が良い。<br>
+    　画素が24bitsのときのみ、Addressから直接RGBを得るよう書き直したのが以下。
+    <pre class="code">
+<span class="keyword">static</span> bool t_loadImg2(<span class="keyword">const</span> <span class="keyword">char</span> *fname, <span class="keyword">int</span> &amp;W, <span class="keyword">int</span> &amp;H, <span class="keyword">byte</span>* rgba)
+{
+    CImage pic;
+    <span class="keyword">if</span>( !SUCCEEDED( pic.Load( _T(fname) ) ) ) <span class="keyword">return</span> false;<span class="rem">//bmp jpeg png tiff画像の読み込み(bmp jpegのみ動作確認済み)</span>
+    
+    <span class="keyword">int</span> pitch   = pic.GetPitch();
+    <span class="keyword">if</span>( pitch &lt; <span class="num">0</span>) pitch *= -<span class="num">1</span>;
+    <span class="rem">//↑メージのピッチ(行方向のバイト数)を返します。</span>
+    <span class="rem">//戻り値が負の値の場合、ビットマップは左下隅を起点とする逆方向 (下から上) の DIB です。</span>
+    <span class="rem">//戻り値が正の値の場合、ビットマップは左上隅を起点とする順方向 (上から下の向き) の DIB です</span>
+
+    W    = pic.GetWidth ();
+    H    = pic.GetHeight();
+    rgba = <span class="keyword">new</span> <span class="keyword">byte</span>[W*H*<span class="num">4</span>];
+
+    <span class="keyword">int</span> byteNum = pitch / W; <span class="rem">//これが1pixelあたりのバイト数</span>
+
+    <span class="keyword">if</span>( byteNum == <span class="num">3</span> ) <span class="rem">//24bit color </span>
+    {
+        <span class="keyword">for</span>( <span class="keyword">int</span> y=<span class="num">0</span>, i=<span class="num">0</span>; y&lt;H; ++y     )
+        <span class="keyword">for</span>( <span class="keyword">int</span> x=<span class="num">0</span>     ; x&lt;W; ++x, ++i)
+        {
+            <span class="rem">//RGB(24bit)に対するアドレスをbyteにキャストしてるので, R G B順の一番下位のBを指すものになる</span>
+            <span class="keyword">byte</span> *c = (<span class="keyword">byte</span>*)pic.GetPixelAddress( x, y );
+            rgba[ i*<span class="num">4</span> + <span class="num">3</span>] = <span class="num">128</span>;
+            rgba[ i*<span class="num">4</span> + <span class="num">2</span>] = *c ; ++c;
+            rgba[ i*<span class="num">4</span> + <span class="num">1</span>] = *c ; ++c;
+            rgba[ i*<span class="num">4</span> + <span class="num">0</span>] = *c ; 
+        }
+    }
+    <span class="keyword">else</span> <span class="rem">//その他</span>
+    {
+        <span class="keyword">for</span>( <span class="keyword">int</span> y=<span class="num">0</span>, i=<span class="num">0</span>; y&lt;H; ++y     )
+        <span class="keyword">for</span>( <span class="keyword">int</span> x=<span class="num">0</span>     ; x&lt;W; ++x, ++i)
+        {
+            COLORREF c = pic.GetPixel( x, y );
+            rgba[ i*<span class="num">4</span> + <span class="num">3</span>] = <span class="num">128</span>;
+            rgba[ i*<span class="num">4</span> + <span class="num">0</span>] = GetRValue(c);
+            rgba[ i*<span class="num">4</span> + <span class="num">1</span>] = GetGValue(c);
+            rgba[ i*<span class="num">4</span> + <span class="num">2</span>] = GetBValue(c);
+        }
+    } 
+    <span class="keyword">return</span> true;
+}
+</pre>
+    　このコードは、jpeg/bmpで動作確認済み。<br>
+    　24bitでない画像や、Color table付きのtifなどはもう少し細かな処理が必要になる。<br>
+    　<br>
+    　以下は、GetPixelAddressの(私の)イメージ。24bitで1ブロック(RGB)なので、<br>
+    　例えばCOLORREF(32bit)とかにキャストすると(e.g. (COLORREF*)GetPixelAddress(x,y))、<br>
+    　端っこで1byte分踏み越えて、不正アクセスが発生して、最悪落ちる。<br>
+    <br>
+    　下図では、隣の画素値が、メモリ上でも隣にあるように書いてあるが、それがいつも保障されているかは不明。<br>
+    <br>
+    <table border="0">
+      <tbody>
+        <tr>
+          <td><img src="VS3GetPixelAddress.png" width="498" height="417" border="0">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+    　このページにあるコードの動作の保証はできません。自己責任で使ってください。ライセンスは<a href="http://www.kmonos.net/nysl/">NYSL Version 0.9982</a>です。<br>
+    <hr />
+    
+    <div id="footer">Copyright 2012~ Takashi Ijiri(井尻敬), All rights reserved.</div>
+  </div>
+  </blockquote>
+</div>
+</body>
+</html>

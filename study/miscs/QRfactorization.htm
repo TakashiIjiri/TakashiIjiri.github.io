@@ -1,0 +1,180 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"  "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja">
+<head>
+<title>QR factorization</title>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.1.0 for Windows">
+<style type="text/css">
+<!--
+body       {
+	background-color:white; margin:0px 0px 0px 0px;
+}
+p          {
+	margin:0px; text-align:left; font-size:88%; font-family:"ＭＳ 明朝","serif";
+}
+h1         {
+	margin:0px; text-align:left; font-size:100%; font-family:"ＭＳ 明朝","serif";
+}
+div.WordSection1
+           {
+	page:WordSection1;
+}
+.c1        {
+	layout-grid:24px;
+}
+.c2        {
+	text-align:center;
+}
+.c3        {
+	line-height:16px;
+}
+.c4        {
+	text-align:right; line-height:16px;
+}
+.c5        {
+	font-size:133%;
+}
+.c6        {
+	font-size:105%;
+}
+.c7        {
+	font-size:105%;
+}
+.c8        {
+	font-size:100%; font-family:"ＭＳ 明朝","serif";
+}
+.c9        {
+	font-size:100%; font-family:"ＭＳ 明朝","serif"; position:relative; top:6px;
+}
+.c10       {
+	color:red;
+}
+-->
+</style>
+</head>
+<body lang="ja">
+
+
+<p><a href="../index.html">戻る</a> <a href="../../index.html">topへ</a><br></p>
+
+<blockquote>
+<div align="center">
+  <div class="WordSection1 c1">
+    <p class="c2"><font size="+1"><strong><span class="c5">ハウスホルダー(Householder)変換を用いたQR&nbsp;分解(factorization)&nbsp;</span></strong></font></p>
+    <p class="c3"><font size="+1"><strong><span class="c6">&nbsp;</span></strong></font></p>
+    <p class="c3"><font size="+1"><strong><span class="c6">概要:</span></strong><span class="c6">QR分解とは，</span><span class="c7">行列<strong>A</strong>&nbsp;（<em>n</em>×<em>m</em>,&nbsp;<em>n&nbsp;</em>&gt;&nbsp;<em>m</em>,&nbsp;rank(<strong>A</strong>)&nbsp;=&nbsp;<em>m</em>）を直交行列</span><strong><span class="c6">Q</span></strong><span class="c7">(<em>n</em>×<em>n</em>)</span><span class="c6">と上三角行列<strong>R</strong></span><span class="c7">(<em>n</em>×<em>m</em>)の積に分解する手法である</span><span class="c6">．連立方程式を解くときなどに活躍する．ここでは，グラムシュミットの直交化を用いたQR分解とHouseholder変換を用いたQR分解のアルゴリズムをまとめる</span></font></p>
+    <p class="c2"><font size="+1"><span class="c6"><img width="239" height="102" src="QRfactorization/QRfactorization-001.png" alt=""></span></font></p>
+    <p class="c2"><font size="+1"><span class="c7">図1.&nbsp;QR分解</span></font></p>
+    <p class="c2"><font size="+1"><span class="c7">&nbsp;</span></font></p>
+    <h1><font size="+2" style="font-size : 150%;"><u>グラムシュミットの直交化を用いたQR分解</u></font></h1>
+    <p><font size="+1"><em><span class="c7">n</span></em><span class="c7">×<em>m</em>行列<strong>A</strong>&nbsp;(<em>n&nbsp;</em>&gt;&nbsp;<em>m</em>)，rank(<strong>A</strong>)&nbsp;=&nbsp;<em>m</em>は，<em>n</em>×<em>n</em>直交行列<strong>Q</strong>と<em>n</em>×<em>m</em>上三角行列<strong>R</strong>の積，<strong>A</strong>=<strong>QR</strong>と分解できる（図1）．</span></font></p>
+    <p><font size="+1"><strong><span class="c7">&nbsp;</span></strong></font></p>
+    <p><font size="+1"><strong><span class="c7">A</span></strong><span class="c7">の<em>i</em>列を列ベクトル<strong>a</strong><em><sub>i</sub></em>で表す,&nbsp;A=(<strong>&nbsp;a</strong><em><sub>1&nbsp;</sub></em><strong>a</strong><em><sub>2&nbsp;…&nbsp;</sub></em><strong>a</strong><em><sub>m</sub></em>)．rank(<strong>A</strong>)&nbsp;=&nbsp;<em>m</em>なので，グラムシュミットの直交化により，<em>m</em>本の直交ベクトル<strong>b</strong><em><sub>i</sub></em>が取得できる．</span></font></p>
+    <p style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="373" height="96" src="QRfactorization/QRfactorization-002.png" alt=""></span></font><br>
+    </p>
+    <p><font size="+1"><span class="c7">上式を次のように整理すると，</span></font><br>
+    </p>
+    <p><font size="+1"><span class="c7">&nbsp;</span></font></p>
+    <p style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="245" height="96" src="QRfactorization/QRfactorization-003.png" alt=""></span></font><br>
+    </p>
+    <p><font size="+1"><span class="c7">&nbsp;</span></font></p>
+    <p><font size="+1"><span class="c7">次の関係は明らかである．</span></font></p>
+    <p style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="403" height="72" src="QRfactorization/QRfactorization-004.png" alt=""></span></font><br>
+    </p>
+    <p><font size="+1"><strong><span class="c7">&nbsp;</span></strong></font></p>
+    <p style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="289" height="72" src="QRfactorization/QRfactorization-005.png" alt=""></span></font><br>
+    </p>
+    <p><font size="+1"><span class="c7">&nbsp;</span></font></p>
+    <p><font size="+1"><span class="c7">ここでBを直交化したいので，<strong>BX</strong>の間に，対角行列<strong>D</strong>=diag(||<strong>b</strong><sub>1</sub>||,&nbsp;||<strong>b</strong><sub>2</sub>||,&nbsp;…,&nbsp;||<strong>b</strong><em><sub>m</sub></em>||),&nbsp;<strong>D</strong><sup>-1</sup>=diag(1/||<strong>b</strong><sub>1</sub>||,&nbsp;1/||<strong>b</strong><sub>2</sub>||,&nbsp;…,&nbsp;1/||<strong>b</strong><em><sub>m</sub></em>||),を挟む</span></font></p>
+    <p style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="312" height="24" src="QRfactorization/QRfactorization-006.png" alt=""></span></font></p>
+    <p><font size="+1"><span class="c7">&nbsp;</span></font></p>
+    <p><font size="+1"><span class="c7">n×m行列<strong>Q</strong>&nbsp;=&nbsp;(<strong>b</strong><sub>1/</sub>||<strong>b</strong><sub>1</sub>||,&nbsp;<strong>b</strong><sub>2/</sub>||<strong>b</strong><sub>2</sub>||,&nbsp;…&nbsp;,&nbsp;<strong>b</strong><sub>m</sub>/||<strong>b</strong><sub>m</sub>||)の列ベクトルは，<em>n</em>次元空間のm本の正規直行規定をなし，Rは上三角行列である(図2左)．<strong>Q</strong>を直交行列にしたいので，<strong>b</strong><em><sub>i</sub></em>/||<strong>b</strong><em><sub>i</sub></em>||に直交する(<em>n&nbsp;&#8211;&nbsp;m</em>)本の単位ベクトルを適当に選び，これを並べた各列に並べた行列を<strong>Q</strong><sub>1</sub>とする．すると，</span></font><br>
+    </p>
+    <p style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="111" height="48" src="QRfactorization/QRfactorization-007.png" alt=""></span></font></p>
+    <p><font size="+1"><span class="c7">となり目的のQR分解を得られる．(<strong>Q&nbsp;Q</strong><sub>1</sub>)は<em>n</em>×<em>n</em>直交行列である(図2右)．</span></font></p>
+    <p class="c2"><font size="+1"><strong><span class="c6"><img width="650" height="140" src="QRfactorization/QRfactorization-008.png" alt=""></span></strong></font></p>
+    <p class="c2"><font size="+1"><span class="c7">図2,&nbsp;QR分解</span></font></p>
+    <p class="c2"><font size="+1"><span class="c7">&nbsp;</span></font></p>
+    <p><font size="+1"><span class="c7">グラムシュミットの直交化法を用いるとQR分解が計算できる．しかし，グラムシュミットの直交化法は，逐次的に，既存のベクトルに直交する成分を引き延ばして利用する（正規化する）ため，計算機を用いて計算する場合には，数値的に不安定になる．これから説明するHouseholder変換を用いた方が安定といわれている．</span></font></p>
+    <p><font size="+1"><span class="c7">&nbsp;</span></font></p>
+    <p><font size="+1"><span class="c7">&nbsp;</span></font></p>
+    <h1><font size="+1"><u>Householder&nbsp;変換を用いたQR分解</u></font></h1>
+    <p><font size="+1"><span class="c7">&nbsp;</span></font></p>
+    <p class="c3"><font size="+1"><strong><span class="c6">Householder変換</span></strong><span class="c6">とは，長さ等しい2本の<em>n</em>次元ベクトル<strong>x</strong>,&nbsp;<strong>y</strong>が与えられた時(||<strong>x</strong>||=||<strong>y</strong>||)，次のn×n行列<strong>H</strong>で定義される線形変換のことである．</span></font></p>
+    <p class="c3" style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="202" height="48" src="QRfactorization/QRfactorization-009.png" alt=""></span></font></p>
+    <p class="c3"><font size="+1"><strong><span class="c6">I</span></strong><em><sub><span class="c6">n</span></sub></em><span class="c6">は<em>n</em>×<em>n</em>単位行列である．この変換は，<strong>&nbsp;x</strong>を<strong>y</strong>に，<strong>y</strong>をに移す変換である．</span></font></p>
+    <p class="c3" style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="329" height="48" src="QRfactorization/QRfactorization-010.png" alt=""></span></font></p>
+    <p class="c3" style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="326" height="48" src="QRfactorization/QRfactorization-011.png" alt=""></span></font></p>
+    <p class="c3" style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="541" height="48" src="QRfactorization/QRfactorization-012.png" alt=""></span></font></p>
+    <p class="c3" style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="616" height="48" src="QRfactorization/QRfactorization-013.png" alt=""></span></font></p>
+    <p class="c3"><font size="+1"><span class="c6">&nbsp;</span></font></p>
+    <p><font size="+1"><span class="c6">よって<strong>Hx</strong>=<strong>y</strong>であり,<strong>&nbsp;Hy</strong>=<strong>x</strong>も同様に示せる．</span><span class="c7">上の変形において&nbsp;<strong>x</strong><sup>T</sup><strong>x</strong>=&nbsp;<strong>y</strong><sup>T</sup><strong>y</strong>,<strong>y</strong><sup>T</sup><strong>x</strong>=&nbsp;<strong>x</strong><sup>T</sup><strong>y</strong>を用いた．また，Householder変換行列は，直交行列である．</span></font></p>
+    <p><font size="+1"><strong><span class="c7">&nbsp;</span></strong></font></p>
+    <p style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="650" height="48" src="QRfactorization/QRfactorization-014.png" alt=""></span></font></p>
+    <p><font size="+1"><span class="c7">&nbsp;</span></font></p>
+    <p><font size="+1"><strong><span class="c7">Householder変換を用いたQR分解.&nbsp;</span></strong><span class="c7">上記のHouseholder変換を用いて，QR分解を行う方法を考える．n×m行列<strong>A</strong>(n&gt;m)が与えられ，<em>k</em>-1個のn×n直交行列<strong>H</strong><sub>1</sub><strong>,&nbsp;H</strong><sub>2,…,</sub><strong>H</strong><em><sub>k</sub></em><sub>-1</sub>により既に<em>k</em>-1列目まで上三角行列に分解されているとする;</span></font></p>
+    <p style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="329" height="96" src="QRfactorization/QRfactorization-015.png" alt=""></span></font></p>
+    <p><font size="+1"><span class="c7">ここで「上式に左乗すると，<em>k</em>-1列目までの上三角性を失わず，<em>k</em>列目の<em>k</em>+1~<em>n</em>成分までをゼロにする．」という性質を満たすHouseholder変換<strong>H</strong><em><sub>k</sub></em>を求める．</span></font></p>
+    <p><font size="+1"><span class="c7">&nbsp;</span></font></p>
+    <p><font size="+1"><span class="c7">天下り的だが，<strong>u</strong>&nbsp;=(&nbsp;<strong>0&nbsp;u</strong><em><sub>k&nbsp;</sub></em>),&nbsp;&nbsp;<strong>0</strong>&#8714;R<em><sup>k-1</sup></em>,&nbsp;&nbsp;<strong>u</strong><em><sub>k</sub></em>&nbsp;&#8714;R<em><sup>n-k+1</sup></em>&nbsp;というベクトル<strong>u</strong>が作るHouseholder行列は，&nbsp;</span></font></p>
+    <p style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="222" height="72" src="QRfactorization/QRfactorization-016.png" alt=""></span></font></p>
+    <p><font size="+1"><span class="c7">となり，これを式(1)の左辺に左乗する．</span></font></p>
+    <p style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="589" height="96" src="QRfactorization/QRfactorization-017.png" alt=""></span></font><br>
+    </p>
+    <p><font size="+1"><span class="c7">上式より，k-1列目までの上三角性は失われない事が分かる．さらに，<em>k</em>列目の<em>k</em>+1~<em>n</em>行の要素をゼロにしたい．つまり以下を満たす，<strong>u</strong><em><sub>k</sub></em>を取得したい．<br>
+    </span></font></p>
+    <p style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="229" height="72" src="QRfactorization/QRfactorization-018.png" alt=""></span></font><br>
+    </p>
+    <p><font size="+1"><span class="c7">上式の</span><span class="c9"><img width="112" height="24" src="QRfactorization/QRfactorization-019.png" alt=""></span><span class="c7">は，n-k+1次元のHouseholder変換であるので，<strong>u</strong><em><sub>k</sub></em>を以下のように定義すればよい．</span></font><br>
+    </p>
+    <p style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="486" height="72" src="QRfactorization/QRfactorization-020.png" alt=""></span></font><br>
+    </p>
+    <p><font size="+1"><span class="c7">上の±はどちらの符号を選んでも良いが，<strong>x</strong>の第１成分と逆の符号を選んだ方が，桁落ちが少ない(<strong>u</strong>=<strong>x</strong>-<strong>y</strong>なので，同符号だと引き算による桁落ちの可能性がある)．</span></font></p>
+    <p><font size="+1"><span class="c7">&nbsp;</span></font></p>
+    <p><font size="+1"><span class="c7">この<strong>u</strong><em><sub>k</sub></em>により定義されるhouseholder変換</span></font></p>
+    <p style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="193" height="48" src="QRfactorization/QRfactorization-021.png" alt=""></span></font></p>
+    <p><font size="+1"><span class="c7">を式(1)の両辺に左乗すると</span></font></p>
+    <p style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="541" height="120" src="QRfactorization/QRfactorization-022.png" alt=""></span></font></p>
+    <p><font size="+1"><span class="c7">と<em>k</em>列目まで対角化できる．これを，<em>m</em>回繰り返すと，<br>
+    </span></font></p>
+    <p style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="233" height="96" src="QRfactorization/QRfactorization-023.png" alt=""></span></font></p>
+    <p><font size="+1"><span class="c7">&nbsp;</span></font></p>
+    <p><font size="+1"><span class="c7">と上三角化できる．Householder変換の積&nbsp;</span><span class="c9"><img width="120" height="24" src="QRfactorization/QRfactorization-024.png" alt=""></span><span class="c7">は直交行列なので，<strong>H</strong><sup>-1</sup><strong>=H</strong><sup>T</sup>を両辺に左乗すると</span></font><br>
+    </p>
+    <p style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="148" height="72" src="QRfactorization/QRfactorization-025.png" alt=""></span><a name="_GoBack"></a></font></p>
+    <p><font size="+1"><span class="c7">とQR分解が得られる(<strong>Q</strong>=<strong>H</strong><sup>T</sup>)．</span></font></p>
+    <p><font size="+1"><span class="c7">&nbsp;</span></font></p>
+    <p><font size="+1"><span class="c7">&nbsp;</span></font></p>
+    <h1><font size="+1"><u>Householder変換によるQR分解アルゴリズム</u></font></h1>
+    <p><font size="+1">&nbsp;</font></p>
+    <p><font size="+1"><span class="c7">+<strong>A-1</strong>)n×m行列<strong>A,&nbsp;</strong>n&gt;m,&nbsp;rank(<strong>A)</strong>=mが入力される．</span></font></p>
+    <p><font size="+1"><span class="c7">+<strong>A-2)</strong>準備</span></font></p>
+    <p><font size="+1"><span class="c7">　　　　n×m行列Rを用意し&nbsp;<strong>R</strong>←<strong>A</strong></span></font></p>
+    <p><font size="+1"><span class="c7">　　　　n×n行列Qを用意し&nbsp;<strong>Q</strong>←<strong>I</strong><em><sub>n&nbsp;</sub></em><span class="c10">(用途によっては必要ない)</span></span></font></p>
+    <p><font size="+1"><span class="c7">+<strong>&nbsp;A-3)</strong>以下をm回繰り返す</span></font></p>
+    <p><font size="+1"><strong><span class="c7">　　　　</span></strong><span class="c7">+<strong>&nbsp;A-3-1)&nbsp;</strong>k番目のHouseholder変換を次のように求める．</span></font></p>
+    <p style="text-align : center;" align="center"><font size="+1"><span class="c8"><img width="542" height="72" src="QRfactorization/QRfactorization-026.png" alt=""></span></font></p>
+    <p><font size="+1"><strong><span class="c7">　　　　</span></strong><span class="c7">+&nbsp;<strong>A-3-2</strong>)<strong>&nbsp;R</strong></span><strong><span class="c7">←</span></strong><span class="c9"><img width="18" height="24" src="QRfactorization/QRfactorization-027.png" alt=""></span><strong><span class="c7">R&nbsp;&nbsp;(H</span></strong><em><sub><span class="c7">m</span></sub></em><strong><span class="c7">H</span></strong><em><sub><span class="c7">m</span></sub></em><sub><span class="c7">-1…</span></sub><strong><span class="c7">H</span></strong><sub><span class="c7">1</span></sub><strong><span class="c7">A</span></strong><span class="c7">を求めている<strong>)</strong></span></font></p>
+    <p><font size="+1"><span class="c7">&nbsp;&nbsp;&nbsp;&nbsp;　　+<strong>&nbsp;A-3-3</strong>)<strong>&nbsp;Q←</strong></span><span class="c9"><img width="18" height="24" src="QRfactorization/QRfactorization-027.png" alt=""></span><strong><span class="c7">Q&nbsp;&nbsp;(H</span></strong><span class="c7">=<strong>H</strong><em><sub>m</sub></em>&nbsp;<strong>H</strong><em><sub>m</sub></em><sub>-1…</sub><strong>H</strong><sub>1</sub>を求めている.<span class="c10">用途によっては必要ない</span><strong>)</strong></span></font></p>
+    <p><font size="+1"><span class="c7">+<strong>&nbsp;A-4)&nbsp;A</strong>&nbsp;=&nbsp;<strong>Q</strong><sup>T</sup><strong>R</strong>が得られる</span></font></p>
+    <p class="c3"><font size="+1"><span class="c7">&nbsp;</span></font></p>
+    <p class="c3"><font size="+1"><span class="c7">高速化のための注意.</span></font></p>
+    <p class="c3"><font size="+1"><span class="c6">1)&nbsp;上記アルゴリズムにおいて，Qは計算する必要のない事が多い(例えば<strong>Ax</strong>=<strong>b</strong>の線形システムを解くときなどは<strong>Q</strong>=</span><strong><span class="c7">&nbsp;H</span></strong><em><sub><span class="c7">m</span></sub></em><span class="c7">&nbsp;<strong>H</strong><em><sub>m</sub></em><sub>-1…</sub><strong>H</strong><sub>1</sub></span><span class="c6">の代わりに</span><strong><span class="c7">H</span></strong><em><sub><span class="c7">m</span></sub></em><span class="c7">&nbsp;<strong>H</strong><em><sub>m</sub></em><sub>-1…</sub><strong>H</strong><sub>1</sub><strong>b</strong></span><span class="c6">を求めればよい．)．</span></font></p>
+    <p class="c3"><font size="+1"><span class="c6">2)<strong>&nbsp;u&nbsp;u</strong><em><sup>T</sup></em><strong>H</strong>&nbsp;(<strong>u</strong>&#8714;R<sup>n</sup>,&nbsp;<strong>H</strong>&#8714;R<sup>n×n</sup>)という積の計算が必要になるが，これを(<strong>u&nbsp;u</strong><em><sup>T</sup></em>)<strong>&nbsp;H</strong>と行列どうしの積にするとO(n<sup>3</sup>)かかるので，<strong>&nbsp;u&nbsp;</strong>(<strong>u</strong><em><sup>T</sup></em><strong>H)</strong>と計算する必要がある．後者だとO(n<sup>2</sup>)になる．</span></font></p>
+    <p><font size="+1"><strong><span class="c7">&nbsp;</span></strong></font></p>
+    <p><font size="+1"><strong><span class="c7">&nbsp;</span></strong></font></p>
+    <p><font size="+1"><strong><span class="c7">&nbsp;</span></strong></font></p>
+    <p><font size="+1"><span class="c7">参考文献</span></font></p>
+    <p><font size="+1"><span class="c7">[1]</span>&nbsp;D.A.ハーヴィル&nbsp;(著),&nbsp;伊理&nbsp;正夫&nbsp;(監訳),&nbsp;<span class="c7">統計のための行列代数&nbsp;上.</span></font></p>
+    <p><font size="+1"><strong><span class="c7">&nbsp;</span></strong></font></p>
+    <p class="c4"><font size="+1"><strong><span class="c6">井尻敬&nbsp;@&nbsp;生物情報基盤,&nbsp;理研&nbsp;</span></strong></font></p>
+    <p class="c4"><font size="+1"><strong><span class="c6">勉強した日&nbsp;2012/4/12</span></strong></font></p>
+  </div>
+</div>
+</blockquote>
+</body>
+</html>
+
