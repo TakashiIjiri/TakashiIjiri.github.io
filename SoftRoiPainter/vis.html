@@ -1,0 +1,195 @@
+﻿<html>
+
+
+<head>
+<meta charset="utf-8">
+<title>RoiPainter Visualization</title>
+
+<link rel="stylesheet" type="text/css" media="screen" href="roipainter.css">
+
+<style type="text/css" media="screen">
+<!--
+-->
+</style>
+</head>
+
+
+
+
+
+
+
+<body>
+<div id="MainBody">
+
+<h1>RoiPainter Visualization</h1>
+<p align="right"><a href="../index.html">back to top</a></p>
+
+
+<img src="img/RoiPainter.png" class="ProjImg">
+
+<hr>
+<h2>
+<a href="index.html">RoiPainter</a>           &nbsp;&nbsp;  
+<a href="io.html">I/O</a> &nbsp;&nbsp;
+<a href="vis.html">Visualization</a> &nbsp;&nbsp;
+<a href="segm/index.html">Segmentation</a> &nbsp;&nbsp;
+</h2>
+
+
+<hr>
+<h2>Visualization in RoiPainter</h2>
+<div class="ProjAbst">
+RoiPainterでは，3つのVisualizationモードが使用可能です．<br>
+起動 : Click "Menu &gt; ModeSwitch &gt; to start visualization mode"<br>
+<br>
+<ol style="line-height:1.5em; padding-left:1em;">
+
+        <div class="StdBlock">
+            <ol>
+                <li><a href="#normal"><font class="vtmode">Visualization Normal</font></a></li>
+                <li><a href="#polar"><font class="vtmode">Visualization Polar Cordinate</font></a></li>
+                <li><a href="#mask"><font class="vtmode">Visualization Mask</font></a></li>
+            </ol>
+        </div>
+    
+</ol>
+</div>
+<br>
+<br>
+
+<hr>
+<h2 id="normal">Visualization Normal</h2>
+<div class = "ProjAbst">
+基本のVisualizationモード．入力データをそのまま観察する．
+<br><br>
+<img src="img/vis_normal.png" width="400">
+</div>
+
+<div = class="StdBlock">
+<table border="0">
+    <tbody>
+        <tr>
+            <td>　
+                <img src="img/dialog_volinfo.png" width="300">
+            </td>
+            <td style="padding:1em; line-height: 1.4em;">
+
+<font class="vtmanu">Size</font> 固定<br>
+<font class="vtmanu">Pitch</font> スライスの間隔<br>
+<font class="vtmanu">WinLv</font> <br>
+<font class="vtmanu">Frame</font> 枠の表示<br>
+<font class="vtmanu">Volume</font> 3次元モデルの表示<br>
+<font class="vtmanu">White/Gray/Black</font> 背景色の変更<br>
+<font class="vtmanu">Psuedo</font> 疑似モデルの表示<br>
+<font class="vtmanu">gradient</font> 勾配の表示<br>
+<font class="vtmanu">XY/YZ/ZX</font> 各平面のスライスの表示<br>
+<font class="vtmanu">Trans slider</font> psuedoの透明度設定<br>
+<font class="vtmanu">Slice slider</font> <br>
+<font class="vtmanu">transFunc1</font> L-dragで操作<br>
+<font class="vtmanu">transFunc2</font> L-dragで操作<br>
+<br>
+＊このダイアログはすべてのモード共通です．
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<div = class="StdBlock">
+<table border="0">
+    <tbody>
+        <tr>
+            <td>　
+                <img src="img/dialog_normal.png" width="300">
+            </td>
+            <td style="padding:1em; line-height: 1.4em;">
+
+<font class="vtmanu">Voxel Value</font> マウス位置の輝度値を表示<br>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<br>
+<br>
+
+<hr>
+<h2 id="polar">Visualization Polar Cordinate</h2>
+<div class = "ProjAbst">
+気象データ用のVisualizationモード．
+<br><br>
+<img src="img/vis_polar.png" width="400">
+</div>
+
+<div = class="StdBlock">
+<table border="0">
+    <tbody>
+        <tr>
+            <td>　
+                <img src="img/dialog_polar.png" width="400">
+            </td>
+            <td style="padding:1em; line-height: 1.4em;">
+
+<font class="vtmanu">d1. slice1/2</font> スライスの表示（check）と変更（slider）<br>
+<font class="vtmanu">d2. radius</font> 底面の半径の変更<br>
+<font class="vtmanu">d3. Phi1/2</font> slice2の角度の下限/上限<br>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<br>
+<br>
+
+<hr>
+<h2 id="mask">Visualization Mask</h2>
+<div class = "ProjAbst">
+マスクしたデータを見るためのVisualizationモード．Storeしたデータをまとめて見ることができる．抽出した部位ごとに色を変えるなどして可視化できる．
+<br><br>
+<img src="img/vis_mask.png" width="400">
+</div>
+
+<div = class="StdBlock">
+<table border="0">
+    <tbody>
+        <tr>
+            <td>　
+                <img src="img/dialog_mask.png" width="400">
+            </td>
+            <td style="padding:1em; line-height: 1.4em;">
+
+<font class="vtmanu">d1. Mask list</font> 保存したマスクの情報<br>
+<font class="vtmanu">d2. Transparency slider</font> 透明度設定<br>
+<font class="vtmanu">d3. Lock check box</font> <br>
+<font class="vtmanu">d4. Color botton</font> マスクの色変更（Color）<br>
+<font class="vtmanu">d5. Rend surface</font> Surfaceの描画<br>
+<font class="vtmanu">d6. Morpho operation</font> <br>
+<font class="vtmanu">d7. Delete/Marge region</font> マスクの削除とマージ<br>
+<font class="vtmanu">d8. Export</font> 出力<br>
+<font class="vtmanu">d9. Gen new region</font> <br>
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<br>
+
+<br>
+
+    <hr>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+ 
+</body>
+</html>

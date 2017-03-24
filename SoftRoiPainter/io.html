@@ -1,0 +1,207 @@
+﻿<html>
+
+
+<head>
+<meta charset="utf-8">
+<title>RoiPainter I/O</title>
+
+<link rel="stylesheet" type="text/css" media="screen" href="roipainter.css">
+
+<style type="text/css" media="screen">
+<!--
+-->
+</style>
+</head>
+
+
+
+
+
+
+
+<body>
+<div id="MainBody">
+
+<h1>RoiPainter I/O</h1>
+<p align="right"><a href="../index.html">back to top</a></p>
+
+
+<img src="img/RoiPainter.png" class="ProjImg">
+
+<hr>
+<h2>
+<a href="index.html">RoiPainter</a>           &nbsp;&nbsp;  
+<a href="io.html">I/O</a> &nbsp;&nbsp;
+<a href="vis.html">Visualization</a> &nbsp;&nbsp;
+<a href="segm/index.html">Segmentation</a> &nbsp;&nbsp;
+</h2>
+
+
+
+
+
+
+<hr>
+<h2>I/O in RoiPainter</h2>
+
+<div = class="ProjAbst">
+RoiPainterでのデータの読み込みと書き出しについての説明です．
+</div>
+
+<div class="IoTop">
+<div class="IoTopL">
+    <img src="img/io_menu.png" width="200pt"><br><br><br><br>
+    <img src="img/miscs_menu.png" width="180pt">
+</div>
+<div class="IoTopR">
+    <b>Open data</b><br>
+    <a href="#D1">D-1) file &gt; Open traw3d (.traw3d_ss, .pvm)</a><br>
+    <a href="#D2">D-2) file &gt; Open Weather data (.txt)</a><br>
+    <a href="#D3">D-3) file &gt; Open slices (bmp, tif)</a><br>
+    <a href="#D4">D-4) file &gt; Open DCM slices (.dcm)</a><br>
+    <a href="#D5">D-5) file &gt; Open 3D DCM (.dcm)</a><br>
+    <br>
+    <b>Save and Load mask</b><br>
+    <a href="#M1">M-1) file &gt; Save Mask</a><br>
+    <a href="#M2">M-2) file &gt; Load Mask</a><br>
+    <br>
+    <b>Export volume</b><br>
+    <a href="#Ev1">Ev-1) file &gt; Export Volume As traw3d_ss</a><br>
+    <br>
+    <b>Export and Import camera position</b><br>
+    <a href="#C1">C-1) MISCS &gt; Export Current Camera</a><br>
+    <a href="#C2">C-2) MISCS &gt; Import Camera Position</a><br>
+    <br>
+</div>
+</div>
+
+<br>
+<br>
+<hr>
+<h2>Open data</h2>
+<div class="ProjAbst">
+
+    <div id="D1" class="IoListCap"> D-1) file &gt; Open traw3d (.traw3d_ss, .pvm)</div>
+    <ul class="IoList">
+        <li>独自形式 traw3d_ss ファイルを読み込みます．
+        このファイルは，ピッチ情報を持ち，一つの画素をsigned short（16bit）として保持します．
+        データフォーマットの詳細は，<a href="http://www.riken.jp/brict/Ijiri/flowerctlib/index.html">こちら</a>を参照してください．</li>
+    </ul>
+
+    <div id="D2" class="IoListCap"> D-2) file &gt; Open Weather data (.txt)</div>
+    <ul class="IoList">
+        <li>
+            開発者用の項目です．テキスト形式で保持された3次元気象データを読み込みます．
+        </li>
+    </ul>
+
+    <div id="D3" class="IoListCap"> D-3) file &gt; Open slices (bmp, tif)</div>
+    <ul class="IoList">
+        <li>
+            bmpまたはtifスライス画像を読み込みます．
+        </li>
+    </ul>
+
+    <div id="D4" class="IoListCap"> D-4) file &gt; Open DCM slices (.dcm)</div>
+    <ul class="IoList">
+        <li>Dicom スライス画像を読み込みます．実装にはDCMTKを利用しています．</li>
+    </ul>
+
+    <div id="D5" class="IoListCap"> D-5) file &gt; Open 3D DCM (.dcm)</div>
+    <ul class="IoList">
+        <li>3次元Dicom画像（ひとつのDicomファイルで3次元画像を保持する形式）を読み込みます．</li>
+    </ul>
+
+
+</div>
+
+
+<br>
+<br>
+<hr>
+<h2>Save and Load mask</h2>
+<div class="ProjAbst">
+
+    <div id="M1" class="IoListCap"> M-1) file &gt; Save Mask</div>
+    <ul class="IoList">
+        <li>作成したマスクデータを独自形式（.msk）で保存します．</li>
+    </ul>
+
+    <div id="M2" class="IoListCap"> M-2) file &gt; Load Mask</div>
+    <ul class="IoList">
+        <li>マスクデータ（.msk）を読み込みます．作成中のマスクデータが上書きされるので注意してください．</li>
+    </ul>
+
+</div>
+
+<br>
+<br>
+<hr>
+<h2>Export volume</h2>
+<div class="ProjAbst">
+
+    <div id="Ev1" class="IoListCap"> Ev-1) file &gt; Export Volume As traw3d_ss</div>
+    <ul class="IoList">
+        <li>
+            現在読み込んである画像データをtraw3d_ss形式にて保存します．
+        </li>
+    </ul>
+
+
+</div>
+
+<br>
+<br>
+<hr>
+<h2>Export and Import camera position</h2>
+<div class="ProjAbst">
+
+    <div id="C1" class="IoListCap"> C-1) MISCS &gt; Export Current Camera</div>
+    <ul class="IoList">
+        <li>現在のカメラ位置をテキスト形式で保存します．論文の図表作成などに利用するために実装しました．</li>
+    </ul>
+
+    <div id="C2" class="IoListCap"> C-2) MISCS &gt; Import Camera Position</div>
+    <ul class="IoList">
+        <li>上で保存したカメラ位置情報を読み込み，カメラ位置を移動します．</li>
+    </ul>
+
+</div>
+
+<br>
+<br>
+<hr>
+<h2>入力データを積み重ねる方向について</h2>
+<div id="stack" class="ProjAbst">
+<br>
+RoiPainterは，bmp/dcm/tifなど二次元スライス画像や，traw3d_ss/3d dicomなどの3次元画像を読み込みます．<br>
+これら3次元画像は，左上が原点（windowsの仕様）の二次元画像を積み重ねた構造を持ちます．<br>
+<br>
+画像データ・マスクデータの読み込み後，RoiPainterは以下のダイアログを表示します．<br>
+このダイアログより画像をスタックする方向を指定してください．<br>
+※ dcmなど積み重ねる方向をデータ内に含む画像については，自動的に決定されます．<br>
+<br>
+<img src="img/z_stack_dialog.png" width="400pt"><br>
+<br>
+ダイアログ中の図の通り，3次元空間の原点は左上手前になります．<br>
+<b>※ 読み込み時にDescending orderを選択した場合，その後画像やマスクをexportすると，z軸方向に反転したものが出力されます．</b><br>
+<b>※ 画像とマスクは同じスタック方向を指定する必要があります．</b><br>
+
+
+</div>
+
+
+
+
+<br>
+
+    <hr>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+ 
+</body>
+</html>
