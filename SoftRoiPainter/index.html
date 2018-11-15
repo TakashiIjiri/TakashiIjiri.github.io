@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="utf-8">
-<title>RoiPainter</title>
+<title>RoiPainter3D</title>
 
 <link rel="stylesheet" type="text/css" media="screen" href="roipainter.css">
 
@@ -33,6 +33,7 @@
 <a href="io.html">I/O</a> &nbsp;&nbsp;
 <a href="vis.html">Visualization</a> &nbsp;&nbsp;
 <a href="segm/index.html">Segmentation</a> &nbsp;&nbsp;
+<a href="https://github.com/InteractiveGraphicsLab/RoiPainter3Dv2"> source code</a> &nbsp;&nbsp;
 </h2>
 
 
@@ -40,24 +41,45 @@
 
 <h3>概要</h3>
 <div class="ProjAbst">
-    RoiPainterは，X線CTやMRI装置で撮影された三次元画像を観察・領域分割するためのソフトウエアです．
-    井尻敬（芝浦工業大学/慶應大学）が主体となり，芝浦工大・立命館大・慶応大の学生，の協力のもと開発しています．
-    ソースコードはGPLにて公開を予定しています．</br>
-
-    </br>
-    RoiPainterの起動には，Visual Studio 2015 runtimeが必要です．起動しない場合は以下をインストールしてください．<br>
-    <a href="https://www.microsoft.com/ja-JP/download/details.aspx?id=48145">Visual Studio 2015 Runtime </a><br>
-    </br>
+    RoiPainter3Dは，X線CTやMRI装置で撮影された三次元画像を観察・領域分割するためのソフトウエアです．
+    井尻敬（芝浦工業大学/慶應大学SFC）が主体となり，芝浦工大・立命館大・慶応大の学生の協力のもと開発しています．</br>
+    2018年11月より，C++/CLIベースの開発に切り替え，オープンソース化しました．</br>
+    <a href="https://github.com/InteractiveGraphicsLab/RoiPainter3Dv2"> git hub リポジトリはこちら．</a></br>
     </br>
     本ソフトウエアは研究のためのプロトタイプです．<br>
     開発者，開発協力者，及び，開発者所属機関は，本ソフトウエアを利用して起きた損害に関し責任を負いません．<br>
+    </div>
+
+
+<h3>起動方法</h3>
+<div class="ProjAbst">
+    zipファイルをダウンロード・展開し，exeファイルをダブルクリックしてください．<br>
+    実行環境はwindowsで，Windows 7のみで動作を確認しています．<br>
+    実行には（それなりに力のある）GPUを搭載した計算機が必要です．<br>
+    <br>
+    RoiPainterの起動には，Visual Studio 2017 runtime（古いRoiPainterにはVisual Studio 2015 runtime）が必要です．<br>
+    実行ファイルをダブルクリックしても起動しない場合は以下をインストールしてください．<br>
+<a href="https://www.microsoft.com/ja-JP/download/details.aspx?id=48145">Visual Studio 2015 Runtime </a><br>
+<a href="https://visualstudio.microsoft.com/ja/downloads/?q=#other-ja">Visual Studio 2017 再頒布可能パッケージ （ページの下のほうにあります） </a><br>
+    </br>
 </div>
+</br>
 
     <hr>
 
 
 <h3>Download</h3>
 <div class="ProjAbst">
+
+  <a href="roipainter3dv2_20181114.zip">roipainter3dv2_20181114.zip</a><br>
++ C++/CLIベースに書き直し．<br>
++ オープンソース化<br>
+※ Thresh Field Paint は未実装（今後対応予定）<br>
+※ .fav ファイルは未実装（今後対応予定, Fav1.1に対応する予定）<br>
+※ bmpをマスクとしてimportする機能は未実装（対応予定<br>
+<br>
+<br>
+
 
   <a href="RoiPainter20180618.zip">RoiPainter20180618.zip</a><br>
   Add import mask (bmp slice) function.マスクデータのインポート機能を追加. <br>
