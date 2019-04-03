@@ -3,7 +3,7 @@
 
 <head>
 <meta charset="utf-8">
-<title>Graph Cut</title>
+<title>Threshold Paint</title>
 
 <link rel="stylesheet" type="text/css" media="screen" href="../roipainter.css">
 
@@ -22,18 +22,19 @@
 <body>
 <div id="MainBody">
 
-<h1>Graph Cut Segmentation</h1>
+<h1>Treshold Paint Segmentation</h1>
 <p align="right"><a href="../../index.html">back to top</a></p>
 
 
-<img src="../img/RoiPainter.png" class="ProjImg">
+<img src="../img/RoiPainter3D.png" class="ProjImg">
 
 <hr>
 <h2>
-<a href="../index.html">RoiPainter</a>           &nbsp;&nbsp;  
+<a href="../index.html">RoiPainter</a>           &nbsp;&nbsp;
 <a href="../io.html">I/O</a> &nbsp;&nbsp;
 <a href="../vis.html">Visualization</a> &nbsp;&nbsp;
 <a href="index.html">Segmentation</a> &nbsp;&nbsp;
+<a href="https://github.com/InteractiveGraphicsLab/RoiPainter3Dv2"> source code (github)</a> &nbsp;&nbsp;
 </h2>
 
 
@@ -43,16 +44,16 @@
     <a href="index.html"><font class="vtmode">Segmentation Top</font></a><br>
     <ul>
         <li><a href="seg_RG.html"><font class="vtmode">1) Segmentation Region Growing</font></a></li>
-        <li><a href="seg_GC.html"><font class="vtmode">2) Segmentation Graph Cut</font></a> ← this page</li>
+        <li><a href="seg_GC.html"><font class="vtmode">2) Segmentation Graph Cut</font></a></li>
         <li><a href="seg_LRG.html"><font class="vtmode">3) Segmentation Local Region Growing</font></a></li>
-        <li><a href="seg_TP.html"><font class="vtmode">4) Segmentation Threshold Paint</font></a></li>
+        <li><a href="seg_TP.html"><font class="vtmode">4) Segmentation Threshold Paint</font></a> ← this page</li>
     </ul>
 </div>
 
 
 
 <hr>
-<h2>2) Graph Cut</h2>
+<h2>4) Threshold Paint</h2>
 
 <div = class="ProjAbst">
 概要
@@ -64,10 +65,10 @@
 <h2>Workflow</h2>
 
 <ol style="line-height:1.5em; padding-left:4.0em;">
-    <li>ツールの起動 : Click "Menu &gt; ModeSwitch &gt; Segmentation Graph Cut" </li>
+    <li>ツールの起動 : Click "Menu &gt; ModeSwitch &gt; Segmentation Treshold Paint" </li>
     <li> : </li>
-    <li>領域分割 : Graph Cut法により領域分割を行う．</li>
-    <li><a href="../vis.html#mask">>終了 : ダイアログ右下のFinishを押す．</a></li>
+    <li>領域分割 : Threshold Paintにより領域分割を行う．</li>
+    <li><a href="../vis.html#mask">>終了 : ダイアログ右下のFinish And Storeを押す．</a></li>
 </ol>
 
 
@@ -88,7 +89,7 @@
                 <iframe title="votracerbasic1" class="youtube-player" type="text/html" width="640" height="480" src="" frameborder="0"></iframe>
             </td>
             <td style="padding:1em;">
-                <font class="vtmanu">操作</font><br> 動作<br>             
+                <font class="vtmanu">操作</font><br> 動作<br>
                 <br>
                 <font class="vtmanu">L-drag </font><br> 移動<br>
                 <br>
@@ -112,17 +113,14 @@
     <tbody>
         <tr>
             <td>　
-                <img src="../img/dialog_GC.png" width="260">
+                <img src="../img/dialog_TP.png" width="280">
             </td>
             <td style="padding:1em; line-height: 1.4em;">
 
 <font class="vtmanu">d1. 名称</font> 役割<br>
 <font class="vtmanu">d2. </font> <br>
-<font class="vtmanu">d3. </font> <br>
-<font class="vtmanu">d4. </font> <br>
-<font class="vtmanu">d5. </font> <br>
-<font class="vtmanu">d6. cancel</font> 作業中止（作業内容が消えるため要注意）<br>
-<font class="vtmanu">d7. FINISH</font> 作業終了，Vizualization maskへ移動<br>
+<font class="vtmanu">d3. cancel</font> 作業中止（作業内容が消えるため要注意）<br>
+<font class="vtmanu">d4. Finish And Store</font> 作業終了，Vizualization maskへ移動<br>
 
 <br><br>
 説明
@@ -144,6 +142,6 @@
     <br>
     <br>
     <br>
- 
+
 </body>
 </html>
