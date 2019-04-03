@@ -1,0 +1,589 @@
+/* this is the new corporate style of the brict */
+
+html, body {
+    margin :0;
+	padding:0;
+	color  :#222222;
+	background:#fff;
+	font:100% Helvetica;
+}
+
+
+
+
+/*for all elements*/
+*{padding:0; margin:0;}
+
+
+
+#MainBody
+{
+    position:absolute;
+    top     :10pt;
+    left    :10pt;
+    width   :700pt;
+
+    border-left :1px solid Gray;
+    border-right:1px solid Gray;
+    z-index :3;
+}
+
+
+
+
+
+
+/* h1,h2,h3,h4 */
+h1 {
+    color     :#EEEEEE ;
+
+    /*background*/
+    /*background:#AA0000 ;*/
+    background:-moz-linear-gradient(left,
+        #AA0000 0%,
+        #AA0000 5%,
+        #333333 5%,
+        #333333 100%);
+
+    background:-webkit-gradient(linear, left top,right top,
+        from(#AA0000),
+        color-stop(0.05, #AA0000),
+        color-stop(0.05, #333333),
+        to(#333333));
+
+	font      :bold 120% Verdana, Arial, Helvetica, sans-serif;
+    padding   :0.5em 0.0em 0.5em 3.0em;
+	margin    :0;
+	
+	/*-webkit-border-top-left-radius    : 10px; */
+    /*-webkit-border-top-right-radius   : 10px; */
+    /*-webkit-border-bottom-right-radius: 10px; */s
+    -webkit-border-bottom-left-radius : 10px;  
+    /*-moz-border-radius-topleft    : 10px;*/ 
+    /*-moz-border-radius-topright   : 10px;*/  
+    /*-moz-border-radius-bottomright: 10px;*/
+    -moz-border-radius-bottomleft : 10px; 	
+}
+
+h2 {
+    margin-left:-1em;
+    padding:0.5em 1em 0.5em 3em;
+}
+
+h3 {
+    font:bold 100%/1em Verdana, Arial, Helvetica, sans-serif;
+	margin:0;
+    padding:0.5em 1em 0.5em 3em;
+	padding-bottom:0;
+	line-height:1.5;
+}
+
+h4 {
+	font:bold 80%/1em Verdana, Arial, Helvetica, sans-serif;
+	margin:0;
+	padding:0.5em 1em 0.5em 1em; 
+	line-height:1.5;
+}
+
+
+
+
+p {
+	line-height:1.5;
+	padding:0.25em 1em 0 1em;
+}
+
+hr {
+	color:#555555;
+	border:1px solid #555555;
+	background-color:#fff;
+	height:1px;
+	margin-left:1em;
+}
+
+address {
+	padding:0.5em 1em 0.5em 1em;
+	font-style:normal;
+	line-height:1.5;
+}
+
+a:link    {color:#AA0000;}
+a:visited {color:#550000;}
+a:hover   {color:#CC0000;}
+
+
+
+ul { 
+	margin     :0 0 0 1.0em;
+	padding    :0 0 0 0.0em;
+    line-height:2.0;
+}
+
+.StdBlock
+{
+    margin: 0em 3em 1em 2em;
+    text-align:justify;    
+    line-height:140%;
+}
+
+
+
+/*-------------------INFO-----------------------*/
+#Info
+{
+    position:relative;
+    width   :700pt   ;
+    height  :430pt   ;
+}
+
+#InfoLeft
+{
+    float   :left;
+	top     :30pt;
+	width   :320pt;
+    
+    text-align : center;
+	
+	padding:2em 0em 0em 0em;
+}
+
+#InfoRight
+{
+    float   :left;
+	top     :30pt;
+	width   :380pt;
+	padding :3.5em 0em 0em 0em;
+	line-height:2.0em;
+}
+
+#InfoBottom
+{
+    float      :left ;
+	width      :700pt;
+    text-align :left;
+    margin     :2em 2em 0em 3em;
+}
+
+
+
+
+
+
+/*------------------Research Intersts-------------*/
+#IntBio
+{
+    position:relative;
+    width   :700pt;
+}
+
+
+
+#IntBioCont
+{
+    position:relative;
+    padding :1em 2em 1em 3em;
+    line-height:160%
+}
+
+
+#BioTable
+{
+    padding : 1em 1em 1em 3em;
+}
+
+#BioTable td:nth-child(1)
+{
+    width      :70pt;
+    text-align :left;
+/*    text-indent:2em;*/
+    padding    :0.3em 0 0 0;
+}
+
+#BioTable td:nth-child(2)
+{
+    width     :75pt;
+    text-align:left;
+    padding   :0.3em 0 0 0;
+}
+
+#BioTable td:nth-child(3)
+{
+    text-align:left;
+    padding   :0.3em 0 0 0;
+}
+
+
+
+
+
+
+/*-----------------Publications--------------------*/
+#Publication
+{
+    position:relative;
+    width   :700pt;
+}
+
+.PubTable
+{   
+    padding:1em 0 1em 3em
+}
+
+.PubTable td:nth-child(1)
+{
+    width:125pt;
+    text-align :left;
+}
+
+.PubTable td:nth-child(2)
+{
+    width:400pt;
+    text-align:left;
+}
+
+
+
+
+
+/*-----------------MISCS--------------------*/
+#Miscs
+{
+    position:relative;
+    width   :700pt;
+}
+
+.AwdTable
+{
+    padding: 0.5em 0 0 3em;
+}
+
+.AwdTable td:nth-child(1)
+{
+    width      :70pt;
+    text-align :left;
+    padding    : 0.3em 0em 0em 0em;
+}
+
+.AwdTable td:nth-child(2)
+{
+    text-align:left;
+    padding: 0.3em 0em 0em 0em;
+}
+
+
+
+
+
+.FundTable
+{
+    padding: 0.5em 0 0 3em;
+}
+
+.FundTable td:nth-child(1)
+{
+    width      :150pt;
+    text-align :left;
+    padding: 0.3em 0em 0em 0em;
+}
+
+.FundTable td:nth-child(2)
+{
+    text-align:left;
+    padding: 0.3em 0em 0em 0em;
+}
+
+
+
+
+#footer {
+	background:#fff;
+	font-size:11px;
+	margin-top:10px;
+	padding:1em 2em 1em 2em;
+	text-align:center;
+    border-top:1px solid gray;
+	clear:both; 
+}
+
+
+
+
+ol.PubList
+{
+    margin: 0 1em 1em 3em;
+}
+
+ol.PubList li 
+{
+    margin    : 0.7em 0 0 0;
+    text-align:justify;
+    font-size :12pt;
+}
+
+ul.PubList1
+{
+    margin: 0 1em 1em 3em;
+}
+
+ul.PubList1 li 
+{
+    margin    : 0.7em 0 0 0;
+    text-align:justify;
+    font-size :12pt;
+}
+
+
+ul.MyList
+{
+    margin: 0em 1em 1em 3em;
+}
+
+ul.MyList li 
+{
+    margin    : 0.1em 0 0 0;
+    text-align:justify;
+    font-size :12pt;
+}
+
+
+
+
+
+.ProjImg
+{
+    margin:0 2em 0 3em;
+    width:600pt;
+}
+
+
+.ProjAbst
+{
+    margin:0 3em 1em 3em;
+    text-align:justify;
+}
+
+
+
+
+
+
+/* Source Code CSS */
+pre.code {
+    font-size: 12px;
+    /* line-height:1.2em; */
+    border:1px solid #aaa;
+    background:#f0f0f0;
+    padding:0.5em; 
+    overflow: auto;
+    margin:1em 2em 1em 2em;
+}
+pre.code span.tag		{
+	color: #0000ff;	
+}
+pre.code span.attr 		{
+	color: #000; 		
+}
+pre.code span.value		{
+	color: #900; 		
+}
+pre.code span.str 		{
+	color: #009900; 	
+}
+pre.code span.num 		{
+	color: #009900; 	
+}
+pre.code span.keyword	{
+	color: #0000ff; 	
+}
+pre.code span.rem		{
+	color: #909; 		
+}
+pre.code span.variable	{
+	color: #500050;	
+}
+
+
+
+
+
+.FlwLibTbl
+{
+    margin:2em 2em 2em 2em;
+}
+
+.FlwLibTbl th
+{
+    height    : 50pt ;
+    width     : 120pt;
+    text-align: center;
+    vertical-align : middle;
+    padding:0em 1em 0em 1em;
+    background:#eeeeee;
+}
+
+.FlwLibTbl td:nth-child(1)
+{
+    width     : 120pt;
+    height    : 100pt;
+    text-align: left ;
+    border    : 1 solid #00001f;    
+    padding   : 0em 1em 0em 1em;  
+}
+
+.FlwLibTbl td:nth-child(2),td:nth-child(3),td:nth-child(4)
+{
+    text-align:center;
+    border: 1 solid #00001f;    
+}
+
+
+.FlwLibImg
+{
+    width :90pt;
+    height:90pt;
+}
+
+/*------IO------*/
+.IoTop
+{
+    width : 800pt;
+    height: 270pt;
+    vertical-align:middle;
+}
+
+.IoTopL
+{
+    float : left;
+    width : 150pt;
+    margin: 2em 0 0 2em;
+}
+
+.IoTopR
+{
+    line-height: 1.3em;
+    float : left;
+    width : 500pt;
+    margin: 1em 0 0 2em;
+}
+
+
+
+
+.IoListCap
+{
+    margin-top:10pt;
+    color:#0000ff;
+    font-weight:700;    
+}
+
+ul.IoList
+{
+    margin: 0.5em 0 0 2.5em;
+}
+
+ul.IoList li
+{
+    margin: 0em 0 0 -1.5em;
+    line-height:1.5em;
+}
+
+
+
+
+/*------Basic------*/
+.BasicTop
+{
+    width : 800pt;
+    height: 300pt;
+    vertical-align:middle;
+}
+
+.BasicTopL
+{
+    float : left;
+    width : 250pt;
+    margin: 1em 0 0 2em;
+}
+
+.BasicTopR
+{
+    line-height: 1.6em;
+    float : left;
+    width : 400pt;
+    margin: 2em 0 0 2em;
+}
+
+
+
+.BasicL
+{
+    float : left;
+    width : 480pt;
+    margin: 1em 0 0 2em;
+}
+.BasicR
+{
+    line-height: 1.6em;
+    float : left;
+    width : 250pt;
+    margin: 2em 0 0 2em;
+}
+
+
+.BasicL1
+{
+    float : left;
+    width : 350pt;
+    margin: 2em 0 0 2em;
+}
+.BasicR1
+{
+    line-height: 1.6em;
+    float : left;
+    width : 400pt;
+    margin: 2em 0 0 2em;
+}
+
+.vtmanu
+{
+    font-weight:700;
+    color:Blue;
+}
+
+
+.vtmode
+{
+    font-weight:700;
+    color:green;
+}
+
+
+/*------Vis------*/
+
+.VisL
+{
+    float : left;
+    width : 150pt;
+    margin: 2em 0 0 2em;
+}
+.VisR
+{
+    line-height: 1.3em;
+    float : left;
+    width : 500pt;
+    margin: 1em 0 0 2em;
+}
+
+.VisL1
+{
+    float : left;
+    width : 400pt;
+    margin: 1em 0 0 2em;
+}
+.VisR1
+{
+    line-height: 1.6em;
+    float : left;
+    width : 300pt;
+    margin: 2em 0 0 2em;
+}

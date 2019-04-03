@@ -1,0 +1,156 @@
+﻿
+<!-- saved from url=(0054)http://takashiijiri.com/SoftRoiPainter/segm/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>RoiPainter4D Segmentation</title>
+    
+    <link rel="stylesheet" type="text/css" media="screen" href="../css/roipainter.css">
+    
+    <style type="text/css" media="screen">
+    <!--
+    -->
+    </style>
+    </head>
+    
+
+
+
+
+
+
+
+<body>
+<div id="MainBody">
+
+<h1>Paint and Lasso</h1>
+
+
+<img src="../image/RoiPainter.png" class="ProjImg">
+
+<hr>
+<h2>
+  <a href="../index.html">RoiPainter4D</a> &nbsp;&nbsp;
+  <a href="../io.html">I/O</a> &nbsp;&nbsp;
+  <a href="../vis/index.html">Visualization</a> &nbsp;&nbsp;
+  <a href="index.html">Segmentation</a> &nbsp;&nbsp;
+  <a href="../ref/index.html">Refinement</a> &nbsp;&nbsp;
+</h2>
+
+
+<hr>
+<div class="ProjAbst">
+<br>
+    <a href="index.html"><font class="vtmode">Segmentation Top</font></a><br>
+    <ul>
+        <li><a href="seg_PL.html"><font class="vtmode">1) Seg Paint and Lasso</font></a> ← this page</li>
+        <li><a href="seg_TRG.html"><font class="vtmode">2) Seg Threshold and Region grow</font></a></li>
+        <li><a href="seg_RT.html"><font class="vtmode">3) Seg Rigid Tracking(ICP)</a></li>
+        <li><a href="seg_LRG.html"><font class="vtmode">4) Seg Local Region grow</font></a></li>
+        <li><!--<a href="seg_CP.html">--><font class="vtmode">5) Seg Closest Pixel(Sprout Project)</font><!--</a>--><font color="898989">(coming soon...)</font></li>
+        <li><a href="seg_PC.html"><font class="vtmode">6) Parallel Contors</font></a></li>
+    </ul>
+</div>
+
+
+
+<hr>
+<h2>1) Paint and Lasso</h2>
+
+<div =="" class="ProjAbst">
+このツールは4次元X線CT画像に対して全手動の領域分割を行い，前景領域を抽出するツールです．
+</div>
+
+
+
+<br>
+<h2>Workflow</h2>
+
+<ol style="line-height:1.5em; padding-left:4.0em;">
+    <li>ツールの起動 : Click "Menu &gt; mode switch &gt; Ssg Paint and Lasso" </li>
+    <li>スライスを合わせる：領域分割をしたいフレームとスライスを合わせる．</li>
+    <li>Paintツール，Lassoツールの選択：使用するツールを選択する．</li>
+    <li>領域分割：Paintツール，Lassoツールで全手動の領域分割を行う．</li>
+    <li>終了：ダイアログ左下，OKボタンをクリックする．</li>
+</ol>
+
+
+
+
+<br>
+<br>
+<br>
+
+
+
+
+
+<div =="" class="StdBlock">
+
+<table>
+    <tbody>
+        <tr>
+            <td>
+                <video controls width="640" height="368"><source src="./video/paintlasso.mp4"></video>
+            </td>
+            <td style="padding:1em;">
+                <font class="vtmanu">Shift+L-drag</font><br> 領域の指定<br>
+                <br>
+                <font class="vtmanu">Shift+R-drag</font><br> 領域の削除<br>
+                <br>
+                <font class="vtmanu">L-drag </font><br> 移動<br>
+                <br>
+                <font class="vtmanu">R-drag </font><br> 回転<br>
+                <br>
+                <font class="vtmanu">M-wheel</font><br> スライス移動<br>
+                <br>
+                <font class="vtmanu">M-drag </font><br> 拡大縮小<br>
+                <br>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<br>
+<br>
+    <table border="0">
+        <tbody>
+            <tr>
+                <td>
+                    <img src="./image/dialog_PL.png" width="280">
+                </td>
+                <td style="padding:1em; line-height: 1.4em;">
+                    <font class="vtmanu">d1. Paintツール</font> Paintツールに切り替え<br>
+                    <font class="vtmanu">d2. Lassoツール</font> Lassoツールに切り替え<br>
+                    <font class="vtmanu">d3. OK</font> 作業終了，領域をマスクとして保存(Vis Maskに移動)<br>
+                    <font class="vtmanu">d4. CANCEL</font> 作業中止，領域を破棄する(作業内容が消えるため要注意)<br>
+
+                    <br>
+                    まずこのツールでは領域分割したいフレームとスライスを合わせます．
+                    Paintツールでは，1ボクセルずつ領域分割ができ，LassoツールはLassoで囲った部分を領域分割できます．
+                    <br>
+                    <br>
+                    このツールは，自動的に領域分割が困難な領域分割を全手動で行います．1ボクセルから領域の指定，領域の削除が行えます．
+
+                    <br>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+<br>
+
+    <hr>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+
+</div></body></html>

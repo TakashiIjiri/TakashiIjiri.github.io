@@ -1,0 +1,145 @@
+﻿
+<!-- saved from url=(0047)http://takashiijiri.com/SoftRoiPainter/vis.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>RoiPainter Visualization</title>
+
+<link rel="stylesheet" type="text/css" media="screen" href="../css/roipainter.css">
+
+<style type="text/css" media="screen">
+<!--
+-->
+</style>
+</head>
+
+
+
+
+
+
+
+<body>
+<div id="MainBody">
+
+<h1>RoiPainter4D Visualization</h1>
+
+
+<img src="../image/RoiPainter.png" class="ProjImg">
+
+<hr>
+<h2>
+<a href="../index.html">RoiPainter4D</a> &nbsp;&nbsp;
+<a href="../io.html">I/O</a> &nbsp;&nbsp;
+<a href="../vis/index.html">Visualization</a> &nbsp;&nbsp;
+<a href="../seg/index.html">Segmentation</a> &nbsp;&nbsp;
+<a href="../ref/index.html">Refinement</a> &nbsp;&nbsp;
+</h2>
+
+
+<hr>
+<h2>Visualization in RoiPainter4D</h2>
+<div class="ProjAbst">
+RoiPainter4Dでは，2つのVisualizationモードが使用可能です．<br>
+起動 : Click "Menu &gt; mode switch &gt; to start visualization mode"<br>
+<br>
+<ol style="line-height:1.5em; padding-left:1em;">
+
+        <div class="StdBlock">
+            <ol>
+                <li><a href="index.html#normal"><font class="vtmode">Visualization Normal</font></a></li>
+                <li><a href="index.html#mask"><font class="vtmode">Visualization Mask</font></a></li>
+            </ol>
+        </div>
+
+</ol>
+</div>
+<br>
+<br>
+
+<hr>
+<h2 id="normal">Visualization Normal</h2>
+<div class="ProjAbst">
+基本のVisualizationモード．入力データをそのまま観察する．
+<br><br>
+<img src="image/vis_normal.png" width="400">
+</div>
+
+<div =="" class="StdBlock">
+<table border="0">
+    <tbody>
+        <tr>
+            <td>　
+                <img src="image/dialog_volinfo.png" width="300">
+            </td>
+            <td style="padding:1em; line-height: 1.4em;">
+
+<font class="vtmanu">Size</font> 固定<br>
+<font class="vtmanu">Pitch</font> スライスの間隔<br>
+<font class="vtmanu">WinLv</font> <br>  <!-- TODO 書く -->
+<font class="vtmanu">frame</font> 枠の表示<br>
+<font class="vtmanu">volume</font> 3次元モデルの表示<br>
+<font class="vtmanu">suedo</font> 疑似モデルの表示<br>　<!-- TODO 確認 -->
+<font class="vtmanu">Plane xy/yz/zx</font> 各平面のスライスの表示<br>
+<font class="vtmanu">BackGround whilte/black/gray</font> 背景色の変更<br>
+<font class="vtmanu">Trans</font> suedoの透明度設定<br> <!-- TODO 確認 -->
+<font class="vtmanu">Slice</font> <br> <!-- TODO 書く -->
+<font class="vtmanu">transFunc</font> L-dragで操作<br>
+<font class="vtmanu">SliderBar</font> フレーム数を操作<br>
+<br>
+＊このダイアログはすべてのモード共通です．
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<br>
+<br>
+
+<hr>
+<h2 id="mask">Visualization Mask</h2>
+<div class="ProjAbst">
+マスクしたデータを見るためのVisualizationモード．Storeしたデータをまとめて見ることができる．抽出した部位ごとに色を変えるなどして可視化できる．
+<br><br>
+<!-- <img src="./RoiPainter Visualization_files/vis_mask.png" width="400"> -->
+</div>
+
+<div =="" class="StdBlock">
+<table border="0">
+    <tbody>
+        <tr>
+            <td>　
+                <img src="image/dialog_mask.png" width="400">
+            </td>
+            <td style="padding:1em; line-height: 1.4em;">
+
+<font class="vtmanu">d1. Mask list</font> 保存したマスクの情報<br>
+<font class="vtmanu">d2. Lock check box</font> ロック設定<br>
+<font class="vtmanu">d3. color button</font> マスクの色変更（Color）<br>
+<font class="vtmanu">d4. alpha slider</font> 透明度設定<br>
+<font class="vtmanu">d5. DELETE button</font> マスクの削除<br>
+<font class="vtmanu">d6. MARGE TO button</font> マスクのマージ<br>
+<font class="vtmanu">d7. Mask operation</font> マスクの操作<br>
+
+
+            </td>
+        </tr>
+    </tbody>
+</table>
+</div>
+
+<br>
+
+<br>
+
+    <hr>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+
+
+</div></body></html>
