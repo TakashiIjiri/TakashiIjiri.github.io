@@ -23,7 +23,6 @@
 
 <img src="./image/RoiPainter.png" class="ProjImg">
 
-<hr>
 <h2>
     <a href="index.html">RoiPainter4D</a> &nbsp;&nbsp;
     <a href="io.html">I/O</a> &nbsp;&nbsp;
@@ -35,27 +34,30 @@
 
 
 <hr>
-<h2>I/O in RoiPainter4D</h2>
+
+<br>
+
+<h2>Input / Output functions of RoiPainter4D</h2>
 
 <div =="" class="ProjAbst">
 RoiPainter4Dでのデータの読み込みと書き出しについての説明です．
 </div>
 
 <div class="IoTop">
-<div class="IoTopL">
-    <img src="./image/io_menu.png" width="200"><br><br><br><br>
-</div>
-<div class="IoTopR">
-    <b>Open data</b><br>
-    <a href="io.html#D1">D-1) file &gt; Open dcm 3D</a><br>
-    <a href="io.html#D2">D-2) file &gt; Open dcm 2D</a><br>
-    <a href="io.html#D3">D-3) file &gt; Open traw 3D</a><br>
-    <br>
-    <b>Save and Load mask</b><br>
-    <a href="io.html#M1">M-1) file &gt; Save Mask(.msk4)</a><br>
-    <a href="io.html#M2">M-2) file &gt; Load Mask(.msk4)</a><br>
-    <br>
-</div>
+    <div class="IoTopL">
+      <img src="./image/io_menu.png" width="200">
+    </div>
+    <div class="IoTopR">
+      <b>Open data</b><br>
+      <a href="io.html#D1">D-1) file &gt; Open dcm 3D</a><br>
+      <a href="io.html#D2">D-2) file &gt; Open dcm 2D</a><br>
+      <a href="io.html#D3">D-3) file &gt; Open traw 3D</a><br>
+      <br>
+      <b>Save and Load mask</b><br>
+      <a href="io.html#M1">M-1) file &gt; Save Mask(.msk4)</a><br>
+      <a href="io.html#M2">M-2) file &gt; Load Mask(.msk4)</a><br>
+
+    </div>
 </div>
 
 <hr>
@@ -65,26 +67,48 @@ RoiPainter4Dでのデータの読み込みと書き出しについての説明�
     <div id="D1" class="IoListCap"> D-1) file &gt; Open dcm 3D</div>
     <ul class="IoList">
         <li>
-            3次元Dicom画像（ひとつのDicomファイルで3次元画像を保持する形式）を読み込みます．
+            複数の3次元Dicom画像を読み込みます．<br>
+            各3次元dicomファイルがひとつのフレームを表します．<br>
+            また，ファイル選択後，名前またはファイルの更新時間によりファイルを並び替えられるダイアログが表示されます．
+            このダイアログを利用して正しい順序に並び替えを行なってください．
         </li>
     </ul>
 
     <div id="D2" class="IoListCap"> D-2) file &gt; Open dcm 2D</div>
     <ul class="IoList">
         <li>
-            Dicom スライス画像を読み込みます．実装にはDCMTKを利用しています．
+            2次元dicomスライスにより構成される4次元画像を読み込みます．<br>
+            具体的には，以下のような階層で構成されるフォルダについて，top_folderを指定します．<br>
+            <br>
+            + top_folder <br>
+            --- +child_dir1<br>
+            ------ dcm_slice1<br>
+            ------ dcm_slice2<br>
+            ------ dcm_slice3<br>
+            ------ ...<br>
+            --- +child_dir2<br>
+            ------ dcm_slice1<br>
+            ------ dcm_slice2<br>
+            ------ dcm_slice3<br>
+            ------ ...<br>
+            --- +child_dir3<br>
+            ------ dcm_slice1<br>
+            ------ dcm_slice2<br>
+            ------ dcm_slice3<br>
+            ------ ...<br>
+            <br>
+            ここで child_dirTが，T番目のフレームを表します．
         </li>
     </ul>
 
     <div id="D3" class="IoListCap"> D-3) file &gt; Open traw 3D</div>
     <ul class="IoList">
         <li>
-            独自形式 traw3d_ss ファイルを読み込みます．
+            独自形式 traw3d_ss ファイル出表現された3次元画像を，複数指定します．
             このファイルは，ピッチ情報を持ち，一つの画素をsigned short（16bit）として保持します．
-            データフォーマットの詳細は，<a href="http://www.riken.jp/brict/Ijiri/flowerctlib/index.html">こちら</a>を参照してください．
+            データフォーマットの詳細については<a href="http://www.riken.jp/brict/Ijiri/flowerctlib/index.html">こちら</a>を参照してください．
         </li>
     </ul>
-
 
 </div>
 
@@ -102,7 +126,7 @@ RoiPainter4Dでのデータの読み込みと書き出しについての説明�
 
     <div id="M2" class="IoListCap"> M-2) file &gt; Load Mask(.msk4)</div>
     <ul class="IoList">
-        <li>マスクデータ（.msk4）を読み込みます．作成中のマスクデータが上書きされるので注意してください．</li>
+        <li>マスクデータ（.msk4）を読み込みます．既存のマスクデータが上書きされる事があるので注意してください．</li>
     </ul>
 
 </div>
@@ -113,7 +137,7 @@ RoiPainter4Dでのデータの読み込みと書き出しについての説明�
 <br>
 <br>
     <div id="stack" class="ProjAbst">
-        <!--<hr>
+        <hr>
         <h2>入力データを積み重ねる方向について</h2>
 
         <br>
@@ -129,7 +153,9 @@ RoiPainter4Dでのデータの読み込みと書き出しについての説明�
         ダイアログ中の図の通り，3次元空間の原点は左上手前になります．<br>
 
         -->
-        <b>※積み重ねる方向によっては鏡面反転したものが出力されます．</b><br>
+        <b>※3次元画像は積み重ねる方向によっては鏡面反転する可能性が有ります．</b><br>
+        <b>※現在dicom 3Dについては，dcmデータに記載されていないことが多いため，積み重ね方向の情報の読み込みを行なっていません．</b><br>
+        <b>※鏡面変換が起きていないか確認をお願いします．</b><br>
 
     </div>
 
