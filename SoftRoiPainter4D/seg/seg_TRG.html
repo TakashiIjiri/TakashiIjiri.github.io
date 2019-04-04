@@ -2,64 +2,62 @@
 <!-- saved from url=(0054)http://takashiijiri.com/SoftRoiPainter/segm/index.html -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <title>RoiPainter4D Segmentation</title>
-    
-    <link rel="stylesheet" type="text/css" media="screen" href="../css/roipainter.css">
-    
-    <style type="text/css" media="screen">
-    <!--
-    -->
-    </style>
-    </head>
+<title>RoiPainter4D Segmentation</title>
 
+<link rel="stylesheet" type="text/css" media="screen" href="../css/roipainter.css">
 
+<style type="text/css" media="screen">
+<!--
+-->
+</style>
+</head>
 
 
 
 
 <body>
 <div id="MainBody">
-
-<h1>Threshold and Region Grow</h1>
-
+<h1>RoiPainter4D Segmentation</h1>
 <img src="../image/RoiPainter.png" class="ProjImg">
-  <hr>
-  <h2>
-    <a href="../index.html">RoiPainter4D</a> &nbsp;&nbsp;
-    <a href="../io.html">I/O</a> &nbsp;&nbsp;
-    <a href="../vis/index.html">Visualization</a> &nbsp;&nbsp;
-    <a href="index.html">Segmentation</a> &nbsp;&nbsp;
-    <a href="../ref/index.html">Refinement</a> &nbsp;&nbsp;
-  </h2>
 
-  <hr>
-  <div class="ProjAbst">
-      <br>
-      <a href="index.html"><font class="vtmode">Segmentation Top</font></a><br>
-      <ul>
-        <li><a href="seg_PL.html"><font class="vtmode">1) Seg Paint and Lasso</font></a></li>
-        <li><a href="seg_TRG.html"><font class="vtmode">2) Seg Threshold and Region grow</font></a> ← this page</li>
-        <li><a href="seg_RT.html"><font class="vtmode">3) Seg Rigid Tracking(ICP)</font></a></li>
-        <li><a href="seg_LRG.html"><font class="vtmode">4) Seg Local Region grow</font></a></li>
-        <li><!--<a href="seg_CP.html">--><font class="vtmode">5) Seg Closest Pixel(Sprout Project)</font><!--</a>--><font color="898989">(coming soon...)</font></li>
-        <li><a href="seg_PC.html"><font class="vtmode">6) Parallel Contors</font></a></li>
-      </ul>
-  </div>
-
+<h2>
+<a href="../index.html"    >top page      </a> &nbsp;&nbsp;
+<a href="../io.html"       >I/O           </a> &nbsp;&nbsp;
+<a href="../vis/index.html">Visualization </a> &nbsp;&nbsp;
+<a href="seg/index.html"   >Segmentation  </a> &nbsp;&nbsp;
+<a href="../ref/index.html">Refinement    </a> &nbsp;&nbsp;
+code &nbsp;&nbsp;
+</h2>
 
 
 <hr>
-<h2>2) Threshold and Region grow</h2>
-
-<div =="" class="ProjAbst">
-    このツールは，4次元X線CT画像に対して領域拡張(Region Growing)や閾値処理(Thresholding)を行い，前景領域を抽出し，詳細な4次元形状モデルの作成を行うためのものです．
-
+<div class="ProjAbst">
+<br>
+    <a href="index.html"><font class="vtmode">Segmentation Top</font></a> <br>
+    <ul>
+        <li><a href="seg_PL.html"     ><font class="vtmode">1) Seg Paint and Lasso             </font></a></li>
+        <li><a href="seg_TRG.html"    ><font class="vtmode">2) Seg Threshold and Region grow   </font></a> ← this page</li>
+        <li><a href="seg_RT.html"     ><font class="vtmode">3) Seg Rigid Tracking(ICP)         </font></a></li>
+        <li><a href="seg_LRG_sph.html"><font class="vtmode">4) Seg Local Region grow (sphere)  </font></a></li>
+        <li><a href="seg_LRG_cyl.html"><font class="vtmode">5) Seg Local Region grow (cylinder)</font></a></li>
+        <li><a href="seg_PC.html"     ><font class="vtmode">6) Parallel Contors                </font></a></li>
+        <li>nearest pixel</li>
+    </ul>
 </div>
 
 
 
+<h1> Threshold and Region growing (閾値処理と領域拡張ツール)</h1>
+
+<div =="" class="ProjAbst">
+このツールは，4次元X線CT画像に対して閾値処理(Thresholding)や領域拡張(Region Growing)を行い，前景領域を抽出するものです．
+背景領域と前景領域（注目領域ROI）との輝度値の差が大きな場合に有効です．
+</div>
+
+
 <br>
-<h2>Workflow</h2>
+<hr>
+<h2>ワークフロー</h2>
 
 <ol style="line-height:1.5em; padding-left:4.0em;">
     <li>ツールの起動 : Click "Menu &gt; mode switch &gt;  Seg Threshold and Region grow" </li>
@@ -71,90 +69,50 @@
 
 
 
-
 <br>
 <br>
-<br>
-
-
+<hr>
+<h2>メインウインドウのユーザインタフェース</h2>
 <div =="" class="StdBlock">
-
-<table>
-    <tbody>
-        <tr>
-            <td>
-                <video controls width="640" height="368"><source src="./video/regiongrow.mp4"></video>
-            </td>
-            <td style="padding:1em;">
-                <font class="vtmanu">Shift + L-click</font><br>  シードの配置<br>
-                <br>
-                <font class="vtmanu">Shift + R-click(On seed)</font><br> シードの削除<br>
-                <br>
-                <font class="vtmanu">Shift + L-drag(On seed)</font><br> シードの移動<br>
-                <br>
-                <font class="vtmanu">L-drag </font><br> 移動<br>
-                <br>
-                <font class="vtmanu">R-drag </font><br> 回転<br>
-                <br>
-                <font class="vtmanu">M-wheel</font><br> スライス移動<br>
-                <br>
-                <font class="vtmanu">M-drag </font><br> 拡大縮小<br>
-                <br>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-
-<br>
-<br>
-
-
-<table border="0">
-    <tbody>
-        <tr>
-            <td>　
-                <img src="./image/dialog_TRG.png" width="280">
-            </td>
-            <td style="padding:1em; line-height: 1.4em;">
-
-<font class="vtmanu">d1. Threshold slider</font> 閾値となるCT値の設定<br>
-<font class="vtmanu">d2. All frame</font> すべてのフレームに処理を行う<br>
-<font class="vtmanu">d3. Only current frame</font> 現在選択されているフレームに対して処理を行う<br>
-<font class="vtmanu">d4. Thresholding</font> "Thresholding"による領域分割<br>
-<font class="vtmanu">d5. Region Grow</font> "Region Grow"による領域分割<br>
-<font class="vtmanu">d6. erode</font> 領域の収縮処理<br>
-<font class="vtmanu">d7. dilate</font> 領域の膨張処理<br>
-<font class="vtmanu">d8. fill hole</font> 領域内の穴埋め処理<br>
-<font class="vtmanu">d9. Finish and Store</font> 作業終了，領域をマスクとして保存(Vis Maskに移動)<br>
-<font class="vtmanu">d10. Cancel</font> 作業中止，領域を破棄する(作業内容が消えるため要注意)<br>
-
-
-<br><br>
-                Region Growingでは，シードの隣接画素を探索し，CT値がしきい値に内である画素を前景領域として抽出します．画像全体に同じ拡張規則が適用されます．
-                <br>
-                Thresholdingでは，閾値内である画素を前景領域として抽出します．画素に対して再帰的にに同じ拡張規則が適用されます．
-                <br>
-                <br>
-                RoiPainter4Dでは，シードを1つ以上配置し，閾値を設定することで領域を抽出することが可能です．また，領域の収縮，膨張，穴埋め処理を提供しています．
-
-
-
-<br>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
+  <video controls width="640" height="368"><source src="./video/regiongrow.mp4"></video>
+  <br><br>
+  <font class="vtmanu">Shift + L-click </font> :  クリックした位置にシードの配置<br>
+  <font class="vtmanu">Shift + R-click </font> :  クリックしたシードを削除<br>
+  <font class="vtmanu">Shift + L-drag  </font> :  クリックしたシードの移動<br>
+  <br>
+  <font class="vtmanu">Ctrl+L-drag </font> :  曲面切断面の描画<br>
+  <br>
+  <font class="vtmanu">Left-drag          </font> :  視点平行移動<br>
+  <font class="vtmanu">Right-drag         </font> :  視点回転<br>
+  <font class="vtmanu">Middle(Wheel)-drag </font> :  視点拡大縮小<br>
+  <font class="vtmanu">Wheel              </font> :  スライスの移動<br>
 </div>
 
 
 <br>
+<hr>
+<h2>ツールダイアログ</h2>
+<div =="" class="StdBlock">
 
-    <hr>
-    <br>
-    <br>
-    <br>
+<img src="./image/dialog_TRG.png" width="280">
+<br>
+
+<font class="vtmanu">d1. Threshold slider </font>  : 前景領域として切り出す閾値（CT画像ならCT値）を指定する<br>
+<font class="vtmanu">d2. All frame         </font> : すべてのフレームに処理を行う<br>
+<font class="vtmanu">d3. Only current frame</font> : 現在表示されているフレームのみに対して処理を行う<br>
+<font class="vtmanu">d4. Thresholding      </font> : 現在表示されているフレームのみに対して，閾値処理による領域分割を実行<br>
+<font class="vtmanu">d5. Region Grow       </font> : 現在表示されているフレームのみに対して，領域拡張法を実行する．少なくともひとつのシードが配置されている必要がある．<br>
+
+<font class="vtmanu">d6. Thresholding      </font> : 全フレームに対して，閾値処理による領域分割を実行<br>
+<font class="vtmanu">d7. Region Grow       </font> : 全フレームに対して，領域拡張法を実行する．少なくともひとつのシードが配置されている必要がある．空間的にだけでなく時間的にも隣接していれば領域を拡張する（8近傍（x,y,z,t）を利用）．<br>
+
+<font class="vtmanu">d8. erode   </font> 前景領域（全フレーム）に対して収縮処理を施す（ここでは時間方向の隣接情報は考慮せずフレームごと処理を行なう）<br>
+<font class="vtmanu">d9. dilate  </font>前景領域（全フレーム）に対して膨張処理を施す（ここでは時間方向の隣接情報は考慮せずフレームごと処理を行なう）<br>
+<font class="vtmanu">d10. fill hole</font> 前景領域（全フレーム）に対して中空領域の除去処理を施す（ここでは時間方向の隣接情報は考慮せずフレームごと処理を行なう）<br>
+<font class="vtmanu">d11. Finish and Store</font> 作業終了，領域をマスクとして保存(Vis Maskに移動)<br>
+<font class="vtmanu">d12. Cancel</font> 作業中止，領域を破棄する(作業内容が消えるため要注意)<br>
+
+<hr>
     <br>
     <br>
     <br>

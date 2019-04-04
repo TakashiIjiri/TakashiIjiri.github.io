@@ -13,19 +13,11 @@
 </head>
 
 
-
-
-
-
-
 <body>
 <div id="MainBody">
-
 <h1>RoiPainter4D Segmentation</h1>
-
 <img src="../image/RoiPainter.png" class="ProjImg">
 
-<hr>
 <h2>
 <a href="../index.html"    >top page</a> &nbsp;&nbsp;
 <a href="../io.html"       >I/O</a> &nbsp;&nbsp;
@@ -41,12 +33,13 @@ code &nbsp;&nbsp;
 <br>
     <a href="index.html"><font class="vtmode">Segmentation Top</font></a> ← this page<br>
     <ul>
-        <li><a href="seg_PL.html"><font class="vtmode">1) Seg Paint and Lasso</font></a></li>
-        <li><a href="seg_TRG.html"><font class="vtmode">2) Seg Threshold and Region grow</font></a></li>
-        <li><a href="seg_RT.html"><font class="vtmode">3) Seg Rigid Tracking(ICP)</font></a></li>
-        <li><a href="seg_LRG.html"><font class="vtmode">4) Seg Local Region grow</font></a></li>
-        <li><!--<a href="seg_CP.html">--><font class="vtmode">5) Seg Closest Pixel(Sprout Project)</font><!--</a>--><font color="898989">(coming soon...)</font></li>
-        <li><a href="seg_PC.html"><font class="vtmode">6) Parallel Contors</font></a></li>
+        <li><a href="seg_PL.html"     ><font class="vtmode">1) Seg Paint and Lasso             </font></a></li>
+        <li><a href="seg_TRG.html"    ><font class="vtmode">2) Seg Threshold and Region grow   </font></a></li>
+        <li><a href="seg_RT.html"     ><font class="vtmode">3) Seg Rigid Tracking(ICP)         </font></a></li>
+        <li><a href="seg_LRG_sph.html"><font class="vtmode">4) Seg Local Region grow (sphere)  </font></a></li>
+        <li><a href="seg_LRG_cyl.html"><font class="vtmode">5) Seg Local Region grow (cylinder)</font></a></li>
+        <li><a href="seg_PC.html"     ><font class="vtmode">6) Parallel Contors                </font></a></li>
+        <li>nearest pixel</li>
     </ul>
 </div>
 
@@ -69,11 +62,11 @@ Segmentation toolは，対象領域の特徴にあわせてうまく選択する
     シードとなる領域形状Aと等値面の閾値を与えると，その領域を等値面にフィットするように剛体変換する事で全てのフレームの分割が可能です．
     剛体運動する領域（骨など）の分割に利用できます．</li>
 
-    <li><a href="segLocalRegionGrowSphere.html"><font class="vtmode">4) Seg Local Region growing (shere) </font></a> :
+    <li><a href="seg_LRG_sph.html"><font class="vtmode">4) Seg Local Region growing (shere) </font></a> :
     球体状のシードを複数配置すると，そのシード領域内のみで領域拡張が行なわれるツールです．
     これにより，輝度値にむらのある領域でもうまく分割できる事が有ります．</li>
 
-    <li><a href="segLocalRegionGrowCylinder.html"><font class="vtmode">5) Seg Local Region growing (cylinder) </font></a> :
+    <li><a href="seg_LRG_cyl.html"><font class="vtmode">5) Seg Local Region growing (cylinder) </font></a> :
     円筒状のシードを複数配置すると，そのシード領域内のみで領域拡張が行なわれるツールです．
     これにより，輝度値にむらのある領域でもうまく分割できる事が有ります．（近々，研究発表を予定してます）</li>
 
@@ -99,6 +92,11 @@ Segmentation toolは，対象領域の特徴にあわせてうまく選択する
 </ol>
 </div>
 
-    <br>
-
+<br>
+<br>
+<br>
+<br>
+<hr>
+<br>
+<br>
 </div></body></html>
