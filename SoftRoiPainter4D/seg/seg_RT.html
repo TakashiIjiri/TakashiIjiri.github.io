@@ -2,131 +2,168 @@
 <!-- saved from url=(0054)http://takashiijiri.com/SoftRoiPainter/segm/index.html -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <title>RoiPainter4D Segmentation</title>
 
-    <link rel="stylesheet" type="text/css" media="screen" href="../css/roipainter.css">
+<title>RoiPainter4D Segmentation</title>
 
-    <style type="text/css" media="screen">
-    <!--
-    -->
-    </style>
-    </head>
+<link rel="stylesheet" type="text/css" media="screen" href="../css/roipainter.css">
 
-
-
+<style type="text/css" media="screen">
+<!--
+-->
+</style>
+</head>
 
 
 
 
+<body>
+<div id="MainBody">
+<h1>RoiPainter4D Segmentation</h1>
+<img src="../image/RoiPainter.png" class="ProjImg">
 
-    <body>
-    <div id="MainBody">
-
-    <h1>Parallel Contors</h1>
-
-    <img src="../image/RoiPainter.png" class="ProjImg">
-      <hr>
-      <h2>
-        <a href="../index.html">RoiPainter4D</a> &nbsp;&nbsp;
-        <a href="../io.html">I/O</a> &nbsp;&nbsp;
-        <a href="../vis/index.html">Visualization</a> &nbsp;&nbsp;
-        <a href="index.html">Segmentation</a> &nbsp;&nbsp;
-        <a href="../ref/index.html">Refinement</a> &nbsp;&nbsp;
-      </h2>
+<h2>
+<a href="../index.html"    >top page      </a> &nbsp;&nbsp;
+<a href="../io.html"       >I/O           </a> &nbsp;&nbsp;
+<a href="../vis/index.html">Visualization </a> &nbsp;&nbsp;
+<a href="seg/index.html"   >Segmentation  </a> &nbsp;&nbsp;
+<a href="../ref/index.html">Refinement    </a> &nbsp;&nbsp;
+code &nbsp;&nbsp;
+</h2>
 
 
-    <hr>
-    <div class="ProjAbst">
-    <br>
-        <a href="index.html"><font class="vtmode">Segmentation Top</font></a><br>
-        <ul>
-            <li><a href="seg_PL.html"><font class="vtmode">1) Seg Paint and Lasso</font></a></li>
-            <li><a href="seg_TRG.html"><font class="vtmode">2) Seg Threshold and Region grow</font></a></li>
-            <li><a href="seg_RT.html"><font class="vtmode">3) Seg Rigid Tracking(ICP)</font></a> ← this page</li>
-            <li><a href="seg_LRG.html"><font class="vtmode">4) Seg Local Region grow</font></a></li>
-            <li><!--<a href="seg_CP.html">--><font class="vtmode">5) Seg Closest Pixel(Sprout Project)</font><!--</a>--><font color="898989">(coming soon...)</font></li>
-            <li><a href="seg_PC.html"><font class="vtmode">6) Parallel Contors</font></a></li>
-        </ul>
-    </div>
-
-
-
-    <hr>
-    <h2>3) Local Region Growing</h2>
-
-    <div = class="ProjAbst">
-        このツールは，4次元X線CT画像に対して剛体追跡を行い，領域分割を行うツールです．
-    </div>
+<hr>
+<div class="ProjAbst">
+<br>
+    <a href="index.html"><font class="vtmode">Segmentation Top</font></a> <br>
+    <ul>
+        <li><a href="seg_PL.html"     ><font class="vtmode">1) Seg Paint and Lasso             </font></a></li>
+        <li><a href="seg_TRG.html"    ><font class="vtmode">2) Seg Threshold and Region grow   </font></a> ← this page</li>
+        <li><a href="seg_RT.html"     ><font class="vtmode">3) Seg Rigid Tracking(ICP)         </font></a></li>
+        <li><a href="seg_LRG_sph.html"><font class="vtmode">4) Seg Local Region grow (sphere)  </font></a></li>
+        <li><a href="seg_LRG_cyl.html"><font class="vtmode">5) Seg Local Region grow (cylinder)</font></a></li>
+        <li><a href="seg_PC.html"     ><font class="vtmode">6) Parallel Contors                </font></a></li>
+        <li>nearest pixel</li>
+    </ul>
+</div>
 
 
 
-    <br>
-    <h2>Workflow</h2>
+<h1> Rigid Tracking (ICP) (ICPによる剛体追跡ツール)</h1>
 
-    <ol style="line-height:1.5em; padding-left:4.0em;">
-        <li>ツールの起動 : Click "Menu &gt; ModeSwitch &gt; Segmentation Rigid Tracking(ICP)" </li>
-        <li>ソースサーフェスのロード : ソースとなるサーフェスをロードする．</li>
-        <li>ISOサーフェスの作成 : ソースメッシュを含むようなISOサーフェスを作成．</li>
-        <li>トラッキング : "Run Tracking with ICP"をクリック．</li>
-        <li>終了 : ダイアログ右下のFinish And Storeを押す．</li>
-    </ol>
+<br>
+<div = class="ProjAbst">
+    このツールでは，4次元画像に対して，シードとなるメッシュと等値面を生成する閾値を与える事で，
+    剛体追跡により領域分割を行うことが可能です．剛体運動をする骨領域の分割などに有効です．
+</div>
 
 
+<br>
+<hr>
+<h2>ワークフロー</h2>
+<ol style="line-height:1.5em; padding-left:4.0em;">
+    <li>ツールの起動 : 『Menu &gt; ModeSwitch &gt; Segmentation Rigid Tracking(ICP)』をクリック </li>
+    <li>ソースサーフェスの準備 : <br>
+    剛体追跡する対象領域の形状も出る（obj）を作成する必要が有ります．例えば，骨領域の一部などであれば，以下のような手順で作成が可能です．<br>
+    1. 『Seg threshol & region growing』　ツールであるフレームの骨領域全体を分割する．<br>
+    2. 得られた骨領域に対して，『Ref Stroke triming』ツールで，追跡したい部分のみを切り出す．<br>
+    3. vis maskモードで，『exp obj』により領域をmeshデータ（obj）を保存する <br>
+    </li>
+
+    <li>
+    等値面（iso surface）の作成 : <br>
+    閾値を指定して，対象領域を含むようなiso surfaceを生成する．<br>
+    上記の例のように骨領域を分割するのであれば，上記(1)にて利用した閾値を再利用すると良い結果が得られます．
+    （この処理には多少時間がかかります．）
+    </li>
+    <li>剛体追跡 : 『Run Tracking with ICP』ボタンをクリックする事で領域追跡が開始されます．</li>
+    <li>登録と終了．ダイアログ右下の『Finish And Store』をクリックすると領域をマスクとして登録できます．</li>
+</ol>
 
 
-    <br>
-    <br>
-    <br>
+
+<br>
+<hr>
+<h2>メインウインドウのユーザインタフェース</h2>
+<div =="" class="StdBlock">
+
+<br>
+動画準備中. <br>
+<br>
+<br>
+<font class="vtmanu">Shift + L-click</font><br> ソースサーフェスの移動と回転<br>
+剛体追跡の結果がおかしい場合などに，ソースサーフェスを手作業で平行移動・回転をして対象領域にあわせることが出来ます．また，修正したフレームから剛体追跡をやり直す事も可能です．
+
+<br>
+<font class="vtmanu">Ctrl+L-drag </font> :  曲面切断面の描画<br>
+<br>
+<font class="vtmanu">Left-drag </font> :  視点平行移動<br>
+<font class="vtmanu">Right-drag </font> :  視点回転<br>
+<font class="vtmanu">Middle(Wheel)-drag </font> :  視点拡大縮小<br>
+<font class="vtmanu">Wheel</font> : スライスの移動<br>
+</div>
 
 
-    <div = class="StdBlock">
+<br>
+<hr>
+<h2>ツールダイアログ</h2>
 
-    <table>
-        <tbody>
-            <tr>
-                <td>
-                    <video controls width="640" height="368"><source src="./video/seg_RT.mp4"></video>
-                </td>
-                <td style="padding:1em;">
-                    <font class="vtmanu">Shift + L-click</font><br> ソースサーフェスの移動と回転<br>
-                    <br>
-                    <br>
-                    <font class="vtmanu">L-drag </font><br> 移動<br>
-                    <br>
-                    <font class="vtmanu">R-drag </font><br> 回転<br>
-                    <br>
-                    <font class="vtmanu">M-wheel</font><br> スライス移動<br>
-                    <br>
-                    <font class="vtmanu">M-drag </font><br> 拡大縮小<br>
-                    <br>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+<div =="" class="StdBlock">
+
+<br>
+<img src="./image/dialog_RT.png" width="400"><br>
+<br>
 
 
-    <br>
-    <br>
+<font class="vtmanu">d1. load source surface</font> : ソースサーフェス読み込み．<br>
+このボタンをクリックするとソースサーフェス(obj)の読み込むためのファイルダイアログが表示されます．<br>
+ソースサーフェスはメインウインドウ内では青色で表示されます．<br>
+<br>
+<font class="vtmanu">d2. translate </font> : ソースサーフェスの平行移動<br>
+<font class="vtmanu">d3. rotate    </font> : ソースサーフェスの回転<br>
+ここでtransform(平行移動)かrotation(回転移動)を選択し，メインウインドウでLeft-dragをするとソースサーフェスを移動できます．
+自動追跡の結果がおかしい場合は手動で修正してください．<br>
+<br>
+<font class="vtmanu">d4. iso value </font> 等値面(iso surface)生成のための閾値指定．<br>
+<br>
+
+<font class="vtmanu">d5. Get Test (only 1 frame)</font> : 現在のフレームのみに等値面を生成．<br>
+現在のフレームのみに対して等値面を構築します．等値面の閾値の効果を素早く確認するためのものです．<br>
+<br>
+
+<font class="vtmanu">d6. Save / Load Seeds</font> 全てのフレームに等値面を生成．<br>
+このボタンをクリックすると，上記の閾値を利用して全てのフレームに等値面を作成します．
+剛体追跡を行なうためにはこの処理が必要です．この処理には時間がかかります．<br>
+<br>
+
+<font class="vtmanu">d7. Run Tracking with ICP </font> 剛体追跡の開始．<br>
+このボタンをクリックすると剛体追跡(ICPアルゴリズム利用)が開始されます．
+ソースサーフェス読み込みと等値面生成が行なわれている必要が有ります．<br>
+<br>
+このボタンをクリックすると剛体追跡を開始するフレームと，終了するフレームを指定するダイアログが表示されます．
+例えば，剛体追跡の結果が途中からおかしくなった場合などは，そのフレームを手作業で修正し，そのフレームから追跡を開始するようにしてください．
+また，開始フレームに大きな番号を指定し，終了フレームに小さな番号を指定すると，時間的には後ろから前方向にさかのぼる順序で追跡を行なえます．<br>
+<br>
+
+
+<font class="vtmanu">d8. Show Transform Matrix </font> : 剛体追跡結果として計算された回転・平行移動行列が表示されます．<br>
+
+<font class="vtmanu">d9. Finish And Store</font> 作業終了し現在の領域を新しいマスクとして登録．<br>
+
+<font class="vtmanu">d10. Cancel</font> 作業中止（作業内容が消えるため要注意）<br>
+
+</div>
+
+
+
+
 
 
     <table border="0">
         <tbody>
             <tr>
                 <td>　
-                    <img src="./image/dialog_RT.png" width="400">
                 </td>
                 <td style="padding:1em; line-height: 1.4em;">
-
-    <font class="vtmanu">d1. load source surface</font> ソースサーフェスのロード<br>
-    <font class="vtmanu">d2. Threshold slider</font> ソースサーフェスの移動<br>
-    <font class="vtmanu">d3. Radius slider</font> ソースサーフェスの回転<br>
-    <font class="vtmanu">d4. Run Local Region Grow</font> CT値を設定<br>
-    <font class="vtmanu">d5. Seed Sort</font> 現在のフレームのみにISOサーフェスを生成(テスト)<br>
-    <font class="vtmanu">d6. Save / Load Seeds</font> 全てのフレームにISOサーフェスを生成<br>
-    <font class="vtmanu">d7. Save / Load Seeds</font> トラッキングを開始<br>
-    <font class="vtmanu">d8. Save / Load Seeds</font> 平行移動のマトリックスを表示<br>
-    <font class="vtmanu">d9. Finish And Store</font> 作業終了，Vizualization maskへ移動<br>
-    <font class="vtmanu">d10. Cancel</font> 作業中止（作業内容が消えるため要注意）<br>
 
     <br><br>
         </td>
@@ -137,15 +174,9 @@
     </div>
 
 
-    <br>
+<hr>
+<br>
+<br>
 
-        <hr>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-
-    </body>
-    </html>
+</body>
+</html>
