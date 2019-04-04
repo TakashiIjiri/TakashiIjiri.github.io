@@ -23,16 +23,16 @@
 
 <h1>RoiPainter4D Segmentation</h1>
 
-
 <img src="../image/RoiPainter.png" class="ProjImg">
 
 <hr>
 <h2>
-<a href="../index.html">RoiPainter4D</a> &nbsp;&nbsp;
-<a href="../io.html">I/O</a> &nbsp;&nbsp;
+<a href="../index.html"    >top page</a> &nbsp;&nbsp;
+<a href="../io.html"       >I/O</a> &nbsp;&nbsp;
 <a href="../vis/index.html">Visualization</a> &nbsp;&nbsp;
-<a href="seg/index.html">Segmentation</a> &nbsp;&nbsp;
+<a href="seg/index.html"   >Segmentation</a> &nbsp;&nbsp;
 <a href="../ref/index.html">Refinement</a> &nbsp;&nbsp;
+code &nbsp;&nbsp;
 </h2>
 
 
@@ -50,48 +50,55 @@
     </ul>
 </div>
 
-
-
 <hr>
-<h2>Segmentation in RoiPainter4D</h2>
-
+<h2> 領域分割 / Segmentation </h2>
 <div class="ProjAbst">
-    Roipainter4DではSegmantationツールを用いて4次元CT画像を領域分割することが可能です．
+
+Roipainter4Dでは，以下のSegmantationツールを用いて4次元CT画像を領域分割することが可能です．
+Segmentation toolは，対象領域の特徴にあわせてうまく選択する必要が有ります．<br>
+
+<ul>
+    <li><a href="seg_PL.html"><font class="vtmode">1) Seg Paint and Lasso</font></a> :
+    voxelを直接ペイントしたり，lassoで囲む事で領域を分割するツールです．手間と時間がかかるので，他のツールではどうしてもうまく分割できない領域に利用すると良いです．</li>
+
+    <li><a href="seg_TRG.html"><font class="vtmode">2) Seg Threshold and Region grow</font></a> :
+    閾値処理や，閾値を利用した領域拡張法により領域を分割するツールです．他の領域と輝度値の差が大きい領域（骨や造影剤など）の分割に利用できます．</li>
+
+    <li><a href="seg_RT.html"><font class="vtmode">3) Seg Rigid Tracking(ICP)</font></a> :
+    剛体追跡（Rigid Tracking）により分割するツールです．
+    シードとなる領域形状Aと等値面の閾値を与えると，その領域を等値面にフィットするように剛体変換する事で全てのフレームの分割が可能です．
+    剛体運動する領域（骨など）の分割に利用できます．</li>
+
+    <li><a href="segLocalRegionGrowSphere.html"><font class="vtmode">4) Seg Local Region growing (shere) </font></a> :
+    球体状のシードを複数配置すると，そのシード領域内のみで領域拡張が行なわれるツールです．
+    これにより，輝度値にむらのある領域でもうまく分割できる事が有ります．</li>
+
+    <li><a href="segLocalRegionGrowCylinder.html"><font class="vtmode">5) Seg Local Region growing (cylinder) </font></a> :
+    円筒状のシードを複数配置すると，そのシード領域内のみで領域拡張が行なわれるツールです．
+    これにより，輝度値にむらのある領域でもうまく分割できる事が有ります．（近々，研究発表を予定してます）</li>
+
+    <li><a href="seg_PC.html"><font class="vtmode">6) Parallel Contors</font></a> :
+    平行平面状に輪郭を描くとその輪郭を通るよう二領域境界が生成されるツールです．
+    円筒に近い形状で，領域境界が曖昧な領域の分割に利用できます．</li>
+</ul>
+
 </div>
 
 
 
 <br>
-<h2>Segmentation Workflow</h2>
+<h2> 領域分割のワークフロー </h2>
+
 <div =="" class="ProjAbst">
 <ol style="line-height:1.5em; padding-left:1em;">
-    <li>ツールの起動 : Click "Menu &gt; ModeSwitch &gt; to start segmentation mode" </li>
-RoiPainterでは，2つのSegmentationツールが使用可能です．<br><br>
-        <div class="StdBlock">
-            <ol>
-                <li><a href="seg_PL.html"><font class="vtmode">Seg Paint and Lasso</font></a></li>
-                <li><a href="seg_TRG.html"><font class="vtmode">Seg Threshold and Region grow</font></a></li>
-                <li><a href="seg_RT.html"><font class="vtmode">Seg Rigid Tracking(ICP)</font></a></li>
-                <li><a href="seg_LRG.html"><font class="vtmode">Seg Local Region grow</font></a></li>                
-                <li><!--<a href="seg_CP.html">--><font class="vtmode">Seg Closest Pixel(Sprout Project)</font><!--</a>--><font color="898989">(coming soon...)</font></li>
-                <li><a href="seg_PC.html"><font class="vtmode">Parallel Contors</font></a></li>
-            </ol>
-        </div>
-
+  <li>ツールの起動 : メニューバーの『ModeSwitch &gt; seg_*toolname*』をクリックすると領域分割を開始できます． </li>
+  <li>領域分割作業 : 各分割ツールを利用して領域分割を行ないます．</li>
+  <li>領域登録 : 各分割ツールでは右下にダイアログが表示されます．このダイアログの下にある『finish and store』ボタンをクリックするとその領域とマスクとして登録できます．
+  登録したマスクにはランダムな色が自動で割り当てられます．</li>
+  <li>領域確認 : visualization mask モードでマスクの状態を観察したり，mesh modelとして出力したりすることが出来ます．</li>
 </ol>
-
 </div>
 
     <br>
-
-    <hr>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-
-
 
 </div></body></html>
