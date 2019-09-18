@@ -54,15 +54,15 @@ h1 {
 	font      :bold 120% Verdana, Arial, Helvetica, sans-serif;
     padding   :0.5em 0.0em 0.5em 3.0em;
 	margin    :0;
-	
+
 	/*-webkit-border-top-left-radius    : 10px; */
     /*-webkit-border-top-right-radius   : 10px; */
     /*-webkit-border-bottom-right-radius: 10px; */s
-    -webkit-border-bottom-left-radius : 10px;  
-    /*-moz-border-radius-topleft    : 10px;*/ 
-    /*-moz-border-radius-topright   : 10px;*/  
+    -webkit-border-bottom-left-radius : 10px;
+    /*-moz-border-radius-topleft    : 10px;*/
+    /*-moz-border-radius-topright   : 10px;*/
     /*-moz-border-radius-bottomright: 10px;*/
-    -moz-border-radius-bottomleft : 10px; 	
+    -moz-border-radius-bottomleft : 10px;
 }
 
 h2 {
@@ -80,7 +80,7 @@ h3 {
 h4 {
 	font:bold 80%/1em Verdana, Arial, Helvetica, sans-serif;
 	margin:0;
-	padding:0.5em 1em 0.5em 1em; 
+	padding:0.5em 1em 0.5em 1em;
 	line-height:1.5;
 }
 
@@ -112,7 +112,7 @@ a:hover   {color:#CC0000;}
 
 
 
-ul { 
+ul {
 	margin     :0 0 0 1.0em;
 	padding    :0 0 0 0.0em;
     line-height:2.0;
@@ -127,7 +127,7 @@ ul {
 {
     position:relative;
     width   :700pt   ;
-    height  :430pt   ;
+    height  :330pt   ;
 }
 
 #InfoLeft
@@ -135,9 +135,9 @@ ul {
     float   :left;
 	top     :30pt;
 	width   :320pt;
-    
+
     text-align : center;
-	
+
 	padding:2em 0em 0em 0em;
 }
 
@@ -153,7 +153,7 @@ ul {
 #InfoBottom
 {
     float      :left ;
-	width      :700pt;
+	  width      :700pt;
     text-align :left;
     margin     :2em 2em 0em 3em;
 }
@@ -219,7 +219,7 @@ ul {
 }
 
 .PubTable
-{   
+{
     padding:1em 0 1em 3em
 }
 
@@ -296,7 +296,7 @@ ul {
 	padding:1em 2em 1em 2em;
 	text-align:center;
     border-top:1px solid gray;
-	clear:both; 
+	clear:both;
 }
 
 
@@ -307,7 +307,7 @@ ol.PubList
     margin: 0 1em 1em 3em;
 }
 
-ol.PubList li 
+ol.PubList li
 {
     margin    : 0.7em 0 0 0;
     text-align:justify;
@@ -319,7 +319,7 @@ ul.PubList1
     margin: 0 1em 1em 3em;
 }
 
-ul.PubList1 li 
+ul.PubList1 li
 {
     margin    : 0.7em 0 0 0;
     text-align:justify;
@@ -332,7 +332,7 @@ ul.MyList
     margin: 0em 1em 1em 3em;
 }
 
-ul.MyList li 
+ul.MyList li
 {
     margin    : 0.1em 0 0 0;
     text-align:justify;
@@ -367,33 +367,33 @@ pre.code {
     /* line-height:1.2em; */
     border:1px solid #aaa;
     background:#f0f0f0;
-    padding:0.5em; 
+    padding:0.5em;
     overflow: auto;
     margin:1em 2em 1em 2em;
 }
 pre.code span.tag		{
-	color: #0000ff;	
+	color: #0000ff;
 }
 pre.code span.attr 		{
-	color: #000; 		
+	color: #000;
 }
 pre.code span.value		{
-	color: #900; 		
+	color: #900;
 }
 pre.code span.str 		{
-	color: #009900; 	
+	color: #009900;
 }
 pre.code span.num 		{
-	color: #009900; 	
+	color: #009900;
 }
 pre.code span.keyword	{
-	color: #0000ff; 	
+	color: #0000ff;
 }
 pre.code span.rem		{
-	color: #909; 		
+	color: #909;
 }
 pre.code span.variable	{
-	color: #500050;	
+	color: #500050;
 }
 
 
@@ -420,14 +420,14 @@ pre.code span.variable	{
     width     : 120pt;
     height    : 100pt;
     text-align: left ;
-    border    : 1 solid #00001f;    
-    padding   : 0em 1em 0em 1em;  
+    border    : 1 solid #00001f;
+    padding   : 0em 1em 0em 1em;
 }
 
 .FlwLibTbl td:nth-child(2),td:nth-child(3),td:nth-child(4)
 {
     text-align:center;
-    border: 1 solid #00001f;    
+    border: 1 solid #00001f;
 }
 
 
@@ -436,5 +436,3 @@ pre.code span.variable	{
     width :90pt;
     height:90pt;
 }
-
-

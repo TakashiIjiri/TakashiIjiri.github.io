@@ -73,15 +73,30 @@
 <h3>Download</h3>
 <div class="ProjAbst">
 
+<a href="RoiPainter3D_20190918.zip">RoiPainter3D_20190918.zip</a><br>
++ MaskVisモードにおける領域マージのUIを変更．<br>
+FormVisMaskダイアログの『MARGE ids』をクリックすると領域ID選択ダイアログが表示され，2個以上（複数個）の領域を選択するとそれをひとつの領域にマージできる．<br>
+<br>
++ MaskVisモードにおけるFill holeのUIを変更<br>
+FormVisMaskダイアログの『Fill hole』をクリックすると領域ID選択ダイアログが表示される．
+1個以上（複数可）の領域を選択するとそれをひとつの領域と考え，その領域が囲う中空領域を新たな領域として登録する．<br>
+<br>
++ MaskVisモードにおけるSmart fill holeツールを追加<br>
+FormVisMaskダイアログの『Smart Fill hole』をクリックすると，領域ID選択ダイアログが表示され，
+1個以上（複数可）の領域を選択できる．さらに，dilationの回数を指定するダイアログが続いて表示される．
+このツールでは，指定された複数領域をひとつの領域と考え，その領域を指定回数だけdilationした後，
+その領域が囲う中空領域をholer領域とする．さらにこのhole領域を指定回数だけdilationし，新たな領域として登録する．<br>
+<br>
++細かな高速化も実施．
+<br>
+<br>
+
+
 <a href="RoiPainter3d20190426.zip">RoiPainter3d20190426.zip</a><br>
 + 一部並列化し高速化．<br>
 + 細かなバグを修正．<br>
 <br>
 <br>
-
-
-
-
 
 
 <a href="RoiPainter3dv2_20190419.zip">RoiPainter3dv2_20190419.zip</a><br>
