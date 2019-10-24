@@ -1,0 +1,293 @@
+﻿<html>
+<meta charset="utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta name="Keywords" content="井尻敬,User Interface,Computer Graphics">
+<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.1.0 for Windows">
+<title>implementation : position based dynamics</title>
+<link rel="stylesheet" type="text/css" media="screen" href="brict.css">
+<style type="text/css" media="screen">
+
+<!--
+/* Source Code CSS */
+pre.code {
+    font-size: 12px;
+    /* line-height:1.2em; */
+    border:1px solid #aaa;
+    background:#e0f0e0;
+    padding:0.5em;
+    overflow: auto;
+}
+pre.code span.tag		{
+	color: #0000ff;
+}
+pre.code span.attr 		{
+	color: #000;
+}
+pre.code span.value		{
+	color: #900;
+}
+pre.code span.str 		{
+	color: #009900;
+}
+pre.code span.num 		{
+	color: #009900;
+}
+pre.code span.keyword	{
+	color: #0000ff;
+}
+pre.code span.rem		{
+	color: #909;
+}
+pre.code span.variable	{
+	color: #500050;
+}
+
+
+
+<!--
+
+-->
+</style>
+</head>
+
+
+<body>
+  <div id="col2o2">
+  <div id="col2o2content">
+    <hr>
+    <h1>Position based dynamicsの実装</h1>
+    <hr>
+Position based dynamicsという高速で安定なシミュレーション手法が必用になったので勉強して実装する．
+オリジナルは以下の論文で，多様な拡張が存在する．ここでは単純な弾性体と布の実装を目指す．
+    <ul>
+      <li><a href="http://matthias-mueller-fischer.ch/publications/posBasedDyn.pdf"> Position based Dynamics</a>
+    </ul>
+    　　 <br>
+    　　 <a href="index.html">戻る</a><br>
+    <hr>
+    <h2>確率の定義の種類</h2>
+    <!-------------------------------------------------------------------------------------------------------------------->　確率には以下の3種類があり、ここで扱いたいのは2番目． <br>
+    <ul>
+      <li>1.　古典的確率 : 高校でやった、場合の数の比を利用するもの.
+        すべての事象が等確率で起こるという前提条件に基づいている。
+　　　　　
+      <pre class="code">  ある事象の起こる確率 = (注目している事象の場合の数)/(すべての場合の数) </pre>
+    </ul>
+    <ul>
+      <li>2.公理的確率 : 確率の公理により定義される確率．各事象の起こる確率が異なるものや、連続的な事象についても扱える．<br>
+      <pre class="code"> <b>コルモゴロフの確率の公理 (<a href="http://ja.wikipedia.org/wiki/%E7%A2%BA%E7%8E%87%E7%A9%BA%E9%96%93">正確なものはwikipediaへ．</a>)</b>
+<b>Ω</b>を注目する事象の集合とし，AとBを<b>Ω</b>の部分集合、P(.)を<b>Ω</b>の部分集合から実数への関数とする．
+公理1) 0&lt;= P(A) &lt;= 1
+公理2) P(Ω) = 1
+公理3) A∧B = {} (空集合) ならば、P(A∨B) = P(A) + P(B)</pre>
+      <li>3.統計的確率 : 発生頻度を実際に調べ、その比を確立としたもの．
+    </ul>
+    <br>
+    <br>
+    <hr>
+    <h2>離散確率分布</h2>
+    <!-------------------------------------------------------------------------------------------------------------------->　コインの裏表、サイコロの出る目など、離散的な事象を扱う場合、離散(型)確率分布を考える． <br>
+    　
+    <table border="1" summary="離散形確率分布　用語まとめ" width="1056" style = "margin:30px">
+      <tbody>
+        <tr>
+          <td align="center" width="158">用語</td>
+          <td align="center" width="352">意味</td>
+          <td align="center" width="524">例</td>
+        </tr>
+        <tr>
+          <td width="158"><b>　標本空間</b> : Ω</td>
+          <td width="352">施行の結果として起こりうるすべての事柄の集合．<br>
+          全事象とも呼ぶ．</td>
+          <td align="center" width="524">　1個のサイコロを投げたときの目{&#9856; , &#9857; , &#9858; , &#9859; , &#9860; , &#9861;}</td>
+        </tr>
+        <tr>
+          <td width="158">　<b>標本(点)</b> : ω∈Ω</td>
+          <td width="352">標本空間の<font color="#ff0000">元</font>．施行の結果起こりうる<font color="#ff0000">個々</font>の事柄.</td>
+          <td align="center" width="524">&nbsp;&#9858;</td>
+        </tr>
+        <tr>
+          <td width="158"><b>　事象</b> : A⊂Ω</td>
+          <td width="352">標本空間の<font color="#ff0000">部分空間</font>. 施行の結果起こりうる事柄.</td>
+          <td align="center" width="524">{&#9856; , &#9857; }</td>
+        </tr>
+        <tr>
+          <td width="158">　<b>確率変数</b> : X(ω)</td>
+          <td width="352">標本空間Ωから実数Rへの関数<br>
+          (標本点に実数値を対応させるもの).</td>
+          <td width="524">サイコロの出目は現象であって、実数値への対応は定義する必要がある．<br>
+          例えばサイコロの出目の300倍の点をもらえるゲームの得点の確率変数は,<br>
+          X(&#9856;)=300, X(&#9857;)=600, X(&#9858;)=900, <br>
+          X(&#9859;)=1200, X(&#9860;)=1500, X(&#9861;)=1800,</td>
+        </tr>
+        <tr>
+          <td width="158">　<b>確率</b>　　　　</td>
+          <td width="352">&nbsp;ある事象の起こりやすさを表す. 必ず起こるなら1.</td>
+          <td width="524">&nbsp;600点もらえる確率は P(X(ω)=600)</td>
+        </tr>
+        <tr>
+          <td width="158">　<b>確率分布</b> :<br>
+          　P(A) or P(X)</td>
+          <td width="352">任意の事象Aが起こる頻度を表すもの (注123)．</td>
+          <td width="524">　下の図参照</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <ul>
+      <li>
+      <div align="left">
+        確率分布の例1 : 理想的なサイコロ　
+        <table border="1">
+          <tbody>
+            <tr>
+              <td align="center">ω&nbsp;</td>
+              <td align="center">X&nbsp;</td>
+              <td align="center">P(X(ω)) &nbsp;</td>
+            </tr>
+            <tr>
+              <td align="center">&#9856;</td>
+              <td align="center">&nbsp;300</td>
+              <td align="center">&nbsp;1/6</td>
+            </tr>
+            <tr>
+              <td align="center">&#9857;</td>
+              <td align="center">&nbsp;600</td>
+              <td align="center">&nbsp;1/6</td>
+            </tr>
+            <tr>
+              <td align="center">&#9858;</td>
+              <td align="center">&nbsp;900</td>
+              <td align="center">&nbsp;1/6</td>
+            </tr>
+            <tr>
+              <td align="center">&#9859;</td>
+              <td align="center">&nbsp;1200</td>
+              <td align="center">&nbsp;1/6</td>
+            </tr>
+            <tr>
+              <td align="center">&#9860;</td>
+              <td align="center">&nbsp;1500</td>
+              <td align="center">&nbsp;1/6</td>
+            </tr>
+            <tr>
+              <td align="center">&#9861;</td>
+              <td align="center">&nbsp;1800</td>
+              <td align="center">&nbsp;1/6</td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        確率分布の例2 : 班長が使ってた&#9859; , &#9860; , &#9861;しか出ないサイコロ　
+        <table border="1">
+          <tbody>
+            <tr>
+              <td align="center">ω&nbsp;</td>
+              <td align="center">X&nbsp;</td>
+              <td align="center">P(X(ω)) &nbsp;</td>
+            </tr>
+            <tr>
+              <td align="center">&#9856;</td>
+              <td align="center">&nbsp;300</td>
+              <td align="center">&nbsp;0</td>
+            </tr>
+            <tr>
+              <td align="center">&#9857;</td>
+              <td align="center">&nbsp;600</td>
+              <td align="center">&nbsp;0</td>
+            </tr>
+            <tr>
+              <td align="center">&#9858;</td>
+              <td align="center">&nbsp;900</td>
+              <td align="center">&nbsp;0</td>
+            </tr>
+            <tr>
+              <td align="center">&#9859;</td>
+              <td align="center">&nbsp;1200</td>
+              <td align="center">&nbsp;1/3</td>
+            </tr>
+            <tr>
+              <td align="center">&#9860;</td>
+              <td align="center">&nbsp;1500</td>
+              <td align="center">&nbsp;1/3</td>
+            </tr>
+            <tr>
+              <td align="center">&#9861;</td>
+              <td align="center">&nbsp;1800</td>
+              <td align="center">&nbsp;1/3</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </ul>
+    <br>
+    　注1)確率論では,　確率, 確率分布, 確率変数と，&quot;確率&quot;のつく異なる用語が出てくるので混乱を招きやすい．これらをちゃんと区別する．<br>
+    　注2)確率分布（単に分布と呼ばれることも）は,　すべての確率1を，各事象へどう振り分けているかを表すもので，離散分布なら上のように表の形で表せる.<br>
+    　注3)確率分布を考えるとき，事象そのものでなく確率変数の値に注目すると, 「確率変数Xが値xとなる頻度はどの程度か」 を表すものとも言える.
+    この場合,P(X=x)と表記する.<br>
+    　　　　　少し進むと裏にある事象は無視して,確率変数とその確率分布に対する議論で話が進む．<br>
+    　注4)<font color="#ff0000">確率変数</font>というのが，確率の話をわかりにくくしている気がする．これは英語で言うとrandom variableで，ランダムにいろんな値を取りうる変数という事.<br>
+    　　　　　で,各値を取る確率が確率分布P(X=x)で指定されている．<br>
+    <br>
+    <br>
+    <hr>
+    <h2>連続確率分布</h2>
+    　　　<!-------------------------------------------------------------------------------------------------------------------->サイコロの出目のような離散的な標本空間でなく, 「ルーレットを回した時の針の角度[0,2π)」、「次に電話が鳴るまでの時間」のような連続的な標本空間を考える．　
+    <table border="1" summary="離散形確率分布　用語まとめ" width="589" style="margin:30px">
+      <tbody>
+        <tr>
+          <td align="center" width="185">用語</td>
+          <td align="center" width="381">例</td>
+        </tr>
+        <tr>
+          <td width="185"><b>　標本空間</b> : Ω</td>
+          <td align="center" width="381">　ルーレットを回した時の針の角度　{θ|θ∈[0,2π)}</td>
+        </tr>
+        <tr>
+          <td>　<b>標本(点)</b> : ω∈Ω</td>
+          <td align="center" width="381">&nbsp;θ=π/2</td>
+        </tr>
+        <tr>
+          <td width="185"><b>　事象</b> : A⊂Ω</td>
+          <td align="center" width="381">π/2≦θ≦π</td>
+        </tr>
+        <tr>
+          <td width="185">　<b>確率変数</b> : X(ω)</td>
+          <td width="381">針の角度そのものを確率変数とすると: X(θ)=θ<br>
+          針の角度の300倍を確率変数とすると: Y(θ)=300θ</td>
+        </tr>
+        <tr>
+          <td width="185">　<b>確率</b>　　　　</td>
+          <td width="381">&nbsp;針がπ/2とπの間を向く確率は, P(π/2≦X≦π)</td>
+        </tr>
+        <tr>
+          <td width="185">　<b>確率分布</b> :<br>
+          　P(A) or P(X)</td>
+          <td width="381">&nbsp;<font color="#ff0000">確率密度関数</font>を用いて表される(下参照).</td>
+        </tr>
+      </tbody>
+    </table>
+    　　　　連続的な確率変数を扱う場合，確率変数が広がりを持つ値をとる確率<img src="http://chart.apis.google.com/chart?cht=tx&chl=P( \theta_0 \le X \le \theta_1 )" align="top">はゼロでないが、その値がちょうどある値になる確率はゼロになる, <img src="http://chart.apis.google.com/chart?cht=tx&chl=P( X = \theta_0 ) = 0" align="top"/>, ため,<br>
+    　　　　確率分布（任意の事象Aにどの様に確立1を割り振るか）は, 離散確立分布のように表の形で書く事が出来ない． <br>
+    　　　　そこで，連続な標本空間の確率分布は，確率密度関数f<sub>X</sub>(X)や累積分布関数F<sub>X</sub>(X)を用いて表す.    <br>
+    <br>
+    <div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5">　<b>累積分布関数</b>　F<sub>X</sub>(x) : 確率変数Xの値がx以下である確率，P(X≦x), を表す．<br>
+    　　　　- F<sub>X</sub>(x)は，0≦F<sub>X</sub>(x)≦1を満たす(広義)単調増加関数.<br>
+    　　　　-　連続確率分布では，X=aという標本点を考えても確率がゼロなので，広がりのある部分空間( X≦ a )を考えている．　<br>
+    <br>
+    　<b>確率密度関数</b> f<sub>X</sub>(x) : 累積分布関数の導関数で，X=x付近での確率の密度を表す．<br>
+    　　　 -次の関係が成り立つ．<br>
+    　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=f_X(x) = \frac{d F_X(x)}{dx}" align="top"/> <br>
+    　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=P( X \le a ) =F_X(a) = \int_{-\infty}^a f_X(x)\,dx" align="top"/> <br>
+    　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=P( a \le X \le b ) = F_X(b) - F_X(a) = \int_a^b f_X(x)\,dx" align="top"/> <br>
+    <br>
+    </div>
+    <br>
+    　　<a href="index.html">戻る</a>　　<a href="probability2.html">確率論2へ</a> 　<br>
+    <div id="footer">
+      <h3>Copyright 2010~ Takashi Ijiri(井尻敬), All rights reserved.</h3>
+    </div>
+  </div></blockquote>
+</div>
+</body>
+</html>

@@ -6,44 +6,9 @@
 <meta name="Keywords" content="井尻敬,User Interface,Computer Graphics">
 <meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.1.0 for Windows">
 <title>フーリエ変換</title>
-<link rel="stylesheet" type="text/css" media="screen" href="brict.css">
+<link rel="stylesheet" type="text/css" media="screen" href="rits.css">
 <style type="text/css" media="screen">
 
-<!--
-/* Source Code CSS */
-pre.code {
-    font-size: 12px;
-    /* line-height:1.2em; */
-    border:1px solid #aaa;
-    background:#e0e0f0;
-    margin-left:30px;
-    padding:0.5em; 
-    overflow: auto;
-}
-pre.code span.tag		{
-	color: #0000ff;	
-}
-pre.code span.attr 		{
-	color: #000; 		
-}
-pre.code span.value		{
-	color: #900; 		
-}
-pre.code span.str 		{
-	color: #009900; 	
-}
-pre.code span.num 		{
-	color: #009900; 	
-}
-pre.code span.keyword	{
-	color: #0000ff; 	
-}
-pre.code span.rem		{
-	color: #909; 		
-}
-pre.code span.variable	{
-	color: #500050;	
-}
 
 
 
@@ -52,34 +17,41 @@ pre.code span.variable	{
 -->
 </style>
 </head>
+
+
 <body>
-<div id="headerspacer"></div>
-<blockquote>
-<div id="col2o2content">
-  <hr>
+
+<div id="MainBody">
+
   <h1>フーリエ変換 (連続)</h1>
-  <hr>
-    
-      <p><a href="../index.html">戻る</a> <a href="../../index.html">topへ</a><br></p>
+
+  <p align="right"><a href="../index.html">戻る</a> <a href="../../index.html">topへ</a></p>
+
+  <div id="Contents">
+    参考文献 : 金谷健一, これなら分かる応用数学教室―最小二乗法からウェーブレットまで
+    フーリエ変換についてざっと勉強したのでまとめておく。<br>
+  </div>
 
 
-  　　　<br>
-  　　　　今まで必要が無くて勉強したことがなかったフーリエ変換について、ざっと勉強したのでまとめておく。<br>
-  　　参考文献<br>
-<ul>
-    <li>金谷健一, これなら分かる応用数学教室―最小二乗法からウェーブレットまで<br>
-    </li>
-</ul>
-  <hr>
-  <br>
   <hr>
   <h2>直交関数</h2>
+  <div id="Contents">
+
+定義: 区間[a,b]で定義された2つの関数 f(t), g(t), が以下を満たすとき，fとgは直交するといい、f(x)とg(x)のことを直交関数と呼ぶ<br>
+</div>
+
+
+</div>
+</body>
+</html>
+
+<!--
   　　
   <table border="0">
     <tbody>
       <tr>
         <td bgcolor="#dfffbf">&nbsp;<br>
-        　　定義: 区間[a,b]で定義された2つの関数 f(t), g(t), が以下を満たすとき，fとgは直交するといい、f(x)とg(x)のことを直交関数と呼ぶ<br>
+
         <br>
 　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \int_a^b f(x)g(x)dx = 0" align="top">  <br>
         <br>
@@ -93,7 +65,7 @@ pre.code span.variable	{
   　　証明 (　cos(kx)　と　sin(kx)　の場合のみ示す）<br>
   　　　任意の正整数, k, lについて、<br>
 　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \int_{-\pi}^{\pi} cos(kx)sin(lx)dx" align="top"/>  <br>
-　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = \frac{1}{2}\int_{-\pi}^{\pi} \left( sin(k%2Bl)x - sin(k-l)x \right) dx = 0" align="top"/>  <br> 
+　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = \frac{1}{2}\int_{-\pi}^{\pi} \left( sin(k%2Bl)x - sin(k-l)x \right) dx = 0" align="top"/>  <br>
   <br>
   <hr> <h2>直交関数による最小二乗近似</h2>
   <table border="0">
@@ -194,20 +166,20 @@ pre.code span.variable	{
   　　　　　　　 　　 　　　 <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle a_0  / 2 " align="middle"/>　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle ( k = 0 ) , " align="middle"/><br>
   　　　　　　　 　　　 <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle (a_{-k} - ib_{-k}) / 2 " align="middle"/>　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle ( k \le -1 )" align="middle"/> <br><br>
 　　　式(4)は次の通り単純な形で表せる. <br><br>
-　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f(t) = \sum_{k=-\infty}^{\infty} C_k e^{ikw_0t} " align="middle"/> 
+　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f(t) = \sum_{k=-\infty}^{\infty} C_k e^{ikw_0t} " align="middle"/>
 　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle C_k = \frac{1}{T} \int _{-T/2}^{T/2} f(t) e^{-ikw_0t} dt" align="middle"/> <br><br>
 　　　Ckを複素フーリエ係数と呼ぶ。今、実数関数f(t)を考えているので、右辺が複素数の形をしているが、虚数の項は消えて実数になる。<br>
 　　　また、実際にCkを計算する時は，以下の通り、実部と虚部に分けて積分する. <br><br>
 　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle C_k = \frac{1}{T} \int _{-T/2}^{T/2} f(t) \cos ikw_0t dt - i \frac{1}{T} \int _{-T/2}^{T/2} f(t) \sin ikw_0t dt " align="middle"/> <br><br>
 
   <br>
-  <br> 
+  <br>
    <hr> <h2>フーリエ変換(連続)</h2>
 　　　前述のフーリエ級数において，<br>
 　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle w_k = kw_0" align="middle"/>
 　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle C_k = F(w_k) / T" align="middle"/> <br>
 　　　と置くと、<br><br>
-　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f(t) = \frac{w_0}{2\pi} \sum_{k=-\infty}^{\infty} F(w_k) e^{iw_kt}" align="middle"/> 
+　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f(t) = \frac{w_0}{2\pi} \sum_{k=-\infty}^{\infty} F(w_k) e^{iw_kt}" align="middle"/>
 　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle F(w_k) = \int_{-T/2}^{T/2} f(t) e^{-ikw_kt} dt" align="middle"/> <br><br>
   　　　と書ける．ここで，T → ∞ とすると、w0→0となり，上のフーリエ級数は次のように書き直せる．<br>
   <table border="0">
@@ -215,15 +187,15 @@ pre.code span.variable	{
       <tr>
         <td bgcolor="#dfffbf">&nbsp;　　フーリエ変換 : <br>
 
-　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f(t) = \frac{1}{2\pi} \int_{-\infty}^{\infty} F(w) e^{iwt} dw" align="middle"> 
+　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f(t) = \frac{1}{2\pi} \int_{-\infty}^{\infty} F(w) e^{iwt} dw" align="middle">
 　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle F(w) =                \int_{-\infty}^{\infty} f(t) e^{-iwt} dt" align="middle"><br>
-        <br> 
+        <br>
 　　　この左式を”逆フーリエ変換”と呼び、右式を”フーリエ変換”と呼ぶ．<br>
         <br>
         　　　- この T → ∞ というのは，f(t)を級数展開する区間[-T/2,T/2]を広げる作業で，これにより基本周波数 w0 = 2π/T
         が十分小さくなる．<br>
         　　 - (周波数は角速度みたいなものなので、周期Tが大きくなると対応する基本周波数が&quot;遅く&quot;なるといってもいいかな)<br>
-        <br> 
+        <br>
 　　　- 元の関数f(t)は，全ての周波数 w に関する <img src="http://chart.apis.google.com/chart?cht=tx&chl=e^{iwt}" align="top"> に 係数 F(w) をかけて積分して(重ね合わせて)表現されている<br>
         　　　- つまりF(w) は 周波数 w の正弦波 <img src="http://chart.apis.google.com/chart?cht=tx&chl=e^{iwt}" align="top"> が含まれる量を表す<br>
         </td>
@@ -232,8 +204,8 @@ pre.code span.variable	{
   </table>
   <br>
 　　　F(w)の実部をR(w)，虚部をI(w)と置いてみると，逆フーリエ変換は以下の通り式変形できる．<br><br>
-　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle F(w) = R(w) %2B i I(w)" align="middle"/><br><br> 
-　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f(t) = \frac{1}{2\pi}\int_{-\infty}^{\infty} \left( R(w) \cos wt - I(w) \sin wt \right) dw %2B i \frac{1}{2\pi}\int_{-\infty}^{\infty}\left( R(w) \sin wt %2B I(w) \cos wt \right) dw" align="middle"/><br><br> 
+　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle F(w) = R(w) %2B i I(w)" align="middle"/><br><br>
+　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle f(t) = \frac{1}{2\pi}\int_{-\infty}^{\infty} \left( R(w) \cos wt - I(w) \sin wt \right) dw %2B i \frac{1}{2\pi}\int_{-\infty}^{\infty}\left( R(w) \sin wt %2B I(w) \cos wt \right) dw" align="middle"/><br><br>
 
 　　　左辺 f(t) が実数関数なら、逆フーリエ変換の右辺の虚部はゼロになる. <br>
 　　　F(w)の実部 R(w) が cos(wt) の係数を表し, 虚部 I(w) が sin(-wt) の係数になっている．<br>
@@ -242,7 +214,5 @@ pre.code span.variable	{
   　　<br>
   　　<a href="FourierTransform_disc.html">フーリエ変換(離散)へ</a><br>
   <br>
-
   <div id="footer"> Copyright 2010~ Takashi Ijiri(井尻敬), All rights reserved.</div>
-</div></blockquote>
- </body></html>
+-->

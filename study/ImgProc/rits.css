@@ -1,36 +1,33 @@
 /* this is the new corporate style of the brict */
 
 html, body {
-    margin :0;
+  margin :0;
 	padding:0;
 	color  :#222222;
 	background:#fff;
 	font:100% Helvetica;
 }
 
-
 /*for all elements*/
 *{padding:0; margin:0;}
 
 #MainBody
 {
-  position:absolute;
-  width    :99%;
-  left     :3pt;
+  width : 100% - 5px;
+  margin: 5px;
   border-left :1px solid Gray;
   border-right:1px solid Gray;
   z-index :3;
-  min-width: 400pt;
-  max-width: 800pt;
 }
-
-
 
 #StdContents
 {
-    margin:1em 1em 1em 1em;
-    text-align:justify;
+  position:relative;
+  width   :100%;
+  box-sizing: border-box;
+
 }
+
 
 
 
@@ -54,22 +51,14 @@ h1 {
         color-stop(0.05, #333333),
         to(#333333));
 
-	font      :bold 120% Verdana, Arial, Helvetica, sans-serif;
+    font      :bold 120% Verdana, Arial, Helvetica, sans-serif;
     padding   :0.5em 0.0em 0.5em 3.0em;
-	margin    :0;
-
-	/*-webkit-border-top-left-radius    : 10px; */
-    /*-webkit-border-top-right-radius   : 10px; */
-    /*-webkit-border-bottom-right-radius: 10px; */s
+    margin    :0;
     -webkit-border-bottom-left-radius : 10px;
-    /*-moz-border-radius-topleft    : 10px;*/
-    /*-moz-border-radius-topright   : 10px;*/
-    /*-moz-border-radius-bottomright: 10px;*/
     -moz-border-radius-bottomleft : 10px;
 }
 
 h2 {
-    padding:0.5em 1em 0.5em 1em;
 }
 
 h3 {
@@ -130,7 +119,7 @@ ul {
 {
     position:relative;
     width   :700pt   ;
-    height  :430pt   ;
+    height  :330pt   ;
 }
 
 #InfoLeft
@@ -146,7 +135,7 @@ ul {
 
 #InfoRight
 {
-    float   :left;
+  float   :left;
 	top     :30pt;
 	width   :380pt;
 	padding :3.5em 0em 0em 0em;
@@ -156,7 +145,7 @@ ul {
 #InfoBottom
 {
     float      :left ;
-	width      :700pt;
+	  width      :700pt;
     text-align :left;
     margin     :2em 2em 0em 3em;
 }
@@ -266,6 +255,8 @@ ul {
     text-align:left;
     padding: 0.3em 0em 0em 0em;
 }
+
+
 
 
 

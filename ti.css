@@ -1,0 +1,257 @@
+/* this is the new corporate style of the brict */
+
+html, body {
+  margin :0;
+  padding:0;
+  color  :#222222;
+  background:#fff;
+  font:100% Helvetica;
+}
+
+/*for all elements*/
+*{padding:0; margin:0;}
+
+
+
+/* ------------------ h1,h2,h3,h4 ----------------- */
+h1 {
+    color : #EEEEEE ;
+    background:-moz-linear-gradient(left, #AA0000 0%, #AA0000 2em, #333333 2em, #333333 100%-2em);
+    font      :bold 120% Verdana, Arial, Helvetica, sans-serif;
+    padding   :0.5em 0.0em 0.5em 2.5em;
+    margin    :0;
+    -webkit-border-bottom-left-radius : 5px;
+    -moz-border-radius-bottomleft : 2px;
+}
+
+h2 {
+    padding:1.0em 1em 0.1em 0.7em;
+}
+
+/*
+h3 {
+    font:bold 100%/1em Verdana, Arial, Helvetica, sans-serif;
+	margin:0;
+    padding:0.5em 1em 0.5em 3em;
+	padding-bottom:0;
+	line-height:1.5;
+}
+
+h4 {
+	font:bold 80%/1em Verdana, Arial, Helvetica, sans-serif;
+	margin:0;
+	padding:0.5em 1em 0.5em 1em;
+	line-height:1.5;
+}
+*/
+
+hr {
+	color:#555555;
+	border:1px solid #555555;
+	background-color:#fff;
+	height:1px;
+	margin-left:1em;
+}
+
+a:link    {color:#AA0000;}
+a:visited {color:#550000;}
+a:hover   {color:#CC0000;}
+
+
+
+
+#MainBody
+{
+  position:absolute;
+  width    :99%;
+  left     :3pt;
+  border-left :1px solid Gray;
+  border-right:1px solid Gray;
+  z-index :3;
+  min-width: 400pt;
+  max-width: 800pt;
+}
+
+
+
+/*-----top infomation------*/
+#topbio
+{
+  position:relative;
+  width   :100% ;
+  height  :200pt;
+  display :table;
+}
+
+#topbio_left
+{
+  display   :table-cell;
+  width     :20%;
+  height    :200pt;
+  padding   :1em 0em 0em 1em;
+  text-align:left;
+  vertical-align: middle;
+}
+
+#topbio_right
+{
+  display: table-cell;
+  width    :80% ;
+  height   :200pt;
+  line-height:2.0em;
+  text-align: left;
+  vertical-align: middle;
+}
+
+#topbio_bottom
+{
+  text-align : left;
+  padding    : 1em 0em 1em 1em;
+}
+
+
+
+
+/*
+p {
+	line-height:1.5;
+	padding:0.25em 1em 0 1em;
+}
+
+address {
+	padding:0.5em 1em 0.5em 1em;
+	font-style:normal;
+	line-height:1.5;
+}
+
+ul {
+	margin     :0 0 0 1.0em;
+	padding    :0 0 0 0.0em;
+    line-height:2.0;
+}
+*/
+
+
+/*------------------Research Intersts-------------*/
+#ShortBio
+{
+    position:relative;
+    width   :100%;
+}
+
+#ShortBioCont
+{
+    position:relative;
+    padding :1em 1em 1em 1em;
+    line-height:160%
+}
+
+#ShortBioTable
+{
+    padding : 1em 1em 1em 1em;
+}
+
+#ShortBioTable td:nth-child(1)
+{
+    width      :70pt;
+    text-align :left;
+    padding    :0.3em 0 0 0;
+}
+
+#ShortBioTable td:nth-child(2)
+{
+    width     :75pt;
+    text-align:left;
+    padding   :0.3em 0 0 0;
+}
+
+#ShortBioTable td:nth-child(3)
+{
+    text-align:left;
+    padding   :0.3em 0 0 0;
+}
+
+
+
+/*-----------------Toppage-Publications--------------------*/
+#TopPublication
+{
+    position:relative;
+    width   :100%;
+}
+
+.PubTable
+{
+    padding:1em 0 1em 1em
+}
+
+.PubTable td:nth-child(1)
+{
+    width:125pt;
+    text-align :left;
+}
+
+.PubTable td:nth-child(2)
+{
+    width:400pt;
+    text-align:left;
+}
+
+
+/*-----------------MISCS--------------------*/
+#Miscs
+{
+  position:relative;
+}
+
+.AwdTable
+{
+  padding: 0.5em 0 0.5em 1em;
+}
+
+.AwdTable td:nth-child(1)
+{
+  width      :70pt;
+  text-align :left;
+  padding    : 0.3em 0em 0em 0em;
+}
+
+.AwdTable td:nth-child(2)
+{
+  text-align:left;
+  padding: 0.3em 0em 0em 0em;
+}
+
+.FundTable
+{
+    padding: 0.5em 0 0 3em;
+}
+
+.FundTable td:nth-child(1)
+{
+    width      :150pt;
+    text-align :left;
+    padding: 0.3em 0em 0em 0em;
+}
+
+.FundTable td:nth-child(2)
+{
+    text-align:left;
+    padding: 0.3em 0em 0em 0em;
+}
+
+
+
+
+
+ol.PubList
+{
+  padding: 0 1em 1em 3em;
+}
+
+ol.PubList li
+{
+  margin    : 0.7em 0 0 0;
+  text-align:justify;
+  font-size :12pt;
+}
