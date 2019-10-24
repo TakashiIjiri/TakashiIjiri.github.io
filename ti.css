@@ -17,10 +17,11 @@ html, body {
 h1 {
     color : #EEEEEE ;
     background:-moz-linear-gradient(left, #AA0000 0%, #AA0000 2em, #333333 2em, #333333 100%-2em);
+    background:-webkit-gradient(linear, left top,right top, from(#AA0000), color-stop(0.02, #AA0000), color-stop(0.04, #333333),to(#333333));
     font      :bold 120% Verdana, Arial, Helvetica, sans-serif;
     padding   :0.5em 0.0em 0.5em 2.5em;
     margin    :0;
-    -webkit-border-bottom-left-radius : 5px;
+    -webkit-border-bottom-left-radius : 2px;
     -moz-border-radius-bottomleft : 2px;
 }
 

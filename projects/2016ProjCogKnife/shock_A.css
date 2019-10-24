@@ -1,0 +1,69 @@
+header h1{
+    font-size: 2.4em;
+    font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;;
+    margin: 0px;
+    padding: 24px 28px;
+    height: 210px;
+    background-image: url(./materials/header_imgs/cogknife_header.jpg);
+
+}
+
+body {
+    position: absolute;
+    top: 10pt;
+    left: 10pt;
+    width: 650pt;
+    z-index: 3;
+	font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+    margin: 10px 10px 10px 10px;
+    padding: 24px 28px;
+}
+
+p { width:100%;
+    margin-left: 0px;
+    margin-right:auto;
+}
+
+table , td, th {
+	border: 1px solid #595959;
+	border-collapse: collapse;
+}
+
+td, th {
+	padding: 0px;
+	height: 30px;
+}
+
+th {
+	background: #f0e6cc;
+}
+
+.even {
+	background: #fbf8f0;
+}
+
+.odd {
+	background: #fefcf9;
+}
+
+footer {
+    margin: 10px 0px 0px 0px;
+    padding: 0;
+    border-width: 1px 0px 0px 0px; /* 太さ */
+    border-style: solid; /* 線種 */
+    border-color: red; /* 線色 */
+    height: 1px; /* 高さ */
+}
+
+#share-buttons img {
+width: 35px;
+padding: 5px;
+border: 0;
+box-shadow: 0;
+display: inline;
+}
+
+video {
+    width: 600px;
+    max-width: 100%;
+}

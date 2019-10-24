@@ -1,16 +1,22 @@
 /* this is the new corporate style of the brict */
 
 html, body {
-    margin :0;
-	padding:0;
-	color  :#222222;
-	background:#fff;
-	font:100% Helvetica;
+  margin :0;
+  padding:0;
+  color  :#222222;
+  background:#fff;
+  font:100% Helvetica;
 }
+
+
+a:link    {color:#AA0000;}
+a:visited {color:#550000;}
+a:hover   {color:#CC0000;}
 
 
 /*for all elements*/
 *{padding:0; margin:0;}
+
 
 #MainBody
 {
@@ -24,76 +30,46 @@ html, body {
   max-width: 800pt;
 }
 
-
-
 #StdContents
 {
-    margin:1em 1em 1em 1em;
+    margin:0.5em 1em 1em 1em;
     text-align:justify;
 }
 
 
 
+#footer {
+  background:#fff;
+  font-size:11px;
+  margin-top:10px;
+  padding:1em 2em 1em 2em;
+  text-align:center;
+  border-top:1px solid gray;
+  clear:both;
+}
+
 
 
 /* h1,h2,h3,h4 */
 h1 {
-    color     :#EEEEEE ;
-
-    /*background*/
-    /*background:#AA0000 ;*/
-    background:-moz-linear-gradient(left,
-        #AA0000 0%,
-        #AA0000 5%,
-        #333333 5%,
-        #333333 100%);
-
-    background:-webkit-gradient(linear, left top,right top,
-        from(#AA0000),
-        color-stop(0.05, #AA0000),
-        color-stop(0.05, #333333),
-        to(#333333));
-
-	font      :bold 120% Verdana, Arial, Helvetica, sans-serif;
-    padding   :0.5em 0.0em 0.5em 3.0em;
-	margin    :0;
-
-	/*-webkit-border-top-left-radius    : 10px; */
-    /*-webkit-border-top-right-radius   : 10px; */
-    /*-webkit-border-bottom-right-radius: 10px; */s
-    -webkit-border-bottom-left-radius : 10px;
-    /*-moz-border-radius-topleft    : 10px;*/
-    /*-moz-border-radius-topright   : 10px;*/
-    /*-moz-border-radius-bottomright: 10px;*/
-    -moz-border-radius-bottomleft : 10px;
+  color     :#EEEEEE ;
+  background:-moz-linear-gradient(left, #AA0000 0%, #AA0000 5%, #333333 5%, #333333 100%);
+  background:-webkit-gradient(linear, left top,right top, from(#AA0000), color-stop(0.03, #AA0000), color-stop(0.03, #333333), to(#333333));
+  font      :bold 120% Verdana, Arial, Helvetica, sans-serif;
+  padding   :0.5em 0.0em 0.5em 3.0em;
+  margin    :0;
+  -webkit-border-bottom-left-radius : 10px;
+  -moz-border-radius-bottomleft : 10px;
 }
 
 h2 {
-    padding:0.5em 1em 0.5em 1em;
+  padding:0.5em 1em 0em 1em;
 }
 
 h3 {
-    font:bold 100%/1em Verdana, Arial, Helvetica, sans-serif;
-	margin:0;
-    padding:0.5em 1em 0.5em 3em;
-	padding-bottom:0;
-	line-height:1.5;
+  padding:1.5em 1em 0em 1em;
 }
 
-h4 {
-	font:bold 80%/1em Verdana, Arial, Helvetica, sans-serif;
-	margin:0;
-	padding:0.5em 1em 0.5em 1em;
-	line-height:1.5;
-}
-
-
-
-
-p {
-	line-height:1.5;
-	padding:0.25em 1em 0 1em;
-}
 
 hr {
 	color:#555555;
@@ -103,146 +79,37 @@ hr {
 	margin-left:1em;
 }
 
+/*
+
+
+h4 {
+	font:bold 80%/1em Verdana, Arial, Helvetica, sans-serif;
+	margin:0;
+	padding:0.5em 1em 0.5em 1em;
+	line-height:1.5;
+}
+
+p {
+	line-height:1.5;
+	padding:0.25em 1em 0 1em;
+}
+
+
+
 address {
 	padding:0.5em 1em 0.5em 1em;
 	font-style:normal;
 	line-height:1.5;
 }
 
-a:link    {color:#AA0000;}
-a:visited {color:#550000;}
-a:hover   {color:#CC0000;}
-
-
 
 ul {
-	margin     :0 0 0 1.0em;
-	padding    :0 0 0 0.0em;
-    line-height:2.0;
+  margin     :0 0 0 1.0em;
+  padding    :0 0 0 0.0em;
+  line-height:2.0;
 }
 
 
-
-
-
-/*-------------------INFO-----------------------*/
-#Info
-{
-    position:relative;
-    width   :700pt   ;
-    height  :430pt   ;
-}
-
-#InfoLeft
-{
-    float   :left;
-	top     :30pt;
-	width   :320pt;
-
-    text-align : center;
-
-	padding:2em 0em 0em 0em;
-}
-
-#InfoRight
-{
-    float   :left;
-	top     :30pt;
-	width   :380pt;
-	padding :3.5em 0em 0em 0em;
-	line-height:2.0em;
-}
-
-#InfoBottom
-{
-    float      :left ;
-	width      :700pt;
-    text-align :left;
-    margin     :2em 2em 0em 3em;
-}
-
-
-
-
-
-
-/*------------------Research Intersts-------------*/
-#IntBio
-{
-    position:relative;
-    width   :700pt;
-}
-
-
-
-#IntBioCont
-{
-    position:relative;
-    padding :1em 2em 1em 3em;
-    line-height:160%
-}
-
-
-#BioTable
-{
-    padding : 1em 1em 1em 3em;
-}
-
-#BioTable td:nth-child(1)
-{
-    width      :70pt;
-    text-align :left;
-/*    text-indent:2em;*/
-    padding    :0.3em 0 0 0;
-}
-
-#BioTable td:nth-child(2)
-{
-    width     :75pt;
-    text-align:left;
-    padding   :0.3em 0 0 0;
-}
-
-#BioTable td:nth-child(3)
-{
-    text-align:left;
-    padding   :0.3em 0 0 0;
-}
-
-
-
-
-
-
-/*-----------------Publications--------------------*/
-#Publication
-{
-    position:relative;
-    width   :700pt;
-}
-
-.PubTable
-{
-    padding:1em 0 1em 3em
-}
-
-.PubTable td:nth-child(1)
-{
-    width:125pt;
-    text-align :left;
-}
-
-.PubTable td:nth-child(2)
-{
-    width:400pt;
-    text-align:left;
-}
-
-
-
-
-
-/*-----------------MISCS--------------------*/
 #Miscs
 {
     position:relative;
@@ -292,15 +159,7 @@ ul {
 
 
 
-#footer {
-	background:#fff;
-	font-size:11px;
-	margin-top:10px;
-	padding:1em 2em 1em 2em;
-	text-align:center;
-    border-top:1px solid gray;
-	clear:both;
-}
+
 
 
 
@@ -360,48 +219,48 @@ ul.MyList li
 }
 
 
-
+*/
 
 
 
 /* Source Code CSS */
 pre.code {
-    font-size: 12px;
-    /* line-height:1.2em; */
-    border:1px solid #aaa;
-    background:#f0f0f0;
-    padding:0.5em;
-    overflow: auto;
-    margin:1em 2em 1em 2em;
+  font-size: 12px;
+  /* line-height:1.2em; */
+  border:1px solid #aaa;
+  background:#f0f0f0;
+  padding:0.5em;
+  overflow: auto;
+  margin:1em 2em 1em 2em;
 }
 pre.code span.tag		{
-	color: #0000ff;
+  color: #0000ff;
 }
 pre.code span.attr 		{
-	color: #000;
+  color: #000;
 }
 pre.code span.value		{
-	color: #900;
+  color: #900;
 }
 pre.code span.str 		{
-	color: #009900;
+  color: #009900;
 }
 pre.code span.num 		{
-	color: #009900;
+  color: #009900;
 }
 pre.code span.keyword	{
-	color: #0000ff;
+  color: #0000ff;
 }
 pre.code span.rem		{
-	color: #909;
+  color: #909;
 }
 pre.code span.variable	{
-	color: #500050;
+  color: #500050;
 }
 
 
 
-
+/*
 
 .FlwLibTbl
 {
@@ -439,3 +298,4 @@ pre.code span.variable	{
     width :90pt;
     height:90pt;
 }
+*/
