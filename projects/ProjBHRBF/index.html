@@ -1,0 +1,111 @@
+﻿<html>
+<head>
+  <meta charset="utf-8">
+  <title>BHRBF for contour based volume segmentation</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="../../style.css">
+</style>
+</head>
+
+
+
+<body>
+  <div id="MainBody">
+
+
+
+  <h1>projects</h1>
+  <p align="right"><a href="../../index.html">back to top</a></p>
+
+  <h2>Bilateral Hermite Radial Basis Functions for Contour-based Volume Segmentation</h2>
+  <h3>
+    Takashi Ijiri,
+    <a href="http://www.riken.jp/brict/Yoshizawa/index.html">Shin Yoshizawa</a>,
+    Yu Sato, Masaaki Ito,
+    <a href="http://www.riken.go.jp/engn/r-world/research/lab/asi/bict/index.html">Hideo Yokota</a>
+  </h3>
+
+  <h3>Abstract</h3>
+  <div id="StdContents">
+    In this paper, we propose a novel contour-based volume image segmentation technique. Our technique is based on an implicit surface reconstruction strategy, whereby a signed scalar field is generated from user-specified contours. The key idea is to compute the scalar field in a joint spatial-range domain (i.e., bilateral domain) and resample its values on an image manifold. We introduce a new formulation of Hermite radial basis function (HRBF) interpolation to obtain the scalar field in the bilateral domain. Incontrast to previous implicit methods, bilateral HRBF (B-HRBF) generates a segmentation boundary that passes through all contours, fits high-contrast image edges if they exist, and has a smooth shape in blurred areas of images. We also propose an acceler ation scheme for computing B-HRBF to support a real-time and intuitive segmentation interface. In our experiments, we achieved high-quality segmentation results for regions of interest with high-contrast edges and blurred boundaries.<br>
+  </div>
+
+  <div id="StdContents">
+    <img src="fig1.jpg" class="ProjImg">
+  </div>
+
+
+  <h3>Materials</h3>
+  <div id="StdContents">
+    <a href="http://onlinelibrary.wiley.com/doi/10.1111/cgf.12032/abstract">Paper(Definitive version)</a>
+    <a href="../papers/ijiri_EG13_BHRBF.pdf"      >paper(preprint) </a>
+    <a href="../papers/ijiri_EG13_BHRBF_talk.pptx">talk slide (ppt)</a>
+    <a href="../papers/ijiri_EG13_BHRBF_talk.pdf" >talk slide (pdf)</a>
+    <a href="http://www.riken.jp/brict/Ijiri/VoTracer/">software (Japanese only) </a>
+    <br>
+    <br>
+    <iframe width="640" height="360" src="http://www.youtube.com/embed/mL6ig_OaQAA?feature=player_detailpage" frameborder="0" allowfullscreen></iframe>
+  </div>
+
+
+  <br>
+  <br>
+  <div id="StdContents">
+    Takashi Ijiri, Shin Yoshizawa, Yu Sato, Masaaki Ito, and Hideo Yokota.: Bilateral Hermite Radial Basis Functions for Contour-based Volume Segmentation. Computer Graphics Forum, Vol. 32, Issue 2, pp. 123-132, 2013. EUROGRAPHICS 2013.
+    <br>
+    <br>
+    <pre>
+@Article{Ijiri_EG13,
+    author   = {Takashi Ijiri and Shin Yoshizawa and Yu Sato and Masaaki Ito and Hideo Yokota},
+    title    = {{Bilateral Hermite Radial Basis Functions for Contour-based Volume Segmentation}},
+    journal  = {Computer Graphics Forum},
+    year     = {2013},
+    volume   = {32},
+    number   = {2},
+    pages    = {123-132},
+    note     = {Proc. of EUROGRAPHICS'13}
+}
+    </pre>
+  </div>
+
+  <br>
+
+  <hr>
+  <h3>Implementation tips</h3>
+
+  <div id="StdContents">
+    For our Bilateral Hermit Radial Basis Function,
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=f({\bf x}) = \Sigma^{N}_{i=1}} \left{ \alpha_i \phi({\bf x} - {\bf p}_i) -  {\bf \beta}_i \nabla\phi({\bf x} - {\bf p}_i) \right} %2b {\bf ax} %2b b" align="top">...(3), <br>
+    we used the following two kernels in our experiments:<br>
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\phi_1({\bf x}) = ||{\bf x}||^3" align="top" >, <br>
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\phi_2({\bf x}) = ||{\bf x}||^4 log||{\bf x}||" align="top" >. <br>
+    The both φ<sub>1</sub> and φ<sub>2</sub> provide convincing results. <br>
+    <br>
+
+    The gradient of these kernels are computed as follows; <br>
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\nabla \phi_1({\bf x}) = 3||{\bf x}||{\bf x}" > <br>
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\nabla \phi_2({\bf x}) = ||{\bf x}||^2(4log||{\bf x}|| %2b 1) {\bf x}" ><br>
+    <br>
+
+    The Hessian matrices of these kernels are computed as follows; <br>
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=H\phi_1({\bf x}) = {\bf 0}" align="middle" > 　　　　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=if\;\;\;\;||{\bf x}|| = {\bf 0}" align="middle"><br>
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=H\phi_1({\bf x}) = \frac{3{\bf x}{\bf x}^T}{||{\bf x}||}  %2b 3||{\bf x}||{\bf I}_k" align="middle"> 　  　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=otherwise" align="middle" ><br>
+
+    <br>
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=H\phi_2({\bf x}) = {\bf 0}" align="middle" > 　　　　　　　　　　　　　　　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=if\;\;\;\;||{\bf x}|| = {\bf 0}" align="middle"><br>
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=H\phi_2({\bf x}) = (8log||{\bf x}||%2b6){\bf x}{\bf x}^T  %2b ||{\bf x}||^2(4log||{\bf x}||%2b1){\bf I}_k" align="middle"> 　  　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=otherwise" align="middle" ><br>
+
+    <br>
+    <br>
+    where
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl={\bf x}" align="middle"> is a k-dimensional vector and
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl={\bf I}_k" align="middle"> is a k x k identity matrix.
+    <br>
+    We provide our implementation in our software (<a href="http://www2.riken.jp/brict/Ijiri/VoTracer/">VoTracer</a>). <br>
+  </div>
+
+  <hr>
+  <p align="right"><a href="../../index.html">back to top</a></p>
+
+</div>
+</body>
+</html>
