@@ -32,9 +32,33 @@ a:hover   {color:#CC0000;}
 
 #StdContents
 {
-    margin:0.5em 1em 1em 1em;
-    text-align:justify;
+  margin:0.5em 1em 1em 1em;
+  text-align:justify;
 }
+
+
+.StdList li
+{
+  margin:0.5em 0em 0.5em 0em;
+}
+
+/*
+.StdTable
+{
+  margin:0.5em 1em 1em 1em;
+}
+
+table.StdTable th
+{
+  border: solid 1px black;
+}
+
+table.StdTable td
+{
+  border: solid 1px black;
+}
+*/
+
 
 
 
@@ -78,6 +102,13 @@ hr {
 	height:1px;
 	margin-left:1em;
 }
+
+
+ul {
+  padding:1.5em 1em 0em 1em;
+}
+
+
 
 /*
 
