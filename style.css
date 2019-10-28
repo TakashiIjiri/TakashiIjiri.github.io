@@ -108,6 +108,11 @@ ul {
   padding:1.5em 1em 0em 1em;
 }
 
+.ProjImg
+{
+  /*margin:0 2em 0 3em;*/
+  width:600pt;
+}
 
 
 /*
@@ -236,11 +241,7 @@ ul.MyList li
 
 
 
-.ProjImg
-{
-    margin:0 2em 0 3em;
-    width:600pt;
-}
+
 
 
 .ProjAbst

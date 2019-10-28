@@ -1,0 +1,60 @@
+﻿<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>A procedural method for modeling the Purkinje fibers of the heart</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="../../style.css">
+</head>
+
+<body>
+<div id="MainBody">
+  <h1>projects</h1>
+  <div align="right"><a href="../../index.html">back to top</a></div>
+
+  <h2>A procedural method for modeling the Purkinje fibers of the heart</h2>
+
+  <h3>
+    <a href="../../index.html"> Takashi Ijiri</a>,
+    <a href="http://square.umin.ac.jp/ash/profile.html">Takashi Ashihara</a>, Takeshi Yamaguchi,
+    <a href="http://www-ui.is.s.u-tokyo.ac.jp/~kenshi/">Kenshi Takayama</a>,
+    <a href="http://www-ui.is.s.u-tokyo.ac.jp/~takeo/">Takeo Igarashi</a>, Tatsuo Shimada, Tsunetoyo Namba,
+    <a href="http://plaza.umin.ac.jp/haraguch/haraguch.html">Ryo Haraguchi</a>, and
+    <a href="http://www.ncvc.go.jp/res/english/LDEBIS/nakazawa-k.html">Kazuo Nakazawa</a>
+  </h3>
+
+  <h3>Abstract</h3>
+  <div id="StdContents">
+    The Purkinje fibers are located in the ventricular walls of the heart, just beneath the endocardium and conduct excitation from the right and left bundle branches to the ventricular myocardium. Recently, anatomists succeeded in photographing the Purkinje fibers of a sheep, which clearly showed the mesh structure of the Purkinje fibers. In this study, we present a technique for modeling the mesh structure of Purkinje fibers semiautomatically using an extended L-system. <br>
+
+    The L-system is a formal grammar that defines the growth of a fractal structure by generating rules (or rewriting rules) and an initial structure. It was originally formulated to describe the growth of plant cells, and has subsequently been applied for various purposes in computer graphics such as modeling plants, buildings, streets, and ornaments. For our purpose, we extended the growth process of the Lsystem as follows: 1) each growing branch keeps away from existing branches as much as possible to create a uniform distribution, and 2) when branches collide, we connect the colliding branches to construct a closed mesh structure. We designed a generating rule based on observations of the photograph of Purkinje fibers and manually specified three terminal positions on a three-dimensional (3D) heart model: those of the right bundle branch, the anterior fascicle, and the left posterior fascicle of the left branch. Then, we grew fibers starting from each of the three positions based on the specified generating rule.
+    <br>
+    We achieved to generate 3D models of Purkinje fibers of which physical appearances closely resembled the real photograph. The generation takes a few seconds. Variations of the Purkinje fibers could be constructed easily by modifying the generating rules and parameters.
+  </div>
+
+  <div id="StdContents">
+    <img src="fig1.jpg" class="ProjImg">
+  </div>
+
+
+  <h3>Materials</h3>
+  <div id="StdContents">
+    <a href="https://www.jstage.jst.go.jp/article/physiolsci/58/7/58_7_481/_article">open access</a>,
+    <a href="purkinjeModeler.zip">demo</a>
+
+    <br>
+    Takashi Ijiri, Takashi Ashihara, Takeshi Yamaguchi, Kenshi Takayama, et al. A procedural method for modeling the Purkinje fibers of the heart. The Journal of Physiological Science, 58, 7, pp. 481-486, 2008.
+    <br>
+    <br>
+    Takashi Ijiri, Kenshi Takayama, Takeo Igarashi, Takashi Ashihara, Tunetoyo Namba, Takeshi Yamaguchi, Tatsuo Shimada, Ryo Haraguchi, and Kazuo Nakazawa,<b> The use of L-system for modeling Purkinje fibers</b>, The 2nd MEI International Symposium: The Worldwide Challenge to Physiome and Systems Biology, 2007/12/07-09.
+    <a href="../papers/ijiri_2ndmei_purkinjemodeling_poster.pdf">poster(2nd MEI)</a>
+    <br>
+    <br>
+    <iframe width="640" height="390" src="http://www.youtube.com/embed/1gBXyxbSoBs" frameborder="0" allowfullscreen></iframe>
+  </div>
+
+
+  <div align="right"><a href="../../index.html">back to top</a></div>
+  <br><hr><br>
+</div>
+</body>
+</html>
