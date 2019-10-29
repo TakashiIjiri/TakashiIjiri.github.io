@@ -1,88 +1,44 @@
 ﻿
 <html>
+
 <head>
-<meta charset="utf-8">
-<meta http-equiv="Content-Style-Type" content="text/css">
-<meta name="Keywords" content="井尻敬,User Interface,Computer Graphics">
-<meta name="GENERATOR" content="JustSystems Homepage Builder Version 16.0.1.0 for Windows">
-<title>確率論</title>
-<link rel="stylesheet" type="text/css" media="screen" href="brict.css">
-<style type="text/css" media="screen">
-
-<!--
-/* Source Code CSS */
-pre.code {
-    font-size: 12px;
-    /* line-height:1.2em; */
-    border:1px solid #aaa;
-    background:#e0e0f0;
-    margin-left:30px;
-    padding:0.5em; 
-    overflow: auto;
-}
-pre.code span.tag		{
-	color: #0000ff;	
-}
-pre.code span.attr 		{
-	color: #000; 		
-}
-pre.code span.value		{
-	color: #900; 		
-}
-pre.code span.str 		{
-	color: #009900; 	
-}
-pre.code span.num 		{
-	color: #009900; 	
-}
-pre.code span.keyword	{
-	color: #0000ff; 	
-}
-pre.code span.rem		{
-	color: #909; 		
-}
-pre.code span.variable	{
-	color: #500050;	
-}
-
-
-
-<!--
-
--->
-</style>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <meta name="Keywords" content="井尻敬,User Interface,Computer Graphics">
+  <title>確率論</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="../../style.css">
 </head>
+
+
+
 <body>
-<div id="headerspacer"></div>
-<blockquote>
-<div id="col2o2content">
-  <hr>
+<div id="MainBody">
   <h1>確率論 6</h1>
+  <div id="StdContents">
+    [1][2]のおかげで[3]が読めるようになってきた．<br>
+    <ul>
+      <li>[1]結城浩, 数学ガール(乱択アルゴリズム)
+      <li>[2]平岡和幸, 堀玄 プログラミングのための確率統計
+      <li>[3]伊庭幸人, 種村正美, 計算統計 2 マルコフ連鎖モンテカルロ法とその周辺 (統計科学のフロンティア 12)
+    </ul>
+  </div>
+
   <hr>
-  　 [1][2]のおかげで[3]がかなりしっかり読めるようになってきた．<br>
-  <ul>
-    <li>[1]結城浩, 数学ガール(乱択アルゴリズム)
-    <li>[2]平岡和幸, 堀玄 プログラミングのための確率統計
-    <li>[3]伊庭幸人, 種村正美, 計算統計 2 マルコフ連鎖モンテカルロ法とその周辺 (統計科学のフロンティア 12)
-  </ul>
-  　ここから，本題であるMCMCに少しずつ入っていく．で、その後カルマンフィルタを勉強する予定．<br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <hr>
-  
   <h2>モンテカルロ法(例題)</h2>
-  　　　モンテカルロ法とは，目的の数値や関数の<font color="#ff0000">近似解</font>を得るための，<font color="#ff0000">乱数</font>を用いたアルゴリズムの総称．<br>
-  　　　<br>
-  　　　例題．「半径1の円の面積をπを使わないで求めよ」<br>
-  <br>
-  　　　モンテカルロ法による解法<br>
-  　　　　　-1)[-1,1]×[-1,1]の二次元領域に一様分布に従う点列x0, x1,...xNを発生させる．<br>
-  　　　　　-2)円の面積 S = (円内に入った点数) / (総点数N) × (領域全体の面積) 　 とする．<br>
-  <br>
-  　　　<img src="montecalroIntegration.png" width="207" height="261" border="0"><br>
-  <pre class="code">
+  <div id="StdContents">
+    モンテカルロ法とは，目的の数値や関数の近似解を得るための，乱数を用いたアルゴリズムの総称．<br>
+    <br>
+    例題．「半径1の円の面積をπを使わないで求めよ」<br>
+    <br>
+    モンテカルロ法による解法<br>
+    -1)[-1,1]×[-1,1]の二次元領域に一様分布に従う点列x0, x1,...xNを発生させる．<br>
+    -2)円の面積 S = (円内に入った点数) / (総点数N) × (領域全体の面積) とする．<br>
+    <br>
+    <img src="montecalroIntegration.png" width="207" height="261" border="0"><br>
+  </div>
+
+  <div id="StdContents">
+    <pre class="code">
 <span class="keyword">static</span> <span class="keyword">double</span> calcPI(<span class="keyword">int</span> ptNum = <span class="num">10000000</span>)
 {
     <span class="rem">//[-1,1]×[-1,1]の範囲に一様分布に従う点をptNum個発生させる</span>
@@ -96,148 +52,189 @@ pre.code span.variable	{
     <span class="rem">//円の面積(1*1*π) = (半径1の円に入ったサンプル点数) / 全てのサンプル点数 * 全体の長方形数 </span>
     <span class="keyword">return</span> numOfInsidePt / (<span class="keyword">double</span>) ptNum * (<span class="num">2.0</span>*<span class="num">2.0</span>);
 }
-</pre>
-  　　　実行結果<br>
-  　　　 　calcPI(10^2) = 3.27999999<br>
-  　　　 　calcPI(10^4) = 3.14639999<br>
-  　　　 　calcPI(10^6) = 3.14144800<br>
-  　　　 　calcPI(10^8) = 3.14101904<br>
-  　　　少数第3桁以上の精度は出なかった．<br>
-  　　　<br>
-  　　　<br>
-  <hr>
-  
+    </pre>
+  </div>
+
+  <div id="StdContents">
+    実行結果<br>
+    calcPI(10^2) = 3.27999999<br>
+    calcPI(10^4) = 3.14639999<br>
+    calcPI(10^6) = 3.14144800<br>
+    calcPI(10^8) = 3.14101904<br>
+    少数第4桁以上の精度は出なかった．<br>
+  </div>
+
+
+  <br><br><hr>
   <h2>モンテカルロ積分</h2>
-  <div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px">　　　　<b><font size="+2" style="font-size : 150%;">○モンテカルロ積分法○</font></b><br>
-  　　　-- f(<b>x</b>)を，d次元空間R<sup>d</sup>で定義されたスカラー関数とする．(つまり f(<b>x</b>)∈R , <b>x</b>∈R<sup>d</sup>)<br>
-  　　　-- 領域ΩをR<sup>d</sup>の部分空間とする．<br>
-  　　　一様分布に従うN個のサンプル点 <b>x</b><sub>1</sub>,...,<b>x</b><sub>N</sub>に対していかが成り立つ．<br>
-  　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle I = \int_\Omega f({\b x})d{\b x} \simeq \frac{V}{N}\sum_{i=1}^{N} f({\b x}_i) " align="top"><br>
-  　　　ただし，Vは領域Ωの体積である．<br>
-  　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle V = \int_\Omega d{\b x}" align="top"><br>
-  　<br>
-  　　　つまり，領域Ω(d次元空間)の積分をサンプル点の和で近似できる．<br>
-  　　　サンプル点が多いほど近似制度が上がるが，計算コストもかかる．<br>
+
+  <div id="StdContents">
+    <div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;padding-left:10px">
+
+      <h3>モンテカルロ積分法</h3>
+      -- f(<b>x</b>)を，d次元空間R<sup>d</sup>に定義されたスカラー関数とする．(f(<b>x</b>)∈R , <b>x</b>∈R<sup>d</sup>)<br>
+      -- 領域ΩをR<sup>d</sup>の部分空間とする．<br>
+      一様分布に従うN個のサンプル点 <b>x</b><sub>1</sub>,...,<b>x</b><sub>N</sub>に対して以下が成り立つ．<br>
+      <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle I = \int_\Omega f({\b x})d{\b x} \simeq \frac{V}{N}\sum_{i=1}^{N} f({\b x}_i) " align="top"><br>
+      ただし，Vは領域Ωの体積である．<br>
+      <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle V = \int_\Omega d{\b x}" align="top"><br>
+      <br>
+      つまり，領域Ω(d次元空間)の積分をサンプル点の和で近似できる．<br>
+      サンプル点が多いほど近似制度が上がるが，計算コストもかかる．<br>
   　</div>
-  <br>
-  　　　　　この近似が成り立つ証明．<br>
-  <br>
-  　　　　　まず，Uniform Law of Large Numbersより，十分大きなNに対して，<br>
-  　　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \frac{f(x_1) %2B... %2B f(x_N)}{N} \simeq E(f(X))=\int_\Omega f({\b x}) p({\b x})d{\b x}" align="middle"> <br>
-  　　　　　ただし，x1,...,x2は，領域Ω内の一様分布に従うサンプル点であり，p(x)は領域Ω内の一様分布の確率密度関数．<br>
-  　　　　　つまり，<br>
-  　　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle p({\b x}) = \frac{1}{ \int_\Omega d{\b x} } = \frac{1}{V}" align="middle"><br>
-  　　　　　以上より，　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \int_\Omega f({\b x})d{\b x} \simeq \frac{V}{N}\sum_{i=1}^{N} f({\b x}_i) " align="middle">　　となる．<br>
-  <br>
-  <br>
-  <br>
-  　　　　先の円の面積の解法は，このモンテカルロ積分法を以下のセットアップで使ったものである．<br>
-  　　　　　　領域Ω 　: [-1,1]×[-1,1]<br>
-  　　　　　　関数f(x,y): f(x,y) = 1 if (x,y) が円の内部<br>
-  　　　　　　　　　　　　　　　　　0 if (x,y) が円の外部<br>
-  　　　　　　<br>
-  　　　　　　　　(本題と関係ないが，久しぶりにやったら苦戦したので，この積分問題を解いてみる．)<br>
-  　　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle S = \int_{-1}^1 \int_{-1}^1 f(x,y) dydx " align="middle"><br>
-  　　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = \int_{-1}^1 \left( \int_{-\sqrt{1-x^2}}^{%2B\sqrt{1-x^2}}\;\;\; 1 dy \right) dx " align="middle">　　(円の内部でf(x,y)=1, 外部で0なので)<br>
-  　　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = \int_{-1}^1 2 \sqrt{1-x^2} dx " align="middle">　　<br>
-  　　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = \int_{-\pi/2}^{\pi/2} 2 \cos^2 \theta d\theta " align="middle">　　x=sinθと置くと, dx = cosθdθより<br>
-  　　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = \int_{-\pi/2}^{\pi/2} 1 %2B \cos2\theta d\theta " align="middle">　　倍角の公式<br>
-  　　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = \pi " align="middle"><br>
-  　　　　<br>
+  </div>
+
+  <div id="StdContents">
+    この近似が成り立つ証明．<br>
+    <br>
+    まず，Uniform Law of Large Numbersより，十分大きなNに対して，<br>
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \frac{f(x_1) %2B... %2B f(x_N)}{N} \simeq E(f(X))=\int_\Omega f({\b x}) p({\b x})d{\b x}" align="middle"> <br>
+    ただし，x1,...,x2は，領域Ω内の一様分布に従うサンプル点であり，p(x)は領域Ω内の一様分布の確率密度関数．<br>
+    つまり，<br>
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle p({\b x}) = \frac{1}{ \int_\Omega d{\b x} } = \frac{1}{V}" align="middle"><br>
+    以上より，　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \int_\Omega f({\b x})d{\b x} \simeq \frac{V}{N}\sum_{i=1}^{N} f({\b x}_i) " align="middle">　　となる．<br>
+  </div>
   <br>
   <br>
-  <br>
-  <hr>
-  
+
+  <div id="StdContents">
+    先の円の面積の解法は，このモンテカルロ積分法を以下のセットアップで使ったものである．<br>
+    領域Ω 　: [-1,1]×[-1,1]<br>
+    関数f(x,y): f(x,y) = 1 if (x,y) が円の内部<br>
+    　　　　　　　　 0 if (x,y) が円の外部<br>
+    <br>
+    (本題と関係ないが，久しぶりにやったら苦戦したので，この積分問題を解いてみる．)<br>
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle S = \int_{-1}^1 \int_{-1}^1 f(x,y) dydx " align="middle"><br>
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = \int_{-1}^1 \left( \int_{-\sqrt{1-x^2}}^{%2B\sqrt{1-x^2}}\;\;\; 1 dy \right) dx " align="middle">　　
+    　　...(円の内部でf(x,y)=1, 外部で0なので)<br>
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = \int_{-1}^1 2 \sqrt{1-x^2} dx " align="middle">　　<br>
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = \int_{-\pi/2}^{\pi/2} 2 \cos^2 \theta d\theta " align="middle">　　
+    　　...x=sinθと置くと, dx = cosθdθより<br>
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = \int_{-\pi/2}^{\pi/2} 1 %2B \cos2\theta d\theta " align="middle">
+    　　...倍角の公式<br>
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = \pi " align="middle"><br>
+    <br>
+  </div>
+
+
+
+  <br><br><hr>
   <h2>モンテカルロ法の一般形</h2>
-  　　　　前述のモンテカルロ積分では，一様分布に従うサンプル点群で，積分を近似していた．<br>
-  　　　　より一般的に，任意の確率分布Q(X)に従うサンプル点群を用いる手法を以下に示す．<br>
-  <div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px">　　　　<b><font size="+2" style="font-size : 150%;">○解きたい問題○</font></b><br>
-    　　　<b>離散的な確率変数を考えている場合. </b><br>
-  　　　確率変数<b>X</b>が，正規化定数の不明な確率分布P(<b>X=x</b>)に従うとし， (<b>x</b>はd次元空間の位置ベクトルとする．)<br>
-  　　　以下の期待値を求めたい．<br>
-  　　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle E(f(X)) = \sum_{{\bf x}\in\Omega}f({\bf x})P({\bf x})  " align="middle"> <br>
-    <br>    　　　<b>連続的な確率変数を考えている場合. </b><br>
-  　　　確率変数Xが, 正規化定数の不明な確率密度関数p<sub>X</sub>(<b>X=x</b>)により定義される確率分布に従うとし， (<b>x</b>はd次元空間の位置ベクトルとする．)<br>  　　　以下の期待値を求めたい．<br>
-  　　　　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle E(f(X)) = \int_{\Omega}f({\bf x})p_X({\bf x}) d{\b x}  " align="middle"> <br>
-  　　　<br>
-  　　　関数f(<b>x</b>）は何かしらの統計量を表すものとする．<br>
-  <br>
-  　　　確率分布P(<b>x</b>)の正規化定数をZとすると，<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle P({\bf x}) = \hat{P}({\bf x})/Z " align="middle">, と書けて，<img src="http://chart.apis.google.com/chart?cht=tx&chl=\hat{P}({\bf x})" align="middle">は計算できるものとする(Zはunknown)．<br>
-  <br>
-  　　　また，確率密度関数p<sub>X</sub>(<b>x</b>)の正規化定数をZとすると，<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle p_X({\bf x}) = \hat{p_X}({\bf x})/Z " align="middle">, と書けて，<img src="http://chart.apis.google.com/chart?cht=tx&chl=\hat{p_X}({\bf x})" align="middle">は計算できるものとする(Zはunknown)．<br>
-  <br>
 
+  <div id="StdContents">
+    前述のモンテカルロ積分では，一様分布に従うサンプル点群で，積分を近似していた．<br>
+    より一般的に，任意の確率分布Q(X)に従うサンプル点群を用いる手法を以下に示す．<br>
+  </div>
+
+  <div id="StdContents">
+    <div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;padding-left:10px">
+      <h3> 解きたい問題 </h3>
+
+      <b> ■ A 離散的な確率変数を考えている場合. </b><br>
+      確率変数<b>X</b>が，正規化定数の不明な確率分布P(<b>X=x</b>)に従うとし，以下の期待値を求めたい．<br>
+      <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle E(f(X)) = \sum_{{\bf x}\in\Omega}f({\bf x})P({\bf x})  " align="middle"> <br>
+      <br><br>
+
+      <b> ■ B 連続的な確率変数を考えている場合. </b><br>
+      確率変数Xが, 正規化定数の不明な確率密度関数p<sub>X</sub>(<b>X=x</b>)により定義される確率分布に従うとし，以下の期待値を求めたい．<br>
+      <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle E(f(X)) = \int_{\Omega}f({\bf x})p_X({\bf x}) d{\b x}  " align="middle"> <br>
+      <br>
+
+      ※<b>x</b>はd次元空間の位置ベクトル
+      ※関数f(<b>x</b>）は何かしらの統計量を表すものとする．<br>
+      ※確率分布P(<b>x</b>)の正規化定数をZとすると，<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle P({\bf x}) = \hat{P}({\bf x})/Z " align="middle">, と書けて，<img src="http://chart.apis.google.com/chart?cht=tx&chl=\hat{P}({\bf x})" align="middle">は計算できるものとする(Zはunknown)．<br>
+
+      ※確率密度関数p<sub>X</sub>(<b>x</b>)の正規化定数をZとすると，<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle p_X({\bf x}) = \hat{p_X}({\bf x})/Z " align="middle">, と書けて，<img src="http://chart.apis.google.com/chart?cht=tx&chl=\hat{p_X}({\bf x})" align="middle">は計算できるものとする(Zはunknown)．<br>
+      <br>
+    </div>
+  </div>
+
+  <br>
+  <br>
+  <div id="StdContents">
+    <div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;padding-left:10px">
+      <h3> 解法 </h3>
+      <br>
+      <b> ■ A 離散的な確率分布の場合．</b><br>
+      1) 次の条件を満たす確率分布Q(X)を用意する．<br>
+      - 確率分布Q(X)に従うサンプル点群を効率的に発生させられる．<br>
+      - サンプル点<b>x</b>を与えると，その確率Q(X=<b>x</b>)が計算できる．<br>
+      - 確率分布 P(X) に似ている．（似ていなくても計算はできるが効率が悪くなる）<br>
+      <br>
+
+      2) 確率分布Q(X)に従うサンプル点群をN個発生させる．
+      <b>x</b><sub>1</sub>, <b>x</b><sub>2</sub>, ..., <b>x</b><sub>N</sub><br>
+      <br>
+
+      3) 期待値と正規化定数を以下の通り計算する．<br>
+      <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle w_i = \frac{ \hat{P}({\b x}_i)}{ Q({\b x}_i)} " align="middle"><br>
+      <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle Z \simeq \frac{1}{N} \sum_{k=1}^N w_i" align="middle"><br>
+      <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle E(f(X)) = \sum_{{\bf x}\in\Omega}f({\bf x})P({\bf x}) \simeq \frac{1}{NZ} \sum_{k=1}^N f({\b x}_i) w_i " align="middle"><br>
+
+      <br><br><br>
+      <b> ■ B 連続的な確率分布の場合．</b>--- (確率分布が確率密度関数になるだけ)<br>
+      1) 次の条件を満たす確率分布Q(X)を用意する．<br>
+      - 確率分布Q(X)に従うサンプル点群を効率的に発生させられる．<br>
+      - サンプル点<b>x</b>を与えると，その<font color="#ff0000">確率密度q(<b>x</b>)</font>が計算できる．<br>
+      - <font color="#ff0000">確率密度関数</font>が求めたい<font color="#ff0000">p<sub>X</sub>(<b>x</b>)</font>に似ている．（似ていなくても計算はできるが効率が悪くなる）<br>
+      <br>
+      2) 確率分布Q(X)からサンプル点群をN個発生させる．　<b>x</b><sub>1</sub>, <b>x</b><sub>2</sub>, ..., <b>x</b><sub>N</sub><br>
+      <br>
+      3) 期待値と正規化定数を以下の通り計算する．<br>
+      <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle w_i = \frac{ \hat{p_X}({\b x}_i)}{ q({\b x}_i)} " align="middle"><br>
+      <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle Z \simeq \frac{1}{N} \sum_{k=1}^N w_i" align="middle"><br>
+      <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle E(f(X)) = \int_{\Omega}f({\bf x})p_X({\bf x}) d{\b x} \simeq \frac{1}{NZ} \sum_{k=1}^N f({\b x}_i) w_i " align="middle"><br>
+      <br>
+    </div>
+  </div>
+
+  <br>
+  <br>
+  <br>
+  <div id="StdContents">
+    証明) 離散の場合 <br>
+    正規化定数の定義　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle P({\bf x}) = \hat{P}({\bf x})/Z " align="middle">　より　
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle w_i = \frac{ P({\b x}_i) Z}{ Q({\b x}_i)} " align="middle">．
+    <br><br>
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \frac{1}{N}\sum_{i=1}^N w_i = \frac{1}{N}\sum_{i=1}^N \frac{ P({\b x}_i) Z}{ Q({\b x}_i)} \simeq \sum_{{\b x}\in \Omega} \left{ \frac{ P({\b x}) Z}{ Q({\b x}) } Q({\b x}) \right} " align="middle">　
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = Z \sum_{{\b x}\in \Omega} P({\b x}) =Z" align="middle">
+    <br>
+    <br>
+    Uniform Law of Large Numbersより，
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl= \frac{ \sum_{i=1}^N f({\b x}_i) }{N} \simeq  E(f(X) )" align="middle">
+    とできる.
+    この変型では
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl= f({\b x})=P({\b x})Z/Q({\b x})" align="middle">　と置いている．<br>
+    <br>
+    <br>
+    また，期待値に関して，<br>
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle  \frac{1}{NZ} \sum_{i=1}^N  f({\b x_i}) w_i = \frac{1}{NZ} \sum_{i=1}^N  f({\b x_i}) \frac{ P({\b x}_i) Z}{ Q({\b x}_i)} " align="middle">
+    <img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \simeq \sum_{{\b x}\in \Omega} \left{ \frac{ f({\b x}) P({\b x})}{ Q({\b x}) } Q({\b x}) \right} =  \sum_{{\b x}\in \Omega} f({\b x}) P({\b x})" align="middle"><br>
+  </div>
+
+  <div id="StdContents">
+    連続の場合は，<b>x</b>∈Ω の和分がΩ内での積分になり，確率分布P(x)/Q(x)が確率密度関数p(x)/q(x)に置き換わるだけ．<br>
+    <br>
+    モンテカルロ法の正しさは，大数の法則(Uniform Law of Large Numbers)に基づいている．<br>
+    Nが十分大きければ (x1+x2+...+xN)/N ≒ ΣxP(x) とNでの割り算が確率分布Pの掛け算になっていることに注意．<br>
+    <br>
+    <br>
+    <b>離散の例</b>．イジングモデル<br>
+    <br>
+    <b>連続の例</b>．上の面積積分が連続確率分布の良い例．<br>
+    上の例では，p(x)を2次元における一様分布と定義し (p(X) = 1/4，x∊[-1,1]x[-1,1])，<br>
+    f(x) = 1 if　点<b>x</b>が円の内部<br>
+    　　= 0 others<br>
+    とした時の期待値 E(f(X)) を，モンテカルロ法で求めている．<br>
+  </div>
+  <br>
+  <br>
+  <div id="StdContents">
+  確率論7へ<br>
+
+  <div id="footer">
+    Copyright 2010~ Takashi Ijiri(井尻敬), All rights reserved.
+  </div>
 </div>
-  <br>
-  <br>
-  <div style="background-color:#e0f0e0;border:thin solid #c0c0c0;line-height:1.5;margin-left:10px"><b>
-  <font size="+2" style="font-size : 150%;">○解法(モンテカルロ法の一般形)○</font></b><br>
-  　　<b>離散的な確率分布</b>の場合．<br>
-  　　1) 次の条件を満たす確率分布Q(X)を用意する．<br>
-  　　　　　-確率分布Q(X)に従うサンプル点群を効率的に発生させられる．<br>
-  　　　　　-サンプル点<b>x</b>を与えると，その確率Q(X=<b>x</b>)が計算できる．<br>
-  　　　　　-確率分布P(X)に似ている．（似ていなくても計算はできるが効率が悪くなる）<br>
-  <br>
-  　　2) 確率分布Q(X)に従うサンプル点群をN個発生させる．　<b>x</b><sub>1</sub>, <b>x</b><sub>2</sub>, ..., <b>x</b><sub>N</sub><br>
-  <br>
-  　　3) 期待値と正規化定数を以下の通り計算する．<br>
-  　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle w_i = \frac{ \hat{P}({\b x}_i)}{ Q({\b x}_i)} " align="middle"> 　　<br>
-  　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle Z \simeq \frac{1}{N} \sum_{k=1}^N w_i" align="middle"><br>
-  　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle E(f(X)) = \sum_{{\bf x}\in\Omega}f({\bf x})P({\bf x}) \simeq \frac{1}{NZ} \sum_{k=1}^N f({\b x}_i) w_i " align="middle"><br>
-  <br>
-  <br>
-  　　　　　<br>
-  ---<b>連続的な確率分布</b>の場合．--- (確率分布が確率密度関数になるだけ)<br>  　　1) 次の条件を満たす確率分布Q(X)を用意する．<br>
-  　　　　　-確率分布Q(X)に従うサンプル点群を効率的に発生させられる．<br>
-  　　　　　-サンプル点<b>x</b>を与えると，その<font color="#ff0000">確率密度q(<b>x</b>)</font>が計算できる．<br>
-  　　　　　-<font color="#ff0000">確率密度関数</font>が求めたい<font color="#ff0000">p<sub>X</sub>(<b>x</b>)</font>に似ている．（似ていなくても計算はできるが効率が悪くなる）<br>
-  <br>
-  　　2) 確率分布Q(X)からサンプル点群をN個発生させる．　<b>x</b><sub>1</sub>, <b>x</b><sub>2</sub>, ..., <b>x</b><sub>N</sub><br>
-  <br>
-  　　3) 期待値と正規化定数を以下の通り計算する．<br>
-  　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle w_i = \frac{ \hat{p_X}({\b x}_i)}{ q({\b x}_i)} " align="middle"><br>
-  　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle Z \simeq \frac{1}{N} \sum_{k=1}^N w_i" align="middle"><br>
-  　　　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle E(f(X)) = \int_{\Omega}f({\bf x})p_X({\bf x}) d{\b x} \simeq \frac{1}{NZ} \sum_{k=1}^N f({\b x}_i) w_i " align="middle"><br>
-  <br>
-</div>
-  <br>
-  　　　証明) 離散の場合<br>
-  　　　正規化定数の定義　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle P({\bf x}) = \hat{P}({\bf x})/Z " align="middle">　より　
-<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle w_i = \frac{ P({\b x}_i) Z}{ Q({\b x}_i)} " align="middle">．<br>
-  <br>
-  　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \frac{1}{N}\sum_{i=1}^N w_i = \frac{1}{N}\sum_{i=1}^N \frac{ P({\b x}_i) Z}{ Q({\b x}_i)} \simeq \sum_{{\b x}\in \Omega} \left{ \frac{ P({\b x}) Z}{ Q({\b x}) } Q({\b x}) \right} " align="middle">　
-<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle = Z \sum_{{\b x}\in \Omega} P({\b x}) =Z" align="middle">
-
-
-<br>
-  <br>
-  　　近似の≒の変形がややこしいが，Uniform Law of Large Numbersより，<img src="http://chart.apis.google.com/chart?cht=tx&chl= \frac{ \sum_{i=1}^N f({\b x}_i) }{N} \simeq  E(f(X) )" align="middle">　とできる. この変型では<img src="http://chart.apis.google.com/chart?cht=tx&chl= f({\b x})=P({\b x})Z/Q({\b x})" align="middle">　と置いている．<br>
-  <br>
-  　　　<br>
-  　　　また，期待値に関して，<br>
-  　　　<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle  \frac{1}{NZ} \sum_{i=1}^N  f({\b x_i}) w_i = \frac{1}{NZ} \sum_{i=1}^N  f({\b x_i}) \frac{ P({\b x}_i) Z}{ Q({\b x}_i)} " align="middle">
-<img src="http://chart.apis.google.com/chart?cht=tx&chl=\displaystyle \simeq \sum_{{\b x}\in \Omega} \left{ \frac{ f({\b x}) P({\b x})}{ Q({\b x}) } Q({\b x}) \right} =  \sum_{{\b x}\in \Omega} f({\b x}) P({\b x})" align="middle"><br>
-  <br>
-  <br>
-  <br>
-  　　　 連続の場合は，<b>x</b>∈Ω の和分がΩ内での積分になり，確率分布P(x)/Q(x)が確率密度関数p(x)/q(x)に置き換わるだけ．<br>
-  <br>
-  　　　モンテカルロ法の正しさは，大数の法則(Uniform Law of Large Numbers)に基づいている．<br>
-  　　　Nが十分大きければ (x1+x2+...+xN)/N ≒ ΣxP(x) とNでの割り算が確率分布Pの掛け算になっていることに注意．<br>
-  <br>
-  <br>
-  　　　<b>離散の例</b>．イジングモデル<br>
-  <br>
-  　　　<b>連続の例</b>．上の面積積分が連続確率分布の良い例．<br>
-  　　　　　P(X):[-1,1][-1,1] 2次元一様分布 (P(X) = 1/4)<br>
-  　　　　　f(<b>x</b>) = 1 if　点<b>x</b>が円の内部<br>
-  　　　　　　　　　= 0 others<br>
-  　　　とした時の期待値P(f(X))を，モンテカルロ法で求めているといえる．<br>
-  <br>
-  <br>
-  <br>
-  　確率論7へ<br>
-  <div id="footer"> Copyright 2010~ Takashi Ijiri(井尻敬), All rights reserved.</div>
-</div></blockquote>
-</body></html> 
+</body>
+</html>
