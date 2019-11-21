@@ -1,150 +1,108 @@
 ﻿<html>
 
-
 <head>
-<meta charset="utf-8">
-<title>Region Growing</title>
-
-<link rel="stylesheet" type="text/css" media="screen" href="../roipainter.css">
-
-<style type="text/css" media="screen">
-<!--
--->
-</style>
+  <meta charset="utf-8">
+  <title>Region Growing</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="../../style.css">
 </head>
-
-
-
-
-
 
 
 <body>
 <div id="MainBody">
 
-<h1>Region Growing Segmentation</h1>
-<p align="right"><a href="../../index.html">back to top</a></p>
+  <h1>Region Growing and Thresholding</h1>
+  <p align="right"><a href="../../index.html">back to top</a></p>
 
+  <div id="StdContents">
+    <img src="../img/RoiPainter3D.png" width=80% >
+  </div>
 
-<img src="../img/RoiPainter3D.png" class="ProjImg">
+  <h2>
+    <a href="../index.html">RoiPainter</a>  &nbsp;&nbsp;
+    <a href="../io.html">I/O</a>            &nbsp;&nbsp;
+    <a href="../vis.html">Visualization</a> &nbsp;&nbsp;
+    <a href="index.html">Segmentation</a>   &nbsp;&nbsp;
+    <a href="https://github.com/InteractiveGraphicsLab/RoiPainter3Dv2"> source code (github)</a> &nbsp;&nbsp;
+  </h2>
+  <hr>
 
-<hr>
-<h2>
-<a href="../index.html">RoiPainter</a>           &nbsp;&nbsp;
-<a href="../io.html">I/O</a> &nbsp;&nbsp;
-<a href="../vis.html">Visualization</a> &nbsp;&nbsp;
-<a href="index.html">Segmentation</a> &nbsp;&nbsp;
-<a href="https://github.com/InteractiveGraphicsLab/RoiPainter3Dv2"> source code (github)</a> &nbsp;&nbsp;
-</h2>
-
-
-<hr>
-<div class="ProjAbst">
-<br>
-    <a href="index.html"><font class="vtmode">Segmentation Top</font></a><br>
-    <ul>
-        <li><a href="seg_RG.html"><font class="vtmode">1) Segmentation Region Growing</font></a> ← this page</li>
-        <li><a href="seg_GC.html"><font class="vtmode">2) Segmentation Graph Cut</font></a></li>
-        <li><a href="seg_LRG.html"><font class="vtmode">3) Segmentation Local Region Growing</font></a></li>
-        <li><a href="seg_TP.html"><font class="vtmode">4) Segmentation Threshold Paint</font></a></li>
+  <div id="StdContents">
+    <ul class="StdList">
+      <li> <a href="index.html">Segmentation Top</a></li>
+      <li>+++ <a href="seg_RG.html"> 1) Segmentation Region Growing</a></li>
+      <li>+++ <a href="seg_GC.html"> 2) Segmentation Graph Cut      </a></li>
+      <li>+++ <a href="seg_VP.html"> 3) Segmentation Voxel Paint    </a></li>
+      <li>+++ <a href="seg_LRG.html">4) Segmentation Local Region Growing</a></li>
+      <li>+++ <a href="seg_TP.html"> 5) Segmentation Threshold Paint</a></li>
+      <li>+++ <a href="seg_PW.html"> 6) Segmentation Prallel Wires  </a></li>
+      <li>+++ <a href="ref_ST.html"> 7) Refinement Stroke Triming   </a></li>
+      <li>+++ <a href="ref_VP.html"> 8) Refinement Voxel Paint      </a></li>
     </ul>
-</div>
+  </div>
+
+  <hr>
+  <h2> Segmentation Region Growing and Thresholding </h2>
+
+  <div id="StdContents">
+    この "Segmentation Region Growing" モードでは，閾値法と領域拡張法による領域分割が行えます．
+    閾値法では，最小輝度値と最大輝度値を指定するとその範囲にある画素がすべて抽出されます．
+    領域拡張法では，複数のシード・最小輝度値・最大輝度値を指定すると，すべてのシードから与えた閾値の範囲で領域拡張を行います．
+    また，領域拡張の回数指定や，領域拡張後に収縮・膨張・穴埋め処理を施すことも可能です．
+  </div>
+
+  <br>
+  <h2>Workflow</h2>
+
+  <div id="StdContents">
+    <ul class="StdList">
+      <li> ツールの起動 : "Menu > ModeSwitch > Segmentation Region Growing" をクリック </li>
+      <li> 閾値法を利用 : 最小輝度値・最大輝度値をダイアログより指定し， "Run Thresholding"ボタンをクリック</li>
+      <li> 領域拡張法を利用 : 最小輝度値・最大輝度値をダイアログより指定し，メインWindowでShift+L double clickによりシードを配置，"Run Region Growing"ボタンをクリック </li>
+      <li> 登録 : ダイアログ右下の"End & Store Region"を押と分割した領域が登録される．</li>
+    </ul>
+  </div>
+
+  <hr>
+  <h2>Main Windowの操作方法</h2>
+  <div id="StdContents">
+    <ul class="StdList">
+      <li> マウス L/M/R ドラッグ : 視点の平行移動/ズーム/回転 </li>
+      <li> マウス ホイール : 切断面の前後移動 </li>
+
+      <li> Shift + Lダブルクリック : 切断面上にシード点を配置する（既存のシードをダブルクリックした場合はそれを削除） </li>
+      <li> Shift + Lドラッグ : シードを移動する </li>
+      <li> Ctrl + L ドラッグ : 曲面切断面の生成 </li>
+      <li> Ctrl + L クリック : 曲面切断面の削除 </li>
+    </ul>
+  </div>
 
 
+  <h2>Dialogの操作方法</h2>
 
-<hr>
-<h2>1) Region Growing</h2>
+  <span id="ArrangeLR">
+    <span id="ArrangeLR40_left">
+      <img src="img/segrg_dialog.png" width=95% >
+    </span>
 
-<div = class="ProjAbst">
-概要
-</div>
+    <span id="ArrangeLR40_right">
+      d1. すべての前景・背景制約点を削除<br>
+      d2. グラフカットパラメータλを指定するスライダー．全体のコストE=E1 + λE2と表現される．E1は，各画素の前景・背景になりやすさを考慮したコスト（Unary term），E2は似た隣接画素に違うラベルを付ける際のコスト（Smoothing term）. <br>
+      d3. グラフカット（watershedレベル（粗いレベル））実行<br>
+      d4. グラフカット（画素レベル）実行<br>
+      d5. 画素レベルのグラフカットを行う際，現在の前景領域の境界部分に厚みｎの帯状領域を生成する．その領域の厚みを指定する（厚み = 1画素，2画素，3画素）<br>
+      d6. ここをチェックすると前景領域は前景として固定したまま，背景領域中に帯状領域を生成する． <br>
+      d7. 領域分割をキャンセルする<br>
+      d8. 作業終了ボタン．このボタンを押すと現在の前景領域が新しいMask IDとして登録される．<br>
+    </span>
+  </span>
 
+  <br>
+  <br>
 
-
-<br>
-<h2>Workflow</h2>
-
-<ol style="line-height:1.5em; padding-left:4.0em;">
-    <li>ツールの起動 : Click "Menu &gt; ModeSwitch &gt; Segmentation Region Grow" </li>
-    <li> : </li>
-    <li>領域分割 : Region Growingにより領域分割を行う．</li>
-    <li><a href="../vis.html#mask">>終了 : ダイアログ右下のEnd & Store Regionを押す．</a></li>
-</ol>
-
-
-
-
-<br>
-<br>
-<br>
-
-
-<div = class="StdBlock">
-
-<table>
-    <tbody>
-        <tr>
-            <td>
-
-                <iframe title="votracerbasic1" class="youtube-player" type="text/html" width="640" height="480" src="" frameborder="0"></iframe>
-            </td>
-            <td style="padding:1em;">
-                <font class="vtmanu">操作</font><br> 動作<br>
-                <br>
-                <font class="vtmanu">L-drag </font><br> 移動<br>
-                <br>
-                <font class="vtmanu">R-drag </font><br> 回転<br>
-                <br>
-                <font class="vtmanu">M-wheel</font><br> スライス移動<br>
-                <br>
-                <font class="vtmanu">M-drag </font><br> 拡大縮小<br>
-                <br>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-
-<br>
-<br>
-
-
-<table border="0">
-    <tbody>
-        <tr>
-            <td>　
-                <img src="../img/dialog_RG.png" width="280">
-            </td>
-            <td style="padding:1em; line-height: 1.4em;">
-
-<font class="vtmanu">d1. 名称</font> 役割<br>
-<font class="vtmanu">d2. </font> <br>
-<font class="vtmanu">d3. </font> <br>
-<font class="vtmanu">d4. </font> <br>
-<font class="vtmanu">d5. </font> <br>
-<font class="vtmanu">d6. End & Store Region</font> 作業終了，Vizualization maskへ移動<br>
-
-
-<br><br>
-説明
-<br>
-            </td>
-        </tr>
-    </tbody>
-</table>
+  <div id="StdContents">
+    <a href="../index.html"> RoiPainter3D Top </a>
+  </div>
 
 </div>
-
-
-<br>
-
-    <hr>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-
 </body>
 </html>

@@ -331,3 +331,29 @@ pre.code span.variable	{
     height:90pt;
 }
 */
+
+
+#ArrangeLR
+{
+  position:relative;
+  width   :100% ;
+  display :table;
+}
+
+#ArrangeLR40_left
+{
+  display   :table-cell;
+  width     :40%;
+  padding   :1em 0em 0em 1em;
+  text-align:left;
+  vertical-align: middle;
+}
+
+#ArrangeLR40_right
+{
+  display: table-cell;
+  width    :60% ;
+  line-height:2.0em;
+  text-align: left;
+  vertical-align: middle;
+}

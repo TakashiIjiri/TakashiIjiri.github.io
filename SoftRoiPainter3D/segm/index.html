@@ -1,94 +1,102 @@
 ﻿<html>
 
-
 <head>
-<meta charset="utf-8">
-<title>RoiPainter Segmentation</title>
-
-<link rel="stylesheet" type="text/css" media="screen" href="../roipainter.css">
-
-<style type="text/css" media="screen">
-<!--
--->
-</style>
+  <meta charset="utf-8">
+  <title>RoiPainter Segmentation</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="../../style.css">
 </head>
-
-
-
-
-
 
 
 <body>
 <div id="MainBody">
 
-<h1>RoiPainter Segmentation</h1>
-<p align="right"><a href="../../index.html">back to top</a></p>
+  <h1>RoiPainter Segmentation</h1>
+  <p align="right"><a href="../../index.html">back to top</a></p>
 
+  <div id="StdContents">
+    <img src="../img/RoiPainter3D.png" width=80% >
+  </div>
 
-<img src="../img/RoiPainter3D.png" class="ProjImg">
+  <h2>
+    <a href="../index.html">RoiPainter</a>  &nbsp;&nbsp;
+    <a href="../io.html">I/O</a>            &nbsp;&nbsp;
+    <a href="../vis.html">Visualization</a> &nbsp;&nbsp;
+    <a href="index.html">Segmentation</a>   &nbsp;&nbsp;
+    <a href="https://github.com/InteractiveGraphicsLab/RoiPainter3Dv2"> source code (github)</a> &nbsp;&nbsp;
+  </h2>
+  <hr>
 
-<hr>
-<h2>
-<a href="../index.html">RoiPainter</a>           &nbsp;&nbsp;
-<a href="../io.html">I/O</a> &nbsp;&nbsp;
-<a href="../vis.html">Visualization</a> &nbsp;&nbsp;
-<a href="index.html">Segmentation</a> &nbsp;&nbsp;
-<a href="https://github.com/InteractiveGraphicsLab/RoiPainter3Dv2"> source code (github)</a> &nbsp;&nbsp;
-</h2>
-
-
-<hr>
-<div class="ProjAbst">
-<br>
-    <a href="index.html"><font class="vtmode">Segmentation Top</font></a> ← this page<br>
-    <ul>
-        <li><a href="seg_RG.html"><font class="vtmode">1) Segmentation Region Growing</font></a></li>
-        <li><a href="seg_GC.html"><font class="vtmode">2) Segmentation Graph Cut</font></a></li>
-        <li><a href="seg_LRG.html"><font class="vtmode">3) Segmentation Local Region Growing</font></a></li>
-        <li><a href="seg_TP.html"><font class="vtmode">4) Segmentation Threshold Paint</font></a></li>
+  <div id="StdContents">
+    <ul class="StdList">
+      <li> <a href="index.html">Segmentation Top</a></li>
+      <li>+++ <a href="seg_RG.html"> 1) Segmentation Region Growing</a></li>
+      <li>+++ <a href="seg_GC.html"> 2) Segmentation Graph Cut      </a></li>
+      <li>+++ <a href="seg_VP.html"> 3) Segmentation Voxel Paint    </a></li>
+      <li>+++ <a href="seg_LRG.html">4) Segmentation Local Region Growing</a></li>
+      <li>+++ <a href="seg_TP.html"> 5) Segmentation Threshold Paint</a></li>
+      <li>+++ <a href="seg_PW.html"> 6) Segmentation Prallel Wires  </a></li>
+      <li>+++ <a href="ref_ST.html"> 7) Refinement Stroke Triming   </a></li>
+      <li>+++ <a href="ref_VP.html"> 8) Refinement Voxel Paint      </a></li>
     </ul>
+  </div>
+
+  <hr>
+  <h2>Segmentation in RoiPainter</h2>
+  <div id="StdContents">
+    RoiPainter3Dでは，複数の領域分割ツール・領域修正ツールを利用した領域分割が可能です．3次元画像の各画素には0~255のMask IDを割り当てることができ，画像を読み込む次点ではすべての画素に0番のMask IDが割り振られます．
+    割り当てられるMask IDは，一つの画素に一つだけ（ひとつの画素が複数のMask IDを持つことはできない）で，<a href="../vis.html"> Visualization Mask</a>にて割り当てたMask IDを確認できます．
+    <br><br>
+    一度作成したMask IDは，"Menu > File > save mask"より保存でき，"Menu > File > load mask"より開くけます．さらに，<a href="../vis.html"> Visualization Mask</a>より，マスク領域を3次元オブジェクト(.obj形式)として書き出すことも可能です．
+    <br><br>
+    "Segmentation *" ツールを利用すると，Mask IDが0の領域（背景領域）に対し，領域分割処理を行い，新たなMask IDを振ることができます．一方，"Refinement *" ツールを利用すると，好きなMask IDの涼気を選択し，その領域の修正を行えます．
+  </div>
+
+  <hr>
+  <h2>Segmentation / Refinment tools in RoiPainter3D</h2>
+  <div id="StdContents">
+    <ul class="StdList">
+      <li><a href="seg_RG.html"> 1) Segmentation Region Growing</a> :
+          領域拡張法および閾値処理により領域分割を行えます．輝度値が比較的一様な領域（骨，造影血管）の分割に向いています．</li>
+      <li><a href="seg_GC.html"> 2) Segmentation Graph Cut     </a> :
+          Graph Cut法により領域分割を行えます．境界が明瞭で球に近い形状を持った領域の分割に向いています．</li>
+      <li><a href="seg_VP.html"> 3) Segmentation Voxel Paint   </a> :
+          切断面上をペイントすることで領域を指定します．非常に時間と手間がかかります．非常に不明瞭な境界を持った比較的小さな領域の分割に向いています．</li>
+      <li><a href="seg_LRG.html">4) Segmentation Local Region Growing </a>:
+          球・円筒上のシードを配置しその中のみで領域拡張を行えるツールです．領域拡張法ではうまく抽出できない輝度値むらのある領域に使えます．</a></li>
+      <li><a href="seg_TP.html"> 5) Segmentation Threshold Paint</a> :
+          実装中です．</li>
+      <li><a href="seg_PW.html"> 6) Segmentation Prallel Wires </a>:
+          平行断面（xy-, yz-, zx- 断面）上にスプライン曲線の輪郭線を配置するツールです．Vodel Paintツールと似ていますが，輪郭線を後から編集することが可能です．このツールも手間がかかるので，他に良い方法がない不明瞭な領域向けです． </a></li>
+      <li><a href="ref_ST.html"> 7) Refinement Stroke Triming </a> :
+          領域分割済みのある領域に対して，スクリーン上にStrokeを描くことで一部分を切り取ることができるツールです．切り取った領域には新たなMask IDが割り振られ異なる領域として保存されます．</li>
+      <li><a href="ref_VP.html"> 8) Refinement Voxel Paint </a> :
+          領域分割済みのある領域に対して，各画素をペイントすることで修正を行えるツールです．上記のSegmentation Voxel Paintを修正作業に利用できるツールです．</li>
+    </ul>
+  </div>
+
+  <hr>
+  <h2>典型的なワークフロー</h2>
+
+  <div id="StdContents">
+    RoiPainterは，3次元画像から関心領域（ROI: Region of Interests）を分割し，その形状モデルを取り出すためのソフトウエアです．
+    典型的なワークフローは以下の通りです．
+    <ul class="StdList">
+      <li> 1)  "Menu > File > Open *" より3次元画像を読み込む</li>
+      <li> 2) "Menu > Mode Switch > Segmentation *" より領域分割ツールを起動し関心領域を作成</li>
+      <li> 3) "Menu > Mode Switch > Refinment *" より領域修正ツールを起動し関心領域を修正</li>
+      <li> 4) "Menu > File > Visualization Mask" よりMask ID可視化ツールを起動し，Maskの内容を確認・微修正</li>
+      <li> 5) 上記 2)~3)を繰り返す．</li>
+      <li> 6) Mask領域を形状モデルとして書き出して終了．</li>
+    </ul>
+  </div>
+  <br><br>
+  <br><br>
+
+
+  <div id="StdContents">
+    <a href="../index.html"> RoiPainter3D Top </a>
+  </div>
+
 </div>
-
-
-
-<hr>
-<h2>Segmentation in RoiPainter</h2>
-
-<div class="ProjAbst">
-概要
-</div>
-
-
-
-<br>
-<h2>Segmentation Workflow</h2>
-<div = class="ProjAbst">
-<ol style="line-height:1.5em; padding-left:1em;">
-    <li>ツールの起動 : Click "Menu &gt; ModeSwitch &gt; to start segmentation mode" </li>
-RoiPainterでは，4つのSegmentationツールが使用可能です．<br><br>
-        <div class="StdBlock">
-            <ol>
-                <li><a href="seg_RG.html"><font class="vtmode">Segmentation Region Growing</font></a></li>
-                <li><a href="seg_GC.html"><font class="vtmode">Segmentation Graph Cut</font></a></li>
-                <li><a href="seg_LRG.html"><font class="vtmode">Segmentation Local Region Growing</font></a></li>
-                <li><a href="seg_TP.html"><font class="vtmode">Segmentation Threshold Paint</font></a></li>
-            </ol>
-        </div>
-
-</ol>
-
-</div>
-
-<br>
-
-    <hr>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-
 </body>
 </html>

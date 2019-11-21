@@ -1,150 +1,116 @@
 ﻿<html>
 
-
 <head>
-<meta charset="utf-8">
-<title>Graph Cut</title>
-
-<link rel="stylesheet" type="text/css" media="screen" href="../roipainter.css">
-
-<style type="text/css" media="screen">
-<!--
--->
-</style>
+  <meta charset="utf-8">
+  <title>Graph Cut</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="../../style.css">
 </head>
-
-
-
-
-
 
 
 <body>
 <div id="MainBody">
 
-<h1>Graph Cut Segmentation</h1>
-<p align="right"><a href="../../index.html">back to top</a></p>
+  <h1>Region Growing and Thresholding</h1>
+  <p align="right"><a href="../../index.html">back to top</a></p>
 
+  <div id="StdContents">
+    <img src="../img/RoiPainter3D.png" width=80% >
+  </div>
 
-<img src="../img/RoiPainter3D.png" class="ProjImg">
+  <h2>
+    <a href="../index.html">RoiPainter</a>  &nbsp;&nbsp;
+    <a href="../io.html">I/O</a>            &nbsp;&nbsp;
+    <a href="../vis.html">Visualization</a> &nbsp;&nbsp;
+    <a href="index.html">Segmentation</a>   &nbsp;&nbsp;
+    <a href="https://github.com/InteractiveGraphicsLab/RoiPainter3Dv2"> source code (github)</a> &nbsp;&nbsp;
+  </h2>
+  <hr>
 
-<hr>
-<h2>
-<a href="../index.html">RoiPainter</a>           &nbsp;&nbsp;
-<a href="../io.html">I/O</a> &nbsp;&nbsp;
-<a href="../vis.html">Visualization</a> &nbsp;&nbsp;
-<a href="index.html">Segmentation</a> &nbsp;&nbsp;
-<a href="https://github.com/InteractiveGraphicsLab/RoiPainter3Dv2"> source code (github)</a> &nbsp;&nbsp;
-</h2>
-
-
-<hr>
-<div class="ProjAbst">
-<br>
-    <a href="index.html"><font class="vtmode">Segmentation Top</font></a><br>
-    <ul>
-        <li><a href="seg_RG.html"><font class="vtmode">1) Segmentation Region Growing</font></a></li>
-        <li><a href="seg_GC.html"><font class="vtmode">2) Segmentation Graph Cut</font></a> ← this page</li>
-        <li><a href="seg_LRG.html"><font class="vtmode">3) Segmentation Local Region Growing</font></a></li>
-        <li><a href="seg_TP.html"><font class="vtmode">4) Segmentation Threshold Paint</font></a></li>
+  <div id="StdContents">
+    <ul class="StdList">
+      <li> <a href="index.html">Segmentation Top</a></li>
+      <li>+++ <a href="seg_RG.html"> 1) Segmentation Region Growing</a></li>
+      <li>+++ <a href="seg_GC.html"> 2) Segmentation Graph Cut      </a></li>
+      <li>+++ <a href="seg_VP.html"> 3) Segmentation Voxel Paint    </a></li>
+      <li>+++ <a href="seg_LRG.html">4) Segmentation Local Region Growing</a></li>
+      <li>+++ <a href="seg_TP.html"> 5) Segmentation Threshold Paint</a></li>
+      <li>+++ <a href="seg_PW.html"> 6) Segmentation Prallel Wires  </a></li>
+      <li>+++ <a href="ref_ST.html"> 7) Refinement Stroke Triming   </a></li>
+      <li>+++ <a href="ref_VP.html"> 8) Refinement Voxel Paint      </a></li>
     </ul>
-</div>
+  </div>
+
+  <hr>
+  <h2> Segmentation Graph Cut </h2>
+
+  <div id="StdContents">
+    この "Segmentation Graph Cut" モードでは，Graph Cut画像領域分割法による二値化を行えます．
+    Graph Cut画像領域分割とは，ユーザが粗く指定した前景画素・背景画素をクエリ―とし，「前景画素/背景画素に似た輝度値を持つ画素が前景/背景になるように」と「輝度値変化の激しい画素間に境界が置かれるように」という2つの制約を利用して前景領域を計算します．この制約の解を得るために容量付き有向グラフを生成しその最小カットを求めるため，Graph Cut法と呼ばれます．このツールでは以下の論文を参考に各制約の重みを計算しています．<br>
+    [1] Li et al. Lazy snapping, SIGGRAPH 2004.<br>
+    [2] Yuri Boykov and Marie-Pierre Jolly, Interactive Graph Cuts for Optimal Boundary & Region Segmentation of Objects in N-D images, ICCV 2001. <br>
+  </div>
 
 
 
-<hr>
-<h2>2) Graph Cut</h2>
+  <br>
+  <h2>Workflow</h2>
+  <div id="StdContents">
+    <ul class="StdList">
+      <li> ツールの起動 : "Menu > ModeSwitch > Segmentation Graph Cut" をクリック. <br>
+          ※ Graph Cutモードを起動すると，高速処理のための前計算が行われます．<br>
+          ※ 画像の大きさに依存しますが，前計算には数分かかる場合があります．<br>
+          ※ 前計算結果は独自形式で保存されており，次回から再利用可能です．</li>
+      <li> シードの配置 : メインウインドウにおいて，切断面上で "Shift + マウス左ドラッグ"すると前景シードを，"Shift + マウス右ドラッグ"すると背景シードを配置できます．</li>
+      <li> シードの修正 : Shift + マウス中ドラッグで既存のシードを削除できます．Shift-左ドラッグで既存シードを移動できます． </li>
+      <li> Graph Cut計算 （Watershedレベル）: "Run Graph Cut Watershed Lv."ボタンをクリックするとGraph Cut法により前景領域が計算されます．この計算は，Watershed法により粗く分割しておいた画像に対して行われます．精度は良くはないですが高速に動作します．</li>
+      <li> Graph Cut計算 （画素レベル）: "Run Graph Cut Voxel Lv."ボタンをクリックするとGraph Cut法により前景領域が計算されます．この計算は，前述のWatershed LvのGraph Cut法により生成した前景領域に対し，厚みn-voxel分の帯状領域を生成し，この領域に対して行われます．画素レベルの精度で計算をするので滑らかな分割結果が得られることが多いです．<br>
+      ※Graph Cut Watershed lv.を一度実行し，必要に応じてGraph Cut voxel Lvを一度実行してください．</li>
+    </ul>
+  </div>
 
-<div = class="ProjAbst">
-概要
-</div>
+  <hr>
+  <h2>Main Windowの操作方法</h2>
+  <div id="StdContents">
+    <ul class="StdList">
+      <li> マウス L/M/R ドラッグ : 視点の平行移動/ズーム/回転 </li>
+      <li> マウス ホイール : 切断面の前後移動 </li>
+      <li> Ctrl + L ドラッグ : 曲面切断面の生成 </li>
+      <li> Ctrl + L クリック : 曲面切断面の削除 </li>
 
+      <li> Shift + マウスLドラッグ : 切断面上に前景制約点を配置する（赤点）</li>
+      <li> Shift + マウスRドラッグ : 切断面上に背景制約点を配置する（青点）</li>
+      <li> Shift + マウスMドラッグ : シードを削除する </li>
+    </ul>
+  </div>
+  <br>
 
+  <h2>Dialogの操作方法</h2>
 
-<br>
-<h2>Workflow</h2>
+  <span id="ArrangeLR">
+    <span id="ArrangeLR40_left">
+      <img src="img/seggc_dialog.png" width=95% >
+    </span>
 
-<ol style="line-height:1.5em; padding-left:4.0em;">
-    <li>ツールの起動 : Click "Menu &gt; ModeSwitch &gt; Segmentation Graph Cut" </li>
-    <li> : </li>
-    <li>領域分割 : Graph Cut法により領域分割を行う．</li>
-    <li><a href="../vis.html#mask">>終了 : ダイアログ右下のFinishを押す．</a></li>
-</ol>
+    <span id="ArrangeLR40_right">
+      d1. 最小輝度値指定用スライダー<br>
+      d2. 最大輝度値指定用スライダー<br>
+      d3. 閾値法実行ボタン<br>
+      d4. 領域拡張法（6近傍）実行ボタン<br>
+      d5. 領域拡張法（26近傍）実行ボタン<br>
+      d6. 領域拡張の回数制限 on/off : onにしてあると，下のスライダーで指定した回数のみしか領域拡張の逐次計算が行われない <br>
+      d7. 領域拡張の制限回数指定用スライダー<br>
+      d8. 収縮・膨張・穴埋め処理ボタン．領域分割後このボタンを押すと，前景領域に収縮・膨張・穴埋め処理が施される．（ここでいう穴埋め処理とは前景領域内の中空領域を自動的に埋める処理，いわゆるCloasing operation都は違うので注意）<br>
+      d9. 作業終了ボタン．このボタンを押すと現在の前景領域が新しいMask IDとして登録される．<br>
+    </span>
+  </span>
 
+  <br>
+  <br>
 
-
-
-<br>
-<br>
-<br>
-
-
-<div = class="StdBlock">
-
-<table>
-    <tbody>
-        <tr>
-            <td>
-
-                <iframe title="votracerbasic1" class="youtube-player" type="text/html" width="640" height="480" src="" frameborder="0"></iframe>
-            </td>
-            <td style="padding:1em;">
-                <font class="vtmanu">操作</font><br> 動作<br>
-                <br>
-                <font class="vtmanu">L-drag </font><br> 移動<br>
-                <br>
-                <font class="vtmanu">R-drag </font><br> 回転<br>
-                <br>
-                <font class="vtmanu">M-wheel</font><br> スライス移動<br>
-                <br>
-                <font class="vtmanu">M-drag </font><br> 拡大縮小<br>
-                <br>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-
-<br>
-<br>
-
-
-<table border="0">
-    <tbody>
-        <tr>
-            <td>　
-                <img src="../img/dialog_GC.png" width="260">
-            </td>
-            <td style="padding:1em; line-height: 1.4em;">
-
-<font class="vtmanu">d1. 名称</font> 役割<br>
-<font class="vtmanu">d2. </font> <br>
-<font class="vtmanu">d3. </font> <br>
-<font class="vtmanu">d4. </font> <br>
-<font class="vtmanu">d5. </font> <br>
-<font class="vtmanu">d6. cancel</font> 作業中止（作業内容が消えるため要注意）<br>
-<font class="vtmanu">d7. FINISH</font> 作業終了，Vizualization maskへ移動<br>
-
-<br><br>
-説明
-<br>
-            </td>
-        </tr>
-    </tbody>
-</table>
+  <div id="StdContents">
+    <a href="../index.html"> RoiPainter3D Top </a>
+  </div>
 
 </div>
-
-
-<br>
-
-    <hr>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-
 </body>
 </html>
