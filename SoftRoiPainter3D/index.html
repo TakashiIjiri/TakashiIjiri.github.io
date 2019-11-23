@@ -9,13 +9,13 @@
 
 <body>
 
-<div id="MainBody">
+<div id="MainBody600">
 
   <h1>Volume Segmentation Software, RoiPainter</h1>
   <p align="right"><a href="../index.html">back to top</a></p>
 
   <div id="StdContents">
-    <img src="img/RoiPainter3D.png" width=650pt >
+    <img src="img/RoiPainter3D.png" width=600pt >
   </div>
 
   <h3>
@@ -58,6 +58,23 @@
     </br>
   </div>
   </br>
+
+  <h3>起動画面</h3>
+  <div id="StdContents">
+    <img src="img/screenshot.png" width=600pt >
+  </div>
+
+  <div id="StdContents">
+    RoiPainterを起動すると上記のような画面が表示されます．RoiPainterは以下の3個のWindowより構成されます．
+    <ul id="StdList">
+      <li>d-1 MainWindow : 3次元画像を表示する．このWindowを利用して三次元空間へのシード配置や輪郭指定を行う．</li>
+      <li>d-2 可視化パラメータダイアログ : 3次元表示に関するパラメータを指定する．詳しくは<a href="./vis/index.html">こちら</a>.</li>
+      <li>d-3 ツール操作用ダイアログ : 各可視化・領域分割ツールを操作．ツールごとに異なるダイアログが表示されるので各ツールの説明ページを参照.</li>
+    </ul>
+    <br>
+    もし，MainWindow上に二つの球が表示されず真っ白い画面が表示される場合は，GPUが使えない状態（そもそもグラフィックスカードがない，または，省電力もーどのためGPUの機能がoffになっている）だと思われます．
+    <br>
+  </div>
 
   <hr>
   <h3>開発者</h3>

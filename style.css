@@ -30,6 +30,23 @@ a:hover   {color:#CC0000;}
   max-width: 800pt;
 }
 
+
+#MainBody600
+{
+  position:absolute;
+  width    :99%;
+  left     :3pt;
+  border-left :1px solid Gray;
+  border-right:1px solid Gray;
+  z-index :3;
+  min-width: 400pt;
+  max-width: 600pt;
+}
+
+
+
+
+
 #StdContents
 {
   margin:0.5em 1em 1em 1em;
