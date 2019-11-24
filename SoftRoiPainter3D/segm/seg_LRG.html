@@ -1,162 +1,118 @@
 ﻿<html>
-
-
 <head>
-<meta charset="utf-8">
-<title>Local Region Growing</title>
 
-<link rel="stylesheet" type="text/css" media="screen" href="../roipainter.css">
-
-<style type="text/css" media="screen">
-<!--
--->
-</style>
+  <meta charset="utf-8">
+  <title>Local Region Growing</title>
+  <link rel="stylesheet" type="text/css" media="screen" href="../../style.css">
 </head>
-
-
-
-
 
 
 
 <body>
 <div id="MainBody">
+  <h1>Segmentation Local Region Growing</h1>
+  <p align="right"><a href="../../index.html">back to top</a></p>
 
-<h1>Local Region Growing Segmentation</h1>
-<p align="right"><a href="../../index.html">back to top</a></p>
+  <div id="StdContents">
+    <img src="../img/RoiPainter3D.png" width=650pt >
+  </div>
 
+  <h3>
+    <a href="../index.html">RoiPainter</a>  &nbsp;
+    <a href="../io.html">I/O</a>            &nbsp;
+    <a href="../vis.html">Visualization</a> &nbsp;
+    <a href="../segm/index.html">Segmentation</a> &nbsp;
+    <a href="../dl/index.html">Download</a>   &nbsp;
+    <a href="https://github.com/InteractiveGraphicsLab/RoiPainter3Dv2"> code (github)</a> &nbsp;
+  </h3>
+  <br>
+  <hr>
 
-<img src="../img/RoiPainter3D.png" class="ProjImg">
-
-<hr>
-<h2>
-<a href="../index.html">RoiPainter</a>           &nbsp;&nbsp;
-<a href="../io.html">I/O</a> &nbsp;&nbsp;
-<a href="../vis.html">Visualization</a> &nbsp;&nbsp;
-<a href="index.html">Segmentation</a> &nbsp;&nbsp;
-<a href="https://github.com/InteractiveGraphicsLab/RoiPainter3Dv2"> source code (github)</a> &nbsp;&nbsp;
-</h2>
-
-
-<hr>
-<div class="ProjAbst">
-<br>
-    <a href="index.html"><font class="vtmode">Segmentation Top</font></a><br>
-    <ul>
-        <li><a href="seg_RG.html"><font class="vtmode">1) Segmentation Region Growing</font></a></li>
-        <li><a href="seg_GC.html"><font class="vtmode">2) Segmentation Graph Cut</font></a></li>
-        <li><a href="seg_LRG.html"><font class="vtmode">3) Segmentation Local Region Growing</font></a> ← this page</li>
-        <li><a href="seg_TP.html"><font class="vtmode">4) Segmentation Threshold Paint</font></a></li>
+  <div id="StdContents">
+    <ul class="StdList">
+      <li> <a href="index.html">Segmentation Top</a></li>
+      <li>+++ <a href="seg_RG.html"> 1) Segmentation Region Growing</a></li>
+      <li>+++ <a href="seg_GC.html"> 2) Segmentation Graph Cut      </a></li>
+      <li>+++ <a href="seg_VP.html"> 3) Segmentation Voxel Paint    </a></li>
+      <li>+++ <a href="seg_LRG.html">4) Segmentation Local Region Growing</a></li>
+      <li>+++ <a href="seg_TP.html"> 5) Segmentation Threshold Paint</a></li>
+      <li>+++ <a href="seg_PW.html"> 6) Segmentation Prallel Wires  </a></li>
+      <li>+++ <a href="ref_ST.html"> 7) Refinement Stroke Triming   </a></li>
+      <li>+++ <a href="ref_VP.html"> 8) Refinement Voxel Paint      </a></li>
     </ul>
-</div>
+  </div>
+
+  <hr>
+  <h2> Segmentation Local Region Growing </h2>
+
+  <div id="StdContents">
+    このツールは，影響範囲を限定した領域拡張が行えます．具体的には，3次元空間に球状のシードを複数配置し，それぞれに異なる閾値を設定すると，各シード領域内部領域拡張が計算され，その和集合が領域として抽出されます．また，前もって背景領域を作成するNegativeなシードも配置可能です．Negativeしーどが配置された場合，まずNegativeシードの領域拡張を計算し背景領域を作成した下で，前景領域の領域拡張が計算されます．これにより，望まない領域の染み出しを防ぐことが可能です．
+  </div>
+
+  <br>
+  <h2>Workflow</h2>
+  <div id="StdContents">
+      <li>ツールの起動 : "Menu > ModeSwitch > Segmentation Local Region Grow" をクリック </li>
+      <ul class="StdList">
+      <li>シードの配置 : ポジティブ，ネガティブの2種類の特性を持ったシードを複数配置し，その影響範囲と閾値を設定する．<br>
+          ※シードは，球形状 or 円筒形状．生成時は球形状だが，制御点を追加するとポリラインに沿った円筒形状になる．<br>
+          ※シード配置中は，複数シードのうちある一つのシードがアクティブになっており，そのシードに対して編集作業を行える．<br>
+          ※各シードの半径，最小・最大輝度値を指定</li>
+      <li>領域分割実行 : ダイアログのRun Region Growingをクリックし領域分割処理を実行し結果を確認する．</li>
+      <li>終了し登録 : ダイアログ右下のFinish And Storeをクリック．</li>
+    </ul>
+  </div>
 
 
+  <hr>
+  <h2>メインウインドウの操作方法</h2>
 
-<hr>
-<h2>3) Local Region Growing</h2>
+  <div id="StdContents">
+    <iframe title="votracerbasic1" class="youtube-player" type="text/html" width="640" height="480" src="https://www.youtube.com/embed/XdOH0iOATp0?ecver=2" frameborder="0"></iframe>
+  </div>
 
-<div = class="ProjAbst">
-このツールは，3次元造影CT画像に対して局所的に領域拡張を行い（Local Region Growing），前景領域を抽出し，詳細な3次元形状モデルの作成を行うためのものです．
-</div>
+  <div id="StdContents">
+    <ul class="StdList">
+      <li> マウス L/M/R ドラッグ : 視点の平行移動/ズーム/回転 </li>
+      <li> マウス ホイール : 切断面の前後移動 </li>
+      <li> Ctrl + L ドラッグ : 曲面切断面の生成 </li>
+      <li> Ctrl + L クリック : 曲面切断面の削除 </li>
+      <li></li>
+      <li> ※ダイアログの"Fore Seed" / "Back Seed"ボタンより新しいシードを追加できる．</li>
+      <li> Shift + マウスLクリック : <br>
+          断面をクリックした場合 --> 現在アクティブなシードに新しい制御点を追加 <br>
+          あるシードの制御点をクリックした場合 -> そのシードをアクティブにし制御点をドラッグで移動可能 <br>
+          ※あるシードに複数制御点を指定すると，シリンダー状のシードを配置可能</li>
+      <li> Shift + マウスRクリック : シードの制御点を削除 </li>
+      <li> Shift + マウスホイール : アクティブなシードの半径を変更 </li>
+    </ul>
+  </div>
 
+  <hr>
+  <h2>ダイアログの操作方法</h2>
 
+  <span id="ArrangeLR">
+    <span id="ArrangeLR40_left">
+      <img src="img/seglrg_dialog.png" width=95% >
+    </span>
 
-<br>
-<h2>Workflow</h2>
+    <span id="ArrangeLR40_right">
+      <b>d1</b>. Seed List - 配置したシードの情報が提示され，ある行をクリックするとそのシードをアクティブにできる．<br>
+      <b>d2</b>. Fore Seedボタン - 新しいポジティブシードを生成<br>
+      <b>d3</b>. Back Seedボタン - 新しいネガティブシードを生成<br>
+      ※生成されたシードは3次元空間の中心付近に配置され，shift+左ドラッグで移動できる．
+      <b>d4, d5</b>. 最小値/最大値指定スライダ - アクティブなシードの最小/最大閾値を指定できる．<br>
+      <b>d6</b>. 半径指定スライダ - アクティブなシードの半径を指定できる．<br>
+      <b>d7</b>. Run Local Region Growingボタン - 領域拡張を計算する．何度でも実行可能．（シードの位置やパラメータを修正するたび実行するとよいです．）<br>
+      <b>d8</b>. Cancelボタン -  作業中止（作業内容が消えるため要注意）<br>
+      <b>d9</b>. Finish And Storeボタン - 作業を終了し現在の領域を登録する<br>
+    </span>
+  </span>
 
-<ol style="line-height:1.5em; padding-left:4.0em;">
-    <li>ツールの起動 : Click "Menu &gt; ModeSwitch &gt; Segmentation Local Region Grow" </li>
-    <li>シードの配置 : ポジティブ，ネガティブの2種類の特性を持ったシードを複数配置し，その影響範囲と閾値を設定する．</li>
-    <li>領域分割 : Region Growingにより局所的な領域分割を行う．</li>
-    <li><a href="../vis.html#mask">>終了 : ダイアログ右下のFinish And Storeを押す．</a></li>
-</ol>
-
-
-
-
-<br>
-<br>
-<br>
-
-
-<div = class="StdBlock">
-
-<table>
-    <tbody>
-        <tr>
-            <td>
-
-                <iframe title="votracerbasic1" class="youtube-player" type="text/html" width="640" height="480" src="https://www.youtube.com/embed/XdOH0iOATp0?ecver=2" frameborder="0"></iframe>
-            </td>
-            <td style="padding:1em;">
-                <font class="vtmanu">L-double click</font><br> ポジティブシード配置<br>
-                <br>
-		<font class="vtmanu">R-double click</font><br> ネガティブシード配置<br>
-                <br>
-		<font class="vtmanu">Shift+L/R-double click</font><br> シリンダーシード配置<br>
-                <br>
-                <font class="vtmanu">M-wheel(Active)</font><br> シード半径変更<br>
-                <br>
-		<font class="vtmanu">M-double click</font><br> シード削除<br>
-                <br>
-                <font class="vtmanu">L-drag </font><br> 移動<br>
-                <br>
-                <font class="vtmanu">R-drag </font><br> 回転<br>
-                <br>
-                <font class="vtmanu">M-wheel</font><br> スライス移動<br>
-                <br>
-                <font class="vtmanu">M-drag </font><br> 拡大縮小<br>
-                <br>
-            </td>
-        </tr>
-    </tbody>
-</table>
-
-
-<br>
-<br>
-
-
-<table border="0">
-    <tbody>
-        <tr>
-            <td>　
-                <img src="../img/dialog_LRG.png" width="400">
-            </td>
-            <td style="padding:1em; line-height: 1.4em;">
-
-<font class="vtmanu">d1. Seed list</font> 配置したシードの情報<br>
-<font class="vtmanu">d2. Threshold slider</font> シードの閾値設定（下限/上限）<br>
-<font class="vtmanu">d3. Radius slider</font> シードの半径設定<br>
-<font class="vtmanu">d4. Run Local Region Grow</font> 領域計算を行う<br>
-<font class="vtmanu">d5. Seed Sort</font> シードのソート（実装予定）<br>
-<font class="vtmanu">d6. Save / Load Seeds</font> 配置したシード情報の保存/呼び出し<br>
-<font class="vtmanu">d7. Cancel</font> 作業中止（作業内容が消えるため要注意）<br>
-<font class="vtmanu">d8. Finish And Store</font> 作業終了，Vizualization maskへ移動<br>
-
-<br><br>
-RegionGrowingでは，シードの隣接画素を探索し，拡張規則を満たす画素を前景領域として抽出する．画像全体に同じ拡張規則が適用される．<br>
-<br>
-RoiPainterでは，シードを複数配置し，それぞれに異なる閾値と影響範囲を指定することで局所的に領域を抽出することが可能です．また，前景領域を抽出する「ポジティブシード」に加え，背景領域を抽出する「ネガティブシード」を配置することで，領域の誤抽出を修正することができます．さらに，影響範囲を指定する形状として，球と円筒の2種類を提供する．<br>
-<br>
-<b><font color="#0000ff">d2</font></b>では，RegionGrowingで抽出する輝度値の範囲を設定します．<br>
-            </td>
-        </tr>
-    </tbody>
-</table>
+  <div id="StdContents">
+    <a href="../index.html"> RoiPainter3D Top </a>
+  </div>
 
 </div>
-
-
-<br>
-
-    <hr>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-
 </body>
 </html>
