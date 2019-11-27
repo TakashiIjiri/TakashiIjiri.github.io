@@ -46,23 +46,21 @@
   <h2> Refinement Stroke Triming </h2>
 
   <div id="StdContents">
-    概要: 作成中． <br>
+    "Refinement Stroke Triming"は，他のツールにて抽出したROI(関心領域)の不要部分を切り取る（トリミング）できるツールです．3次元表示されたROIに対し，その不要部分を囲むようなストロークを描くと，その部分を削除できます．他の半自動領域分割ツール（Graph Cutや領域拡張）である程度正確にできたものの一部修正したいようなときに便利です．ROIから切り取った領域は新たなROIとして登録されるため，あるROIを2分割する目的にも利用できます．<br>
   </div>
-
-
 
   <br>
   <h2>Workflow</h2>
   <div id="StdContents">
     <ul class="StdList">
-      <li>ツールの起動 : "Menu > ModeSwitch > Segmentation Voxel Paint" をクリック. </li>
-      <li>+ </li>
-      <li>+ </li>
-      <li>+ </li>
-      <li>終了し登録 : ダイアログ右下のFinish And Storeをクリック．</li>
-
+      <li>ツールの起動 : <br>
+      --- "Menu > ModeSwitch > Refinement Stroke Triming" をクリック. <br>
+      --- 領域選択ダイアログが表示されるので，修正したい領域を指定</li>
+      <li>Shift + 左ドラッグによりトリミングストロークを描き不要部分を除去する．（ストロークは何度でも描ける）</li>
+      <li>ダイアログ右下のFinish And Storeをクリックし，トリミング結果を登録する．編集対象領域からトリミングされた領域は，新しい領域としてMask IDが割り振られる．</li>
     </ul>
   </div>
+
 
   <hr>
   <h2>Main Windowの操作方法</h2>
@@ -73,10 +71,12 @@
       <li> Ctrl + L ドラッグ : 曲面切断面の生成 </li>
       <li> Ctrl + L クリック : 曲面切断面の削除 </li>
 
-      <li> TODO </li>
-      <li> TODO </li>
-      <li> TODO </li>
+      <li> Shift + L ドラッグでトリミングストロークの描画 </li>
+      <li> トリミングストローク描画中に右クリックでストロークをキャンセル </li>
+      <li> Ctrl + z keyでundo （一ステップ分だけ）</li>
     </ul>
+    <img src="img/refst_main.png" width=80% >
+
   </div>
   <br>
 
@@ -84,15 +84,11 @@
 
   <span id="ArrangeLR">
     <span id="ArrangeLR40_left">
-      <img src="img/segvp_dialog.png" width=95% >
+      <img src="img/refst_dialog.png" width=80% >
     </span>
-
     <span id="ArrangeLR40_right">
-      <b>d1</b>. TODO <br>
-      <b>d2</b>. TODO <br>
-      <b>d3</b>. TODO <br>
-      <b>d4</b>. TODO <br>
-      <b>d5</b>. TODO <br>
+      <b>d1</b>. Cancel : 現在の修正結果を破棄し，Visualization Standardモードへ移る <br>
+      <b>d2</b>. Finish Refinement : 現在の修正結果を登録する． <br>
     </span>
   </span>
 

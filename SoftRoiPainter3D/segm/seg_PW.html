@@ -46,23 +46,24 @@
   <h2> Segmentation Parallel Wires </h2>
 
   <div id="StdContents">
-    概要: 作成中． <br>
+    Segmentation Parallel wiresは，平面断面上にスプライン曲線を指定することでROI(関心領域)を分割するツールです．
+    すべてのスライス上に曲線を引く必要があるため作業効率は悪いですが，専門家のみにしか見分けられないような境界があいまいな領域の分割に向いています．
+    利用できる断面は xy-, yz-, zx-断面の3つで，それぞれに曲線を配置できます．
+    配置した曲線の内部領域のみがROIとして抽出されます．<br>
   </div>
-
-
 
   <br>
   <h2>Workflow</h2>
   <div id="StdContents">
     <ul class="StdList">
-      <li>ツールの起動 : "Menu > ModeSwitch > Segmentation Voxel Paint" をクリック. </li>
-      <li>+ </li>
-      <li>+ </li>
-      <li>+ </li>
-      <li>終了し登録 : ダイアログ右下のFinish And Storeをクリック．</li>
-
+      <li>ツールの起動 : "Menu > ModeSwitch > Segmentation Parallel Wires" をクリック. </li>
+      <li>ダイアログにより断面(xy,yz,zx)を選択</li>
+      <li>マウスホイールにより断面を移動</li>
+      <li>Shift + Lクリックによりスプライン曲線の制御点を配置（3点以上の制御点が配置されると自動的に閉じた曲線が生成される）</li>
+      <li>ダイアログ右下のFinish And Storeをクリックすると，各平面断面における曲線内部がROIとして抽出される．．</li>
     </ul>
   </div>
+
 
   <hr>
   <h2>Main Windowの操作方法</h2>
@@ -73,10 +74,13 @@
       <li> Ctrl + L ドラッグ : 曲面切断面の生成 </li>
       <li> Ctrl + L クリック : 曲面切断面の削除 </li>
 
-      <li> TODO </li>
-      <li> TODO </li>
-      <li> TODO </li>
+      <li> Shift + Lクリック : 制御点の配置 （曲線状をクリックすると，制御点の間に新しい制御点を挿入できます．） </li>
+      <li> Shift + Lドラッグ : 制御点の移動 </li>
+      <li> Shift + M/Rクリック : 制御点の削除 </li>
     </ul>
+
+    <img src="img/segpw_main.png" width=80% >
+
   </div>
   <br>
 
@@ -84,15 +88,17 @@
 
   <span id="ArrangeLR">
     <span id="ArrangeLR40_left">
-      <img src="img/segvp_dialog.png" width=95% >
+      <img src="img/segpw_dialog.png" width=95% >
     </span>
 
     <span id="ArrangeLR40_right">
-      <b>d1</b>. TODO <br>
-      <b>d2</b>. TODO <br>
-      <b>d3</b>. TODO <br>
-      <b>d4</b>. TODO <br>
-      <b>d5</b>. TODO <br>
+      <b>d1</b>. 断面選択ボタン <br>
+      <b>d2</b>. 制御点のサイズ指定用スライダー <br>
+      <b>d3</b>. 曲線可視化チェックボックス．すべての曲線表示をOn/offできる． <br>
+      <b>d4</b>. export wireボタン．現在の曲線(wire)情報をtxtファイルとしてセーブできる． <br>
+      <b>d4</b>. import wireボタン．上でセーブした曲線情報を読み出せる． <br>
+      <b>d5</b>. Cancelボタン．現在の分割結果を破棄してツールを終了する <br>
+      <b>d5</b>. Finishボタン．現在の分割結果を新たなROIとして登録しツールを終了する <br>
     </span>
   </span>
 
