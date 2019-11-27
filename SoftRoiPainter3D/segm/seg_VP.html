@@ -46,23 +46,32 @@
   <h2> Segmentation Voxel Paint </h2>
 
   <div id="StdContents">
-    概要: 作成中． <br>
+    概要: 画素を直接ペイントする事で前景領域を抽出するツールです．単純なペイントのほかに，囲んだ領域をすべて選択するLassoツールも利用可能です．
+    非常に手間のかかる分割ツールなので，他のツールが利用できないような曖昧な領域に対して利用してください．
+    既に他のツールで作成した領域をペイントにより修正する事のできる”<a href="ref_VP.html">Refinement Voxel paint</a>”ツールも有ります．
+    <br>
   </div>
-
-
 
   <br>
   <h2>Workflow</h2>
   <div id="StdContents">
     <ul class="StdList">
       <li>ツールの起動 : "Menu > ModeSwitch > Segmentation Voxel Paint" をクリック. </li>
-      <li>+ </li>
-      <li>+ </li>
-      <li>+ </li>
+      <li>+ Paint ツールにより前景領域を抽出 <br>
+            ダイアログからPaint Modeを選択した下で... <br>
+            --ペイント : 断面を左ドラッグするとカーソル位置の画素を前景として抽出できる<br>
+            --消しゴム : 断面を右ドラッグするとカーソル位置の画素を背景にする</li>
+      <li>+ Lasso ツールにより前景領域を抽出 <br>
+            ダイアログからLasso Modeを選択した下で... <br>
+            --ペイント : 断面を左ドラッグするとストロークが描け，ストローク内部を前景として抽出できる<br>
+            --消しゴム : 断面を右ドラッグするとストローク内部が背景になる．</li>
       <li>終了し登録 : ダイアログ右下のFinish And Storeをクリック．</li>
-
     </ul>
   </div>
+
+  <br>
+  <br>
+  <br>
 
   <hr>
   <h2>Main Windowの操作方法</h2>
@@ -70,12 +79,14 @@
     <ul class="StdList">
       <li> マウス L/M/R ドラッグ : 視点の平行移動/ズーム/回転 </li>
       <li> マウス ホイール : 切断面の前後移動 </li>
-      <li> Ctrl + L ドラッグ : 曲面切断面の生成 </li>
-      <li> Ctrl + L クリック : 曲面切断面の削除 </li>
-
-      <li> TODO </li>
-      <li> TODO </li>
-      <li> TODO </li>
+      <!--li> Ctrl + L ドラッグ : 曲面切断面の生成 </li-->
+      <!--li> Ctrl + L クリック :   曲面切断面の削除 </li-->
+      <li> Paint Modeのとき <br>
+            Shift + Lドラッグ : 前景をペイント <br>
+            Shift + Rドラッグ : 背景をペイント（消しゴム）</li>
+      <li> Lasso Modeのとき <br>
+            Shift + Lドラッグ : 前景Lassoを描画<br>
+            Shift + Rドラッグ : 背景Lassoを描画（消しゴム）</li>
     </ul>
   </div>
   <br>
@@ -88,14 +99,12 @@
     </span>
 
     <span id="ArrangeLR40_right">
-      <b>d1</b>. TODO <br>
-      <b>d2</b>. TODO <br>
-      <b>d3</b>. TODO <br>
-      <b>d4</b>. TODO <br>
-      <b>d5</b>. TODO <br>
+      <b>d1</b>. Paintモードを選択 <br>
+      <b>d2</b>. Lassoモードを選択 <br>
+      <b>d3</b>. 現在の領域分割結果を削除し，visualization mask モードへ <br>
+      <b>d4</b>. 現在の領域分割結果を登録して作業終了 <br>
     </span>
   </span>
-
   <br>
   <br>
 
