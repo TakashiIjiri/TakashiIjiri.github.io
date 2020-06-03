@@ -11,29 +11,29 @@
 
 <div id="MainBody600">
 
-  <h1>Volume Segmentation Software, RoiPainter</h1>
-  <p align="right"><a href="../index.html">back to top</a></p>
 
+  <h1>Volume Segmentation Software, RoiPainter</h1>
+  <p align="right"> <a href="#eng"> English </a> </p>
   <div id="StdContents">
     <img src="img/RoiPainter3D.png" width=600pt >
   </div>
 
   <h3>
-    <a href="index.html">RoiPainter</a>  &nbsp;
-    <a href="io.html">I/O</a>            &nbsp;
-    <a href="vis.html">Visualization</a> &nbsp;
-    <a href="segm/index.html">Segmentation</a> &nbsp;
-    <a href="dl/index.html">Download</a>   &nbsp;
+    <a href="index.html"     > RoiPainter    </a> &nbsp;
+    <a href="io.html"        > I/O           </a> &nbsp;
+    <a href="vis.html"       > Visualization </a> &nbsp;
+    <a href="segm/index.html"> Segmentation  </a> &nbsp;
+    <a href="dl/index.html"  > Download      </a> &nbsp;
     <a href="https://github.com/InteractiveGraphicsLab/RoiPainter3Dv2"> code (github)</a> &nbsp;
   </h3>
   <br>
+
+
   <hr>
-
-
   <h3>概要</h3>
   <div id="StdContents">
-    RoiPainter3Dは，X線CTやMRI装置で撮影された三次元画像を観察・領域分割するためのソフトウエアです．
-    井尻敬（芝浦工大）が主体となり，芝浦工大・立命館大・慶応大の学生の協力や，研究期間・医療機関の医師・技師・研究者の協力のもと開発しています．</br>
+    RoiPainter3Dは，X線CTやMRI装置で撮影された3次元グレースケール画像を観察・領域分割するためのソフトウエアです．
+    井尻敬（芝浦工大）が主体となり，芝浦工大・立命館大・慶応大の学生や，研究機関・医療機関の医師・技師・研究者の協力のもと開発しています．</br>
     2018年11月より，C++/CLIベースの開発に切り替え，オープンソース化しました．</br>
     <a href="https://github.com/InteractiveGraphicsLab/RoiPainter3Dv2"> git hub リポジトリはこちら．</a></br>
     </br>
@@ -44,14 +44,15 @@
   </div>
 
 
+
   <hr>
   <h3>起動方法</h3>
   <div id="StdContents">
     zipファイルを<a href="dl/index.html">ダウンロード</a>・展開し，RoiPainter3D.exeファイルをダブルクリックしてください．<br>
-    実行環境はwindowsで，Windows 7のみで動作を確認しています．<br>
-    実行には（それなりに力のある）GPUを搭載した計算機が必要です．<br>
+    Windows 7 / Windows 10 で動作確認をしています．<br>
+    実行にはGPUを搭載した計算機が必要です．(開く画像の解像度によりますが，GRAMが2GByte以上あることが望ましいです)<br>
     <br>
-    RoiPainterの起動には，Visual Studio 2017 runtime（古いRoiPainterにはVisual Studio 2015 runtime）が必要です．<br>
+    RoiPainter3Dの起動には，Visual Studio 2017 runtime（古いRoiPainterにはVisual Studio 2015 runtime）が必要です．<br>
     実行ファイルをダブルクリックしても起動しない場合は以下をインストールしてください．<br>
     <a href="https://www.microsoft.com/ja-JP/download/details.aspx?id=48145">Visual Studio 2015 Runtime </a><br>
     <a href="https://visualstudio.microsoft.com/ja/downloads/?q=#other-ja">Visual Studio 2017 再頒布可能パッケージ （ページの下のほうにあります） </a><br>
@@ -59,7 +60,97 @@
   </div>
   </br>
 
+
   <h3>起動画面</h3>
+  <div id="StdContents">
+    <img src="img/screenshot.png" width=600pt >
+  </div>
+
+  <div id="StdContents">
+    RoiPainter3Dを起動するとこのような画面が表示されます．各Windowの役割は以下のとおりです．
+    <ul id="StdList">
+      <li> d-1 MainWindow : 3次元画像を表示する．このWindowを利用して三次元空間へのシード配置や輪郭指定を行う．</li>
+      <li> d-2 可視化パラメータダイアログ : 3次元表示に関するパラメータを指定する．詳しくは<a href="vis/index.html">こちら</a>.</li>
+      <li> d-3 ツール操作用ダイアログ : 各可視化・領域分割ツールを操作．ツールごとに異なるダイアログが表示されるので各ツールの説明ページを参照.</li>
+    </ul>
+    <br>
+    もし，MainWindow上に二つの球が表示されず真っ白い画面が表示される場合は，
+    GPUが使えない状態（そもそもグラフィックスカードがない，または，省電力もーどのためGPUの機能がoffになっている）だと思われます．
+    <br>
+  </div>
+
+
+
+  <hr>
+  <h3>開発者</h3>
+  <div id="StdContents">
+    井尻 敬 / Takashi Ijiri <a href="takashiijiri.com"> web page </a><br>
+  </div>
+
+  <h3>開発者協力学生</h3>
+  <div id="StdContents">
+    成田智史 / Tomofumi Narita (芝浦工大)<br>
+    鶴岡 奨悟 / Shogo Tsuruoka (立命館大)<br>
+  </div>
+
+
+
+
+
+  <h1 id="eng">Volume Segmentation Software, RoiPainter</h1>
+  <p align="right"> <a href="index.html"> Japanese </a> </p>
+
+  <div id="StdContents">
+    <img src="img/RoiPainter3D.png" width=600pt >
+  </div>
+
+  <h3>
+    <a href="index.html#eng"     > RoiPainter    </a> &nbsp;
+    <a href="io.html#eng"        > I/O           </a> &nbsp;
+    <a href="vis.html#eng"       > Visualization </a> &nbsp;
+    <a href="segm/index.html#eng"> Segmentation  </a> &nbsp;
+    <a href="dl/index.html#eng"  > Download      </a> &nbsp;
+    <a href="https://github.com/InteractiveGraphicsLab/RoiPainter3Dv2"> code (github)</a> &nbsp;
+  </h3>
+  <br>
+  <hr>
+
+
+  <h3>Abstract</h3>
+  <div id="StdContents">
+    RoiPainter3D is a software for observing and segmenting three-dimensional images taken by X-ray CT and MRI.
+    This software is being developed by Takashi Ijiri (Shibaura Institute of Technology) in collaboration with students
+    (Shibaura Institute of Technology, Ritsumeikan University, Keio University), physicians, engineers, and researchers.</br>
+    In November 2018, the source code began to be published. </br>
+    <a href="https://github.com/InteractiveGraphicsLab/RoiPainter3Dv2"> The github repository is here. </a></br>
+    </br>
+    This software is a prototype for research purposes. <br>
+    The developer, collaborators, and the organizations to which the developer belongs are not
+    responsible for any damage caused by the use of this software.<br>
+    <br>
+    Manuals for each tool are currently being prepared.<br>
+  </div>
+
+
+  <hr>
+  <h3>How to start</h3>
+  <div id="StdContents">
+    Download the zip file from <a href="dl/index.html">here</a>, unzip it, and double-click on the "RoiPainter3D.exe" file to start the software.
+    <br>
+    The software requires Windows OS. We tested its execusion on Windows 10 and Windows 7.<br>
+    A GPU (with 2GB of GRAM or more) is required. <br>
+    <br>
+    Visual Studio 2017 runtime (or Visual Studio 2015 runtime for older version) is required to start RoiPainter3D. <br>
+    If it does not start after double-clicking the exe file, please install the following runtime;<br><br>
+    <a href="https://www.microsoft.com/ja-JP/download/details.aspx?id=48145">Visual Studio 2015 runtime </a><br>
+    <a href="https://visualstudio.microsoft.com/ja/downloads/?q=#other-ja">Visual Studio 2017 runtime </a><br>
+    </br>
+  </div>
+  </br>
+
+
+
+  <h3>Screenshot</h3>
   <div id="StdContents">
     <img src="img/screenshot.png" width=600pt >
   </div>
@@ -89,5 +180,11 @@
   </div>
 
 </div>
+
+
+
+
+
+
 </body>
 </html>
