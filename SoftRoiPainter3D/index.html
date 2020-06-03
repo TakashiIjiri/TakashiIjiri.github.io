@@ -70,7 +70,7 @@
     RoiPainter3Dを起動するとこのような画面が表示されます．各Windowの役割は以下のとおりです．
     <ul id="StdList">
       <li> d-1 MainWindow : 3次元画像を表示する．このWindowを利用して三次元空間へのシード配置や輪郭指定を行う．</li>
-      <li> d-2 可視化パラメータダイアログ : 3次元表示に関するパラメータを指定する．詳しくは<a href="vis/index.html">こちら</a>.</li>
+      <li> d-2 可視化パラメータダイアログ : 3次元表示に関するパラメータを指定する．詳しくは<a href="vis.html">こちら</a>.</li>
       <li> d-3 ツール操作用ダイアログ : 各可視化・領域分割ツールを操作．ツールごとに異なるダイアログが表示されるので各ツールの説明ページを参照.</li>
     </ul>
     <br>
@@ -120,12 +120,12 @@
   <div id="StdContents">
     RoiPainter3D is a software for observing and segmenting three-dimensional images taken by X-ray CT and MRI.
     This software is being developed by Takashi Ijiri (Shibaura Institute of Technology) in collaboration with students
-    (Shibaura Institute of Technology, Ritsumeikan University, Keio University), physicians, engineers, and researchers.</br>
+    (Shibaura Institute of Technology, Ritsumeikan University, Keio University), physicians, engineers, and researchers.
     In November 2018, the source code began to be published. </br>
+  </br>
     <a href="https://github.com/InteractiveGraphicsLab/RoiPainter3Dv2"> The github repository is here. </a></br>
-    </br>
-    This software is a prototype for research purposes. <br>
-    The developer, collaborators, and the organizations to which the developer belongs are not
+  </br>
+    This software is a prototype for research purposes. The developer, collaborators, and the organizations to which the developer belongs are not
     responsible for any damage caused by the use of this software.<br>
     <br>
     Manuals for each tool are currently being prepared.<br>
@@ -135,9 +135,9 @@
   <hr>
   <h3>How to start</h3>
   <div id="StdContents">
-    Download the zip file from <a href="dl/index.html">here</a>, unzip it, and double-click on the "RoiPainter3D.exe" file to start the software.
-    <br>
-    The software requires Windows OS. We tested its execusion on Windows 10 and Windows 7.<br>
+    Download the zip file from <a href="dl/index.html">here</a>, unzip it,
+    and double-click on the "RoiPainter3D.exe" file to start the software.
+    The software requires Windows OS. We tested its execusion on Windows 10 and Windows 7.
     A GPU (with 2GB of GRAM or more) is required. <br>
     <br>
     Visual Studio 2017 runtime (or Visual Studio 2015 runtime for older version) is required to start RoiPainter3D. <br>
@@ -156,35 +156,37 @@
   </div>
 
   <div id="StdContents">
-    RoiPainterを起動すると上記のような画面が表示されます．RoiPainterは以下の3個のWindowより構成されます．
+    RoiPainter is composed of three windows.
     <ul id="StdList">
-      <li>d-1 MainWindow : 3次元画像を表示する．このWindowを利用して三次元空間へのシード配置や輪郭指定を行う．</li>
-      <li>d-2 可視化パラメータダイアログ : 3次元表示に関するパラメータを指定する．詳しくは<a href="./vis/index.html">こちら</a>.</li>
-      <li>d-3 ツール操作用ダイアログ : 各可視化・領域分割ツールを操作．ツールごとに異なるダイアログが表示されるので各ツールの説明ページを参照.</li>
+      <li>d-1 MainWindow : it displaies the 3D rendering image.
+        This window is for manupulations such as painting labels, placing control points, or specifying contours, in 3D space.
+      </li>
+      <li>d-2 Visualization Parameters Dialog : it is for specifing the parameters for the 3D display.
+        For more information, <a href="./vis.html#eng">click here</a>.</li>
+
+      <li>d-3 Tool Operation Dialog : it is for specifying parameters for each tool.
+        Different dialogs are displayed for a different tool, see manual page of each tool.
+      </li>
     </ul>
     <br>
-    もし，MainWindow上に二つの球が表示されず真っ白い画面が表示される場合は，GPUが使えない状態（そもそもグラフィックスカードがない，または，省電力もーどのためGPUの機能がoffになっている）だと思われます．
+    If you see a white screen on MainWindow, it means that your GPU is not working (either you don't have a graphics card or your GPU is turned off due to power savinb mode.)
+
     <br>
   </div>
 
   <hr>
-  <h3>開発者</h3>
+  <h3>Main developpers</h3>
   <div id="StdContents">
-    井尻 敬 / Takashi Ijiri <a href="takashiijiri.com"> web page </a><br>
+    Takashi Ijiri <a href="takashiijiri.com"> web page </a><br>
   </div>
 
-  <h3>開発者協力学生</h3>
+  <h3>Collaborators</h3>
   <div id="StdContents">
-    成田智史 / Tomofumi Narita (芝浦工大)<br>
-    鶴岡 奨悟 / Shogo Tsuruoka (立命館大)<br>
+    Tomofumi Narita (Shibaura institute of technology)<br>
+    Shogo Tsuruoka (Ritsumeikan University)<br>
   </div>
 
 </div>
-
-
-
-
-
 
 </body>
 </html>
