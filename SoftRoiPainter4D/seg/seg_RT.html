@@ -22,11 +22,11 @@
 <img src="../image/RoiPainter.png" class="ProjImg">
 
 <h2>
-<a href="../index.html"    >top page      </a> &nbsp;&nbsp;
-<a href="../io.html"       >I/O           </a> &nbsp;&nbsp;
-<a href="../vis/index.html">Visualization </a> &nbsp;&nbsp;
-<a href="seg/index.html"   >Segmentation  </a> &nbsp;&nbsp;
-<a href="../ref/index.html">Refinement    </a> &nbsp;&nbsp;
+<a href="../index.html"    > top page       </a> &nbsp;&nbsp;
+<a href="../io.html"       > I/O            </a> &nbsp;&nbsp;
+<a href="../vis/index.html"> Visualization  </a> &nbsp;&nbsp;
+<a href="./index.html"     > Segmentation   </a> &nbsp;&nbsp;
+<a href="../ref/index.html"> Refinement     </a> &nbsp;&nbsp;
 code &nbsp;&nbsp;
 </h2>
 
@@ -34,15 +34,16 @@ code &nbsp;&nbsp;
 <hr>
 <div class="ProjAbst">
 <br>
-    <a href="index.html"><font class="vtmode">Segmentation Top</font></a> <br>
+    <a href="index.html"><font class="vtmode">Segmentation Top</font></a>
     <ul>
-        <li><a href="seg_PL.html"     ><font class="vtmode">1) Seg Paint and Lasso             </font></a></li>
-        <li><a href="seg_TRG.html"    ><font class="vtmode">2) Seg Threshold and Region grow   </font></a> ← this page</li>
-        <li><a href="seg_RT.html"     ><font class="vtmode">3) Seg Rigid Tracking(ICP)         </font></a></li>
-        <li><a href="seg_LRG_sph.html"><font class="vtmode">4) Seg Local Region grow (sphere)  </font></a></li>
-        <li><a href="seg_LRG_cyl.html"><font class="vtmode">5) Seg Local Region grow (cylinder)</font></a></li>
-        <li><a href="seg_PC.html"     ><font class="vtmode">6) Parallel Contors                </font></a></li>
-        <li>nearest pixel</li>
+        <li><a href="seg_PL.html"      > <font class="vtmode">Seg Paint and Lasso              </font></a></li>
+        <li><a href="seg_TRG.html"     > <font class="vtmode">Seg Threshold and Region grow    </font></a></li>
+        <li><a href="seg_RT.html"      > <font class="vtmode">Seg Rigid Tracking(ICP)          </font></a>← this page</li>
+        <li><a href="seg_LRG_sph.html" > <font class="vtmode">Seg Local Region grow (sphere)   </font></a></li>
+        <li><a href="seg_LRG_cyl.html" > <font class="vtmode">Seg Local Region grow (cylinder) </font></a></li>
+        <li><a href="seg_Bronchi.html" > <font class="vtmode">Seg Bronchi with Tree CPs        </font></a></li>
+        <li><a href="seg_PC.html"      > <font class="vtmode">Seg Parallel Contors             </font></a></li>
+        <li>Template deformation </li>
     </ul>
 </div>
 
@@ -78,8 +79,6 @@ code &nbsp;&nbsp;
     <li>剛体追跡 : 『Run Tracking with ICP』ボタンをクリックする事で領域追跡が開始されます．</li>
     <li>登録と終了．ダイアログ右下の『Finish And Store』をクリックすると領域をマスクとして登録できます．</li>
 </ol>
-
-
 
 <br>
 <hr>
@@ -118,60 +117,44 @@ code &nbsp;&nbsp;
 このボタンをクリックするとソースサーフェス(obj)の読み込むためのファイルダイアログが表示されます．<br>
 ソースサーフェスはメインウインドウ内では青色で表示されます．<br>
 <br>
-<font class="vtmanu">d2. translate </font> : ソースサーフェスの平行移動<br>
-<font class="vtmanu">d3. rotate    </font> : ソースサーフェスの回転<br>
-ここでtransform(平行移動)かrotation(回転移動)を選択し，メインウインドウでLeft-dragをするとソースサーフェスを移動できます．
-自動追跡の結果がおかしい場合は手動で修正してください．<br>
-<br>
-<font class="vtmanu">d4. iso value </font> 等値面(iso surface)生成のための閾値指定．<br>
-<br>
 
-<font class="vtmanu">d5. Get Test (only 1 frame)</font> : 現在のフレームのみに等値面を生成．<br>
+<font class="vtmanu">d2. translate </font> : ソースサーフェスの平行移動 (Shift + L-Drag)<br>
+<font class="vtmanu">d3. rotate    </font> : ソースサーフェスの回転 (Shift + L-Drag)<br>
+<font class="vtmanu">d3. translate rot pivot </font> : ソースサーフェスの回転中心を平行移動 (Shift + L-Drag)<br>
+上記の機能は自動追跡の結果がおかしい場合に手動で修正するためのものです。
+transform(平行移動)かrotation(回転移動)を選択し，メインウインドウでLeft-dragをするとソースサーフェスを移動できます．
+手動で修正した後、Run Trackingすると、移動結果を初期解として利用しながら剛体追跡が計算されます。<br>
+
+<br>
+<font class="vtmanu">d5. iso value </font> 等値面(iso surface)生成のための閾値指定．<br>
+<font class="vtmanu">d6. Get Test (only 1 frame)</font> : 現在のフレームのみに等値面を生成．<br>
 現在のフレームのみに対して等値面を構築します．等値面の閾値の効果を素早く確認するためのものです．<br>
-<br>
-
-<font class="vtmanu">d6. Save / Load Seeds</font> 全てのフレームに等値面を生成．<br>
+<font class="vtmanu">d7. Save / Load Seeds</font> 全てのフレームに等値面を生成．<br>
 このボタンをクリックすると，上記の閾値を利用して全てのフレームに等値面を作成します．
 剛体追跡を行なうためにはこの処理が必要です．この処理には時間がかかります．<br>
 <br>
-
-<font class="vtmanu">d7. Run Tracking with ICP </font> 剛体追跡の開始．<br>
-このボタンをクリックすると剛体追跡(ICPアルゴリズム利用)が開始されます．
-ソースサーフェス読み込みと等値面生成が行なわれている必要が有ります．<br>
 <br>
-このボタンをクリックすると剛体追跡を開始するフレームと，終了するフレームを指定するダイアログが表示されます．
+
+<font class="vtmanu">d8. Pallallel </font> 剛体追跡の開始．<br>
+すべてのフレームを並列に計算します。動きが小さな領域についてはこれを使って下さい。<br>
+
+<font class="vtmanu">d9. Sequential </font> 剛体追跡の開始．<br>
+フレームを順番にすべてのフレームを並列に計算します。このボタンをクリックすると、開始フレームと終了フレームを指定するダイアログが提示されます。
+指定された順にひとフレームずつ剛体追跡を行います。このとき、前のフレームを次のフレームの剛体追跡の初期会として利用します。動きの大きな領域向きの機能です。<br>
 例えば，剛体追跡の結果が途中からおかしくなった場合などは，そのフレームを手作業で修正し，そのフレームから追跡を開始するようにしてください．
 また，開始フレームに大きな番号を指定し，終了フレームに小さな番号を指定すると，時間的には後ろから前方向にさかのぼる順序で追跡を行なえます．<br>
 <br>
+ソースサーフェス読み込みと等値面生成が行なわれている必要が有ります．<br>
+<br>
 
-
-<font class="vtmanu">d8. Show Transform Matrix </font> : 剛体追跡結果として計算された回転・平行移動行列が表示されます．<br>
-
-<font class="vtmanu">d9. Finish And Store</font> 作業終了し現在の領域を新しいマスクとして登録．<br>
-
-<font class="vtmanu">d10. Cancel</font> 作業中止（作業内容が消えるため要注意）<br>
+<font class="vtmanu">d11. Export ICP mats </font> : 剛体追跡結果として計算された回転・平行移動行列をエクスポートします．<br>
+<font class="vtmanu">d12. Import ICP mats </font> : 剛体追跡結果として計算された回転・平行移動行列をインポートします．<br>
+<font class="vtmanu">d13. Store Current Frame</font> : 剛体追跡結果として計算された現在のフレームのみを分割しマスクとして登録します．<br>
+<font class="vtmanu">d14. Finish And Store</font> 作業終了し現在の領域を新しいマスクとして登録．<br>
+<font class="vtmanu">d15. Cancel</font> 作業中止（作業内容が消えるため要注意）<br>
 
 </div>
-
-
-
-
-
-
-    <table border="0">
-        <tbody>
-            <tr>
-                <td>　
-                </td>
-                <td style="padding:1em; line-height: 1.4em;">
-
-    <br><br>
-        </td>
-            </tr>
-        </tbody>
-    </table>
-
-    </div>
+</div>
 
 
 <hr>

@@ -1,0 +1,94 @@
+
+<!-- saved from url=(0054)http://takashiijiri.com/SoftRoiPainter/segm/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>RoiPainter4D Segmentation</title>
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../css/roipainter.css">
+
+    <style type="text/css" media="screen">
+    <!--
+    -->
+    </style>
+    </head>
+
+
+    <body>
+    <div id="MainBody">
+
+    <h1>Parallel Contors</h1>
+
+    <img src="../image/RoiPainter.png" class="ProjImg">
+
+    <h2>
+    <a href="../index.html"    > top page       </a> &nbsp;&nbsp;
+    <a href="../io.html"       > I/O            </a> &nbsp;&nbsp;
+    <a href="../vis/index.html"> Visualization  </a> &nbsp;&nbsp;
+    <a href="./index.html"     > Segmentation   </a> &nbsp;&nbsp;
+    <a href="../ref/index.html"> Refinement     </a> &nbsp;&nbsp;
+    code &nbsp;&nbsp;
+    </h2>
+
+
+    <hr>
+    <div class="ProjAbst">
+    <br>
+        <a href="index.html"><font class="vtmode">Segmentation Top</font></a>
+        <ul>
+            <li><a href="seg_PL.html"      > <font class="vtmode">Seg Paint and Lasso              </font></a></li>
+            <li><a href="seg_TRG.html"     > <font class="vtmode">Seg Threshold and Region grow    </font></a></li>
+            <li><a href="seg_RT.html"      > <font class="vtmode">Seg Rigid Tracking(ICP)          </font></a></li>
+            <li><a href="seg_LRG_sph.html" > <font class="vtmode">Seg Local Region grow (sphere)   </font></a></li>
+            <li><a href="seg_LRG_cyl.html" > <font class="vtmode">Seg Local Region grow (cylinder) </font></a>← this page</li>
+            <li><a href="seg_Bronchi.html" > <font class="vtmode">Seg Bronchi with Tree CPs        </font></a></li>
+            <li><a href="seg_PC.html"      > <font class="vtmode">Seg Parallel Contors             </font></a></li>
+            <li>Template deformation </li>
+        </ul>
+    </div>
+
+
+
+    <hr>
+    <h1>Local Region Growing (cylinder)</h1>
+
+    <div = class="ProjAbst">
+        このツールは，湾曲した円筒上のROIを配置し、そのROI内部のみで領域拡張(Region Growing)を行うツールです。食道を流れる食塊領域の分割を目的に開発しました。
+    </div>
+
+
+
+    <br>
+    <h2>Workflow</h2>
+
+    <ol style="line-height:1.5em; padding-left:4.0em;">
+        <li>ツールの起動 : Click "Menu &gt; ModeSwitch &gt; Segmentation Local Region Grow (Cylinder)" </li>
+        <li>シードの配置 : 湾曲した円筒状のシード（ROI）を複数配置し，その影響範囲と閾値を設定する．</li>
+        <li>領域分割 : Region Growingによりシードの影響範囲内のみで分割を行う．</li>
+        <li>終了 : ダイアログ右下のFinish And Storeを押す．</li>
+    </ol>
+
+
+    <div = class="ProjAbst">
+      <br>
+      <br>
+      <br>
+      ドキュメント準備中。
+
+      <br>
+      <br>
+      <br>
+    </div>
+
+
+    <br>
+
+        <hr>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+
+    </body>
+    </html>

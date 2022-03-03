@@ -1,4 +1,4 @@
-﻿
+  ﻿
 <!-- saved from url=(0054)http://takashiijiri.com/SoftRoiPainter/segm/index.html -->
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
@@ -18,15 +18,15 @@
 <h1>RoiPainter4D Segmentation</h1>
 <img src="../image/RoiPainter.png" class="ProjImg">
 
+
 <h2>
-<a href="../index.html"    >top page</a> &nbsp;&nbsp;
-<a href="../io.html"       >I/O</a> &nbsp;&nbsp;
-<a href="../vis/index.html">Visualization</a> &nbsp;&nbsp;
-<a href="seg/index.html"   >Segmentation</a> &nbsp;&nbsp;
-<a href="../ref/index.html">Refinement</a> &nbsp;&nbsp;
+<a href="../index.html"    > top page       </a> &nbsp;&nbsp;
+<a href="../io.html"       > I/O            </a> &nbsp;&nbsp;
+<a href="../vis/index.html"> Visualization  </a> &nbsp;&nbsp;
+<a href="./index.html"   > Segmentation   </a> &nbsp;&nbsp;
+<a href="../ref/index.html"> Refinement     </a> &nbsp;&nbsp;
 code &nbsp;&nbsp;
 </h2>
-
 
 
 <hr>
@@ -34,13 +34,14 @@ code &nbsp;&nbsp;
 <br>
     <a href="index.html"><font class="vtmode">Segmentation Top</font></a> <br>
     <ul>
-        <li><a href="seg_PL.html"     ><font class="vtmode">1) Seg Paint and Lasso             </font></a>← this page</li>
-        <li><a href="seg_TRG.html"    ><font class="vtmode">2) Seg Threshold and Region grow   </font></a></li>
-        <li><a href="seg_RT.html"     ><font class="vtmode">3) Seg Rigid Tracking(ICP)         </font></a></li>
-        <li><a href="seg_LRG_sph.html"><font class="vtmode">4) Seg Local Region grow (sphere)  </font></a></li>
-        <li><a href="seg_LRG_cyl.html"><font class="vtmode">5) Seg Local Region grow (cylinder)</font></a></li>
-        <li><a href="seg_PC.html"     ><font class="vtmode">6) Parallel Contors                </font></a></li>
-        <li>nearest pixel</li>
+        <li><a href="seg_PL.html"      > <font class="vtmode">Seg Paint and Lasso              </font></a> ← this page</li>
+        <li><a href="seg_TRG.html"     > <font class="vtmode">Seg Threshold and Region grow    </font></a></li>
+        <li><a href="seg_RT.html"      > <font class="vtmode">Seg Rigid Tracking(ICP)          </font></a></li>
+        <li><a href="seg_LRG_sph.html" > <font class="vtmode">Seg Local Region grow (sphere)   </font></a></li>
+        <li><a href="seg_LRG_cyl.html" > <font class="vtmode">Seg Local Region grow (cylinder) </font></a></li>
+        <li><a href="seg_Bronchi.html" > <font class="vtmode">Seg Bronchi with Tree CPs        </font></a></li>
+        <li><a href="seg_PC.html"      > <font class="vtmode">Seg Parallel Contors             </font></a></li>
+        <li>Template deformation </li>
     </ul>
 </div>
 
@@ -55,7 +56,6 @@ code &nbsp;&nbsp;
 </div>
 
 
-
 <br>
 <h2>Workflow</h2>
 
@@ -65,10 +65,6 @@ code &nbsp;&nbsp;
     <li>Paintツール，Lassoツールを利用し対象領域を分割する．</li>
     <li>ダイアログ左下，Finish and Store ボタンをクリックし領域を登録する．</li>
 </ol>
-
-
-
-
 
 
 <br>
@@ -109,6 +105,7 @@ code &nbsp;&nbsp;
 <td style="padding:1em; line-height: 1.4em;">
     <font class="vtmanu">d1. Paintツール</font> Paintツールに切り替え<br>
     <font class="vtmanu">d2. Lassoツール</font> Lassoツールに切り替え<br>
+    <font class="vtmanu">d*. Lassoツール (All Frame)</font> 最新のRoiPainter4Dでは利用可能です。Lassoの影響が全フレームに適用されます。<br>
     <font class="vtmanu">d3. Finish and Store </font> 作業終了，領域をマスクとして保存（Vis Maskに移動）<br>
     <font class="vtmanu">d4. CANCEL</font> 作業中止，領域を破棄する(作業内容が消えるため要注意)<br>
 </td>

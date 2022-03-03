@@ -1,0 +1,131 @@
+
+<!-- saved from url=(0054)http://takashiijiri.com/SoftRoiPainter/segm/index.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>RoiPainter4D Segmentation</title>
+
+    <link rel="stylesheet" type="text/css" media="screen" href="../css/roipainter.css">
+
+    <style type="text/css" media="screen">
+    <!--
+    -->
+    </style>
+    </head>
+
+    <body>
+    <div id="MainBody">
+
+    <h1>Parallel Contors</h1>
+
+    <img src="../image/RoiPainter.png" class="ProjImg">
+
+    <h2>
+      <a href="../index.html"    > top page       </a> &nbsp;&nbsp;
+      <a href="../io.html"       > I/O            </a> &nbsp;&nbsp;
+      <a href="../vis/index.html"> Visualization  </a> &nbsp;&nbsp;
+      <a href="./index.html"     > Segmentation   </a> &nbsp;&nbsp;
+      <a href="../ref/index.html"> Refinement     </a> &nbsp;&nbsp;
+      code &nbsp;&nbsp;
+    </h2>
+
+
+    <hr>
+    <div class="ProjAbst">
+    <br>
+        <a href="index.html"><font class="vtmode">Segmentation Top</font></a>
+        <ul>
+            <li><a href="seg_PL.html"      > <font class="vtmode">Seg Paint and Lasso              </font></a></li>
+            <li><a href="seg_TRG.html"     > <font class="vtmode">Seg Threshold and Region grow    </font></a></li>
+            <li><a href="seg_RT.html"      > <font class="vtmode">Seg Rigid Tracking(ICP)          </font></a></li>
+            <li><a href="seg_LRG_sph.html" > <font class="vtmode">Seg Local Region grow (sphere)   </font></a></li>
+            <li><a href="seg_LRG_cyl.html" > <font class="vtmode">Seg Local Region grow (cylinder) </font></a></li>
+            <li><a href="seg_Bronchi.html" > <font class="vtmode">Seg Bronchi with Tree CPs        </font></a>← this page</li>
+            <li><a href="seg_PC.html"      > <font class="vtmode">Seg Parallel Contors             </font></a></li>
+            <li>Template deformation </li>
+        </ul>
+    </div>
+
+    <hr>
+
+
+
+
+    <h1> Local Region Growing</h1>
+
+    <div = class="ProjAbst">
+        このツールは、気管・気管支領域（だんだん細くなる分岐構造を持つ領域）を、木構造を持つ制御点を配置することで、半手動的に分割するツールです。<br>
+        参考「高田康平, 道脇 幸博, 森谷 浩史, 井尻 敬. 胸部4次元CT画像より気管支領域を抽出するための最短路探索を利用した領域分割法. 画像電子学会　第299回研究会, 愛媛県松山市, 2022/2/27-28 (発表日2/27).」
+    </div>
+
+
+
+    <br>
+    <h2>Workflow</h2>
+
+<ol style="line-height:1.5em; padding-left:4.0em;">
+    <li>準備 : 肺利用域を分割し領域ID=1としておく（この領域が分割対象になる）
+    <li>ツールの起動：Click "Menu > mode switch > Seg Bronchi"</li>
+    <li>制御点の配置</li>
+    <li>領域拡張に関するパラメータ設定（閾値関連、拡張サイズ関連）</li>
+    <li>領域拡張：Click "Run Current Frame Region Grow"</li>
+    <li>終了：Click "Finish Segmentation"</li>
+</ol>
+
+    <br>
+    <br>
+    <br>
+
+
+<div = class="StdBlock">
+
+  <h2>Main Windowのユーザインタフェース</h2>
+  「Add Cp Mode」モード <br>
+  <font class="vtmanu">Shift + L-click </font>: クリックした位置に制御点の配置<br>
+  <font class="vtmanu">Shift + R-click </font>: クリックした制御点を親制御点に変更<br>
+
+  <br>
+  「Move Cp Mode」モード<br>
+  <font class="vtmanu">Shift + L-drag :</font> クリックした制御点の移動<br>
+
+  <br>
+  「Add Cp Mode」「Move Cp Mode」両方で行える操作<br>
+  <font class="vtmanu">Ctrl + Shift + R-click </font>: クリックした制御点を削除<br>
+  <font class="vtmanu">Ctrl+L-drag </font>: 曲面切断面の描画<br>
+  <font class="vtmanu">Left-drag </font>: 視点平行移動<br>
+  <font class="vtmanu">Right-drag </font>: 視点回転<br>
+  <font class="vtmanu">Middle(Wheel)-drag </font>: 視点拡大縮小<br>
+  <font class="vtmanu">Wheel </font>: スライスの移動<br>
+  <font class="vtmanu">「n」キー </font> : 元画像と先鋭化画像の表示切り替え（領域分割を"Finish Segmentation"せずにモード変更する場合必要）<br>
+  ※先鋭化画像を表示したまま Finish Segmentationを行うと、読み込んだ画像が先鋭化画像に切り替わってしまいます。<br>
+
+</div>
+<br>
+<br>
+
+<div = class="StdBlock">
+<table border="0"><tbody>
+  <tr>
+    <td>　
+      <img src="./image/dialog_Bronchi.png" width="400">
+    </td>
+    <td style="padding:1em; line-height: 1.4em;">
+      <font class="vtmanu">d1.</font>パスの表示・非表示の変更（制御点間の最短路と制御点の持つ木構造に関して）<br>
+      <font class="vtmanu">d2.</font>モード変更<br>
+      <font class="vtmanu">d3.</font>制御点とパスのサイズ変更<br>
+      <font class="vtmanu">d4.</font>制御点情報のロード・セーブ<br>
+      <font class="vtmanu">d5.</font>前のフレームの制御点情報コピー<br>
+      <font class="vtmanu">d6.</font>領域拡張の閾値に関するパラメータ設定<br>
+      <font class="vtmanu">d7.</font>閾値に関する後半レイヤーの設定<br>
+      <font class="vtmanu">d8.</font>拡張サイズの上部領域・下部領域の境界となる深さ設定<br>
+      <font class="vtmanu">d9.</font>上部領域の初期拡張サイズ設定<br>
+      <font class="vtmanu">d10.</font>下部領域の固定拡張サイズ設定<br>
+      <font class="vtmanu">d11.</font>現在のフレームに領域拡張実行<br>
+      <font class="vtmanu">d12.</font>領域分割終了<br>
+    </td>
+  </tr>
+</tbody></table>
+</div>
+
+
+    </body>
+    </html>

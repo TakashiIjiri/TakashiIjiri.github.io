@@ -19,11 +19,11 @@
 <img src="../image/RoiPainter.png" class="ProjImg">
 
 <h2>
-<a href="../index.html"    >top page</a> &nbsp;&nbsp;
-<a href="../io.html"       >I/O</a> &nbsp;&nbsp;
-<a href="../vis/index.html">Visualization</a> &nbsp;&nbsp;
-<a href="seg/index.html"   >Segmentation</a> &nbsp;&nbsp;
-<a href="../ref/index.html">Refinement</a> &nbsp;&nbsp;
+<a href="../index.html"    > top page       </a> &nbsp;&nbsp;
+<a href="../io.html"       > I/O            </a> &nbsp;&nbsp;
+<a href="../vis/index.html"> Visualization  </a> &nbsp;&nbsp;
+<a href="./index.html"   > Segmentation   </a> &nbsp;&nbsp;
+<a href="../ref/index.html"> Refinement     </a> &nbsp;&nbsp;
 code &nbsp;&nbsp;
 </h2>
 
@@ -33,12 +33,13 @@ code &nbsp;&nbsp;
 <br>
     <a href="index.html"><font class="vtmode">Segmentation Top</font></a> ← this page<br>
     <ul>
-        <li><a href="seg_PL.html"     ><font class="vtmode">1) Seg Paint and Lasso             </font></a></li>
-        <li><a href="seg_TRG.html"    ><font class="vtmode">2) Seg Threshold and Region grow   </font></a></li>
-        <li><a href="seg_RT.html"     ><font class="vtmode">3) Seg Rigid Tracking(ICP)         </font></a></li>
-        <li><a href="seg_LRG_sph.html"><font class="vtmode">4) Seg Local Region grow (sphere)  </font></a></li>
-        <li><a href="seg_LRG_cyl.html"><font class="vtmode">5) Seg Local Region grow (cylinder)</font></a></li>
-        <li><a href="seg_PC.html"     ><font class="vtmode">6) Parallel Contors                </font></a></li>
+        <li><a href="seg_PL.html"      > <font class="vtmode">Seg Paint and Lasso              </font></a></li>
+        <li><a href="seg_TRG.html"     > <font class="vtmode">Seg Threshold and Region grow    </font></a></li>
+        <li><a href="seg_RT.html"      > <font class="vtmode">Seg Rigid Tracking(ICP)          </font></a></li>
+        <li><a href="seg_LRG_sph.html" > <font class="vtmode">Seg Local Region grow (sphere)   </font></a></li>
+        <li><a href="seg_LRG_cyl.html" > <font class="vtmode">Seg Local Region grow (cylinder) </font></a></li>
+        <li><a href="seg_Bronchi.html" > <font class="vtmode">Seg Bronchi with Tree CPs        </font></a></li>
+        <li><a href="seg_PC.html"      > <font class="vtmode">Seg Parallel Contors             </font></a></li>
         <li>nearest pixel</li>
     </ul>
 </div>
@@ -48,29 +49,35 @@ code &nbsp;&nbsp;
 <div class="ProjAbst">
 
 Roipainter4Dでは，以下のSegmantationツールを用いて4次元CT画像を領域分割することが可能です．
+あるツールで領域を分割し "Finish Segmentation" ボタンを押すと、前景領域に固有のIDが付与されます．
+一つの画素には一つのIDをつけることができ（一つの画素が複数のIDを持つことはできません），IDの種類は最大 255です．<br>
+画像読み込み時、初期値としてすべての画素にID=0が付与されています.<br>
+領域分割データは, マスクデータとして保存・読み込み可能です．また、形状モデル（wavefront obj）として出力することも可能です．
+<br>
+<br>
 Segmentation toolは，対象領域の特徴にあわせてうまく選択する必要が有ります．<br>
-
+<br>
 <ul>
-    <li><a href="seg_PL.html"><font class="vtmode">1) Seg Paint and Lasso</font></a> :
+    <li><a href="seg_PL.html"><font class="vtmode"> Seg Paint and Lasso</font></a> : <br>
     voxelを直接ペイントしたり，lassoで囲む事で領域を分割するツールです．手間と時間がかかるので，他のツールではどうしてもうまく分割できない領域に利用すると良いです．</li>
 
-    <li><a href="seg_TRG.html"><font class="vtmode">2) Seg Threshold and Region grow</font></a> :
+    <li><a href="seg_TRG.html"><font class="vtmode"> Seg Threshold and Region grow</font></a> : <br>
     閾値処理や，閾値を利用した領域拡張法により領域を分割するツールです．他の領域と輝度値の差が大きい領域（骨や造影剤など）の分割に利用できます．</li>
 
-    <li><a href="seg_RT.html"><font class="vtmode">3) Seg Rigid Tracking(ICP)</font></a> :
+    <li><a href="seg_RT.html"><font class="vtmode"> Seg Rigid Tracking(ICP)</font></a> : <br>
     剛体追跡（Rigid Tracking）により分割するツールです．
     シードとなる領域形状Aと等値面の閾値を与えると，その領域を等値面にフィットするように剛体変換する事で全てのフレームの分割が可能です．
     剛体運動する領域（骨など）の分割に利用できます．</li>
 
-    <li><a href="seg_LRG_sph.html"><font class="vtmode">4) Seg Local Region growing (shere) </font></a> :
+    <li><a href="seg_LRG_sph.html"><font class="vtmode"> Seg Local Region growing (shere) </font></a> :<br>
     球体状のシードを複数配置すると，そのシード領域内のみで領域拡張が行なわれるツールです．
     これにより，輝度値にむらのある領域でもうまく分割できる事が有ります．</li>
 
-    <li><a href="seg_LRG_cyl.html"><font class="vtmode">5) Seg Local Region growing (cylinder) </font></a> :
+    <li><a href="seg_LRG_cyl.html"><font class="vtmode"> Seg Local Region growing (cylinder) </font></a> :<br>
     円筒状のシードを複数配置すると，そのシード領域内のみで領域拡張が行なわれるツールです．
-    これにより，輝度値にむらのある領域でもうまく分割できる事が有ります．（近々，研究発表を予定してます）</li>
+    これにより，輝度値にむらのある領域でもうまく分割できる事が有ります．</li>
 
-    <li><a href="seg_PC.html"><font class="vtmode">6) Parallel Contors</font></a> :
+    <li><a href="seg_PC.html"><font class="vtmode">6) Parallel Contors</font></a> : <br>
     平行平面状に輪郭を描くとその輪郭を通るよう二領域境界が生成されるツールです．
     円筒に近い形状で，領域境界が曖昧な領域の分割に利用できます．</li>
 </ul>
@@ -91,11 +98,6 @@ Segmentation toolは，対象領域の特徴にあわせてうまく選択する
   <li>領域確認 : visualization mask モードでマスクの状態を観察したり，mesh modelとして出力したりすることが出来ます．</li>
 </ol>
 </div>
-
-<br>
-<br>
-<br>
-<br>
 <hr>
 <br>
 <br>

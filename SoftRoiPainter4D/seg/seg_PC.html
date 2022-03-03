@@ -3,65 +3,71 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
     <title>RoiPainter4D Segmentation</title>
-    
+
     <link rel="stylesheet" type="text/css" media="screen" href="../css/roipainter.css">
-    
+
     <style type="text/css" media="screen">
     <!--
     -->
     </style>
     </head>
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     <body>
     <div id="MainBody">
-    
+
     <h1>Parallel Contors</h1>
-    
+
     <img src="../image/RoiPainter.png" class="ProjImg">
-      <hr>
-      <h2>
-        <a href="../index.html">RoiPainter4D</a> &nbsp;&nbsp;
-        <a href="../io.html">I/O</a> &nbsp;&nbsp;
-        <a href="../vis/index.html">Visualization</a> &nbsp;&nbsp;
-        <a href="index.html">Segmentation</a> &nbsp;&nbsp;
-        <a href="../ref/index.html">Refinement</a> &nbsp;&nbsp;
-      </h2>
-    
-      <hr>
-      <div class="ProjAbst">
-          <br>
-          <a href="index.html"><font class="vtmode">Segmentation Top</font></a><br>
-          <ul>
-            <li><a href="seg_PL.html"><font class="vtmode">1) Seg Paint and Lasso</font></a></li>
-            <li><a href="seg_TRG.html"><font class="vtmode">2) Seg Threshold and Region grow</font></a></li>
-            <li><a href="seg_RT.html"><font class="vtmode">3) Seg Rigid Tracking(ICP)</font></a></li>
-            <li><a href="seg_LRG.html"><font class="vtmode">4) Seg Local Region grow</font></a></li>
-            <li><!--<a href="seg_CP.html">--><font class="vtmode">5) Seg Closest Pixel(Sprout Project)</font><!--</a>--><font color="898989">(coming soon...)</font></li>
-            <li><a href="seg_PC.html"><font class="vtmode">6) Parallel Contors</font></a> ← this page</li>
-          </ul>
-      </div>
-    
-    
-    
+
+    <h2>
+    <a href="../index.html"    > top page       </a> &nbsp;&nbsp;
+    <a href="../io.html"       > I/O            </a> &nbsp;&nbsp;
+    <a href="../vis/index.html"> Visualization  </a> &nbsp;&nbsp;
+    <a href="./index.html"     > Segmentation   </a> &nbsp;&nbsp;
+    <a href="../ref/index.html"> Refinement     </a> &nbsp;&nbsp;
+    code &nbsp;&nbsp;
+    </h2>
+
+
+    <hr>
+    <div class="ProjAbst">
+    <br>
+        <a href="index.html"><font class="vtmode">Segmentation Top</font></a>
+        <ul>
+            <li><a href="seg_PL.html"      > <font class="vtmode">Seg Paint and Lasso              </font></a></li>
+            <li><a href="seg_TRG.html"     > <font class="vtmode">Seg Threshold and Region grow    </font></a></li>
+            <li><a href="seg_RT.html"      > <font class="vtmode">Seg Rigid Tracking(ICP)          </font></a></li>
+            <li><a href="seg_LRG_sph.html" > <font class="vtmode">Seg Local Region grow (sphere)   </font></a></li>
+            <li><a href="seg_LRG_cyl.html" > <font class="vtmode">Seg Local Region grow (cylinder) </font></a></li>
+            <li><a href="seg_Bronchi.html" > <font class="vtmode">Seg Bronchi with Tree CPs        </font></a></li>
+            <li><a href="seg_PC.html"      > <font class="vtmode">Seg Parallel Contors             </font></a>← this page</li>
+            <li>Template deformation </li>
+        </ul>
+    </div>
+
+
+
+
+
     <hr>
     <h2>5) Parallel Contors</h2>
-    
+
     <div =="" class="ProjAbst">
         このツールは，4次元X線CT画像に対して半手動の領域分割を行い，前景領域を抽出するツールです．
-    
+
     </div>
-    
-    
-    
+
+
+
     <br>
     <h2>Workflow</h2>
-    
+
     <ol style="line-height:1.5em; padding-left:4.0em;">
         <li>ツールの起動 : Click "Menu &gt; mode switch &gt;  Seg Parallel Contors" </li>
         <li>中央点の設定 : 関心領域のおおまかな中心に中央点を配置する．</li>
@@ -70,22 +76,22 @@
         <li>面の生成 : ダイアログ右下のMesh creationボタンをクリックする．</li>
         <li>終了 : ダイアログ左下のFinish And Storeを押す．</li>
     </ol>
-    
-    
-    
-    
+
+
+
+
     <br>
     <br>
     <br>
-    
-    
+
+
     <div =="" class="StdBlock">
-    
+
     <table>
         <tbody>
             <tr>
                 <td>
-                    <video controls width="640" height="368"><source src="./video/paraconts_s1.mp4"></video>                
+                    <video controls width="640" height="368"><source src="./video/paraconts_s1.mp4"></video>
                 </td>
                 <td style="padding:1em;">
                     <font class="vtmanu">Step1:Shift + L-click</font><br>  中央点の配置<br>
@@ -102,18 +108,18 @@
             </tr>
         </tbody>
     </table>
-    
+
     </div>
-    
+
  <br>
 
  <div =="" class="StdBlock">
-    
+
     <table>
         <tbody>
             <tr>
                 <td>
-                    <video controls width="640" height="368"><source src="./video/paraconts_s2.mp4"></video>                                
+                    <video controls width="640" height="368"><source src="./video/paraconts_s2.mp4"></video>
                 </td>
                 <td style="padding:1em;">
                     <font class="vtmanu">Step2:M-wheek</font><br> キャンバス移動<br>
@@ -140,15 +146,15 @@
             </tr>
         </tbody>
     </table>
-    
+
     </div>
- 
- 
- 
+
+
+
     <br>
     <br>
-    
-    
+
+
     <table border="0">
         <tbody>
             <tr>
@@ -156,7 +162,7 @@
                     <img src="./image/dialog_PC_1.png" width="380">
                 </td>
                 <td style="padding:1em; line-height: 1.4em;">
-    
+
     <font class="vtmanu">d1. ROI size slider</font> キャンバスサイズの設定<br>
     <font class="vtmanu">d2. Slice number slinder </font> キャンバス枚数の設定<br>
     <font class="vtmanu">d3. Go next step</font> Step2へ移る（Step1のキャンバスサイズ，枚数の変更の操作はStep2ではできない）<br>
@@ -168,7 +174,7 @@
 
     <br>
     <br>
-    
+
     <table border="0">
         <tbody>
             <tr>
@@ -176,7 +182,7 @@
                     <img src="./image/dialog_PC_2.png" width="380">
                 </td>
                 <td style="padding:1em; line-height: 1.4em;">
-    
+
     <font class="vtmanu">d1. Save</font> 中央点，キャンバス情報，輪郭線情報の保存<br>
     <font class="vtmanu">d2. Load</font> 中央点，キャンバス情報，輪郭線情報の読み込み<br>
     <font class="vtmanu">d3. Copy contor from back</font> 奥(x方向にプラス)のキャンバスから輪郭線をコピー&ペースト<br>
@@ -191,7 +197,7 @@
     <font class="vtmanu">d10. Mesh</font> 境界面の表示/非表示<br>
     <font class="vtmanu">d11. All contors</font> 全輪郭線の表示/非表示<br>
     <font class="vtmanu">d12. Edges</font> 三角形メッシュのエッジ表示/非表示<br> -->
-    
+
     <font class="vtmanu">d10. Contors edit Mode</font> 輪郭線の平行移動（Trans），回転（Rot）をするモード（Add CP：制御点を追加するモード）<br>
     <font class="vtmanu">d11. Mesh creation</font> 面の生成（ArcLen：三角形メッシュの周囲長の総和が最小，Area：三角形メッシュの面積の総和が最小）<br>
 
@@ -205,14 +211,14 @@
 
 
     </div>
-    
-    
+
+
         <br>
 
 
 
- 
-    
+
+
         <hr>
         <br>
         <br>
@@ -220,13 +226,12 @@
         <br>
         <br>
         <br>
-    
-    
-    
+
+
+
     </div>
-    
-    
+
+
     </body>
-    
+
 </html>
-    
