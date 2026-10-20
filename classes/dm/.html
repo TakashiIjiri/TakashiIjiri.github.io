@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Fourier Paint — 周波数成分をペイント</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:#e9eef6;background:#101722;color-scheme:dark}*{box-sizing:border-box}body{margin:0;padding:24px}main{max-width:1150px;margin:auto}h1{font-size:1.55rem;margin:0 0 6px}p{color:#acbbce;margin:5px 0 19px;font-size:.94rem}.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:17px}.toolbar button,.toolbar select,.filepick{background:#243449;color:#f3f7fa;border:1px solid #46566d;border-radius:7px;padding:9px 13px;cursor:pointer}.toolbar button:hover,.filepick:hover{background:#314663}.filepick input{max-width:175px;font-size:.77rem}.toolbar label{display:flex;align-items:center;gap:6px}.toolbar input[type=range]{width:96px}.panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.panel{background:#192333;border:1px solid #354256;border-radius:12px;padding:14px}.panel h2{margin:0 0 12px;font-size:1rem}.panel p{margin:10px 0 0;font-size:.82rem}.frame{width:100%;max-width:512px;margin:0 auto;aspect-ratio:1;background:#080c11;display:grid;place-items:center;overflow:hidden;border-radius:6px}canvas{display:block;width:100%;height:100%;image-rendering:pixelated}#spectrum{cursor:crosshair;touch-action:none}#wavePanel[hidden]{display:none}.status{margin-top:16px;min-height:1.4em;color:#a8cbee;font-size:.91rem}.info{margin-top:10px;font-size:.8rem;color:#8394a8}@media(max-width:700px){body{padding:12px}.panels{grid-template-columns:1fr}.toolbar{gap:10px}}
+</style>
+</head>
+<body>
+<main>
+<h1>Fourier Paint</h1>
+<p>周波数スペクトル上をドラッグして成分を選択すると、その成分から画像が再構成されます。</p>
+<div class="toolbar">
+ <label class="filepick">画像を選択 <input id="imageFile" type="file" accept="image/*"></label>
+ <button id="reset">クリア（DCのみ）</button>
+ <button id="all">すべて選択</button>
+ <label>ブラシ半径 <input type="range" id="brush" min="1" max="15" value="3"><span id="brushLabel">3</span> px</label>
+ <label><input type="checkbox" id="symmetric"> 対称ペイント</label>
+ <label><input type="checkbox" id="showWave"> 2次元波形を表示</label>
+ <label>サイズ <select id="resolution"><option value="128">128 × 128</option><option value="256" selected>256 × 256</option><option value="512">512 × 512</option></select></label>
+</div>
+<section class="panels">
+ <div class="panel"><h2>周波数スペクトル — ここにペイント</h2><div class="frame"><canvas id="spectrum" width="256" height="256"></canvas></div><p>未選択の周波数成分は暗めのグレー、選択済みは明るく表示します。</p></div>
+ <div class="panel"><h2>逆FFTによる再構成画像</h2><div class="frame"><canvas id="reconstruction" width="256" height="256"></canvas></div><p>選択した周波数成分のみを使って再構成します。</p></div>
+ <div class="panel" id="wavePanel" hidden><h2>現在位置の2次元波形</h2><div class="frame"><canvas id="wave" width="256" height="256"></canvas></div><p>スペクトル上でマウスを動かすと更新されます。</p></div>
+</section>
+<div class="status" id="status" aria-live="polite">img.png を読み込んでいます…</div>
+<div class="info">同じフォルダの img.png を自動読み込みします。file:// で画素が読めない場合は「画像を選択」から指定してください。FFTライブラリの取得にはネット接続が必要です。</div>
+</main>
+<script type="module">
+import FFT from 'https://esm.sh/fft.js@4.0.4';
+const $=id=>document.getElementById(id);
+const cvs={spectrum:$('spectrum'),reconstruction:$('reconstruction'),wave:$('wave')};
+const ctx=Object.fromEntries(Object.entries(cvs).map(([k,c])=>[k,c.getContext('2d',{willReadFrequently:true})]));
+let n=256,fft,original=null,frequency=null,mask=null,baseSpectrum=null,painting=false,needsRedraw=false,lastPoint=null;
+let selectedImageUrl=null,selectedImageName='img.png';
+const setStatus=msg=>$('status').textContent=msg;
+function createGrayImageData(c,values){
+ const im=c.createImageData(n,n);for(let i=0;i<n*n;i++){let v=Math.max(0,Math.min(255,Math.round(values[i])));let j=i*4;im.data[j]=im.data[j+1]=im.data[j+2]=v;im.data[j+3]=255;}return im;
+}
+// Complex arrays are interleaved [real0,imag0,real1,imag1,...].
+// 2D FFT: FFT each row, then FFT each column (and inverse in opposite order).
+function fft2D(data,inverse=false){
+ const result=new Float64Array(data),rowIn=new Float64Array(n*2),rowOut=new Float64Array(n*2);
+ const colIn=new Float64Array(n*2),colOut=new Float64Array(n*2);
+ const process=inverse?fft.inverseTransform.bind(fft):fft.transform.bind(fft);
+ for(let y=0;y<n;y++){rowIn.set(result.subarray(y*n*2,(y+1)*n*2));process(rowOut,rowIn);result.set(rowOut,y*n*2);}
+ for(let x=0;x<n;x++){
+  for(let y=0;y<n;y++){const p=2*(y*n+x);colIn[2*y]=result[p];colIn[2*y+1]=result[p+1];}
+  process(colOut,colIn);
+  for(let y=0;y<n;y++){const p=2*(y*n+x);result[p]=colOut[2*y];result[p+1]=colOut[2*y+1];}
+ }
+ return result;
+}
+const shiftedToUnshifted=(v)=>(v+n/2)%n;
+function updateSpectrum(){
+ if(!frequency)return;
+ const im=ctx.spectrum.createImageData(n,n);
+ for(let i=0;i<n*n;i++){
+  const base=baseSpectrum[i],selected=mask[i]!==0;
+  // Keep unpainted spectrum visible as a slightly subdued gray image.
+  const shade=selected?Math.round(52+203*base):Math.round(32+112*base);
+  const p=i*4;im.data[p]=im.data[p+1]=im.data[p+2]=shade;im.data[p+3]=255;
+ }
+ ctx.spectrum.putImageData(im,0,0);
+}
+function reconstruct(){
+ if(!frequency)return;
+ const filtered=new Float64Array(n*n*2);
+ for(let y=0;y<n;y++)for(let x=0;x<n;x++){
+  const si=y*n+x;if(!mask[si])continue;
+  const xx=shiftedToUnshifted(x),yy=shiftedToUnshifted(y),p=2*(yy*n+xx);
+  filtered[p]=frequency[p];filtered[p+1]=frequency[p+1];
+ }
+ const spatial=fft2D(filtered,true),intensity=new Float64Array(n*n);
+ for(let i=0;i<intensity.length;i++)intensity[i]=spatial[2*i];
+ ctx.reconstruction.putImageData(createGrayImageData(ctx.reconstruction,intensity),0,0);
+}
+function render(){needsRedraw=false;updateSpectrum();reconstruct();}
+function scheduleRender(){if(!needsRedraw){needsRedraw=true;requestAnimationFrame(render);}}
+function paintDisk(cx,cy){
+ const r=+$('brush').value;
+ for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){
+  if(dx*dx+dy*dy>r*r)continue;
+  const x=cx+dx,y=cy+dy;if(x<0||y<0||x>=n||y>=n)continue;
+  mask[y*n+x]=1;
+  if($('symmetric').checked){const sx=(n-x)%n,sy=(n-y)%n;mask[sy*n+sx]=1;}
+ }
+}
+function eventPosition(e){let rect=cvs.spectrum.getBoundingClientRect();return {x:Math.max(0,Math.min(n-1,Math.floor((e.clientX-rect.left)*n/rect.width))),y:Math.max(0,Math.min(n-1,Math.floor((e.clientY-rect.top)*n/rect.height)))};}
+function linePaint(a,b){let steps=Math.max(Math.abs(b.x-a.x),Math.abs(b.y-a.y));for(let i=0;i<=steps;i++){let t=steps?i/steps:0;paintDisk(Math.round(a.x+(b.x-a.x)*t),Math.round(a.y+(b.y-a.y)*t));}}
+function updateWave(x,y){
+ if(!$('showWave').checked || !frequency)return;
+ // The real component of inverse FFT of a single unit impulse is a cosine wave.
+ const kx=x-n/2,ky=y-n/2,out=new Float64Array(n*n);
+ for(let py=0;py<n;py++)for(let px=0;px<n;px++)out[py*n+px]=127.5+127.5*Math.cos(2*Math.PI*(kx*px+ky*py)/n);
+ ctx.wave.putImageData(createGrayImageData(ctx.wave,out),0,0);
+}
+function paintEvent(e){let pos=eventPosition(e);if(painting){linePaint(lastPoint??pos,pos);scheduleRender();}lastPoint=pos;updateWave(pos.x,pos.y);}
+cvs.spectrum.addEventListener('pointerdown',e=>{if(!frequency)return;painting=true;cvs.spectrum.setPointerCapture(e.pointerId);lastPoint=null;paintEvent(e);});
+cvs.spectrum.addEventListener('pointermove',paintEvent);
+for(const ev of ['pointerup','pointercancel','lostpointercapture'])cvs.spectrum.addEventListener(ev,()=>{painting=false;lastPoint=null;});
+$('brush').addEventListener('input',()=>{$('brushLabel').textContent=$('brush').value;});
+$('showWave').addEventListener('change',()=>{$('wavePanel').hidden=!$('showWave').checked;if($('showWave').checked)updateWave(lastPoint?.x??n/2,lastPoint?.y??n/2);});
+$('reset').addEventListener('click',()=>{if(!mask)return;mask.fill(0);mask[(n/2)*n+n/2]=1;scheduleRender();});
+$('all').addEventListener('click',()=>{if(!mask)return;mask.fill(1);scheduleRender();});
+$('resolution').addEventListener('change',()=>{n=+$('resolution').value;initialize();});
+$('imageFile').addEventListener('change',e=>{
+ const file=e.target.files?.[0];if(!file)return;
+ if(selectedImageUrl)URL.revokeObjectURL(selectedImageUrl);
+ selectedImageUrl=URL.createObjectURL(file);selectedImageName=file.name;initialize();
+});
+async function initialize(){
+ setStatus(`${selectedImageName} を読み込んでいます…`);
+ try{
+  const img=new Image();img.src=selectedImageUrl??'./img.png';await img.decode();
+  Object.values(cvs).forEach(c=>{c.width=c.height=n;});
+  fft=new FFT(n);const off=document.createElement('canvas');off.width=off.height=n;const oc=off.getContext('2d',{willReadFrequently:true});
+  // Square fit, matching the FFT canvas dimensions.
+  oc.drawImage(img,0,0,n,n);
+  const pixels=oc.getImageData(0,0,n,n).data;
+  original=new Float64Array(n*n*2);
+  for(let i=0;i<n*n;i++)original[2*i]=.299*pixels[4*i]+.587*pixels[4*i+1]+.114*pixels[4*i+2];
+  frequency=fft2D(original);mask=new Uint8Array(n*n);mask[(n/2)*n+n/2]=1;
+  baseSpectrum=new Float64Array(n*n);
+  let maxLog=0;
+  for(let y=0;y<n;y++)for(let x=0;x<n;x++){
+   const p=2*(shiftedToUnshifted(y)*n+shiftedToUnshifted(x));
+   const v=Math.log1p(Math.hypot(frequency[p],frequency[p+1]));baseSpectrum[y*n+x]=v;maxLog=Math.max(maxLog,v);
+  }
+  for(let i=0;i<baseSpectrum.length;i++)baseSpectrum[i]=maxLog?baseSpectrum[i]/maxLog:0;
+  render();if($('showWave').checked)updateWave(n/2,n/2);
+  setStatus(`読み込み完了：${selectedImageName} (${img.naturalWidth} × ${img.naturalHeight}) → ${n} × ${n} / DC成分のみ選択中`);
+ }catch(err){console.error(err);setStatus('自動読み込みに失敗しました。「画像を選択」から img.png を指定してください。file:// ではブラウザの制限で画素を取得できない場合があります。');}
+}
+initialize();
+</script>
+</body>
+</html>

@@ -7,25 +7,30 @@
   <style>
     * { box-sizing: border-box; }
     body { font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif; margin: 0; background: #f6f7fb; color: #111827; }
-    .container { max-width: 1180px; margin: 36px auto; padding: 24px; background: #fff; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
-    h1 { font-size: 22px; margin: 0 0 8px; }
-    p.lead { margin: 0 0 18px; color: #6b7280; font-size: 14px; }
+    /* 講義用：デスクトップの1画面に収まるコンパクトレイアウト */
+    .container { max-width: 1280px; margin: 8px auto; padding: 12px 16px;
+      background: #fff; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,.08); }
+    h1 { font-size: 19px; margin: 0 0 3px; }
+    p.lead { margin: 0 0 8px; color: #6b7280; font-size: 12px; line-height: 1.4; }
 
-    .grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 18px; }
-    @media (min-width: 1100px){ .grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }
-
-    .panel { background: linear-gradient(#fcfdff, #f7f9ff); border-radius: 14px; padding: 14px; box-shadow: 0 6px 16px rgba(0,0,0,.06); }
-    .title { display:flex; align-items: baseline; gap:10px; margin-bottom: 8px; }
-    .title .badge { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
-
-    .controls { display: grid; grid-template-columns: 1fr; gap: 10px; margin: 6px 0 4px; }
-    label { font-size: 13px; font-weight: 600; display: flex; justify-content: space-between; gap: 8px; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 8px; margin-top: 8px; }
+    .panel { min-width: 0; background: linear-gradient(#fcfdff, #f7f9ff);
+      border-radius: 10px; padding: 8px 10px; box-shadow: 0 3px 10px rgba(0,0,0,.05); }
+    .title { display: flex; align-items: center; gap: 5px; margin-bottom: 3px; min-width: 0; }
+    .title .badge { flex: 0 0 auto; font-size: 11px; font-weight: 700;
+      padding: 2px 6px; border-radius: 999px; white-space: nowrap; }
+    .controls { display: grid; grid-template-columns: 1fr; gap: 3px; margin: 3px 0 0; }
+    label { font-size: 11px; font-weight: 600; display: flex; justify-content: space-between; gap: 5px; }
     .value { font-variant-numeric: tabular-nums; font-weight: 700; }
-    input[type="range"] { width: 100%; accent-color: currentColor; }
-    .equation { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", "Courier New", monospace; background: #eef2ff; border-radius: 8px; padding: 6px 8px; display:inline-block; }
-    .hint { color:#6b7280; font-size:12px; margin-left: 8px; }
-
-    svg { width: 100%; height: 260px; margin-top: 8px; border-radius: 10px; }
+    input[type="range"] { display: block; width: 100%; height: 15px; margin: 0; accent-color: currentColor; }
+    .equation { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: clamp(9px, .9vw, 12px); line-height: 1.25; background: #eef2ff;
+      border-radius: 6px; padding: 4px 5px; display: inline-block; white-space: nowrap; }
+    .hint { color:#6b7280; font-size:10px; margin-left: 3px; }
+    #grid .title .hint { display: none; } /* DCの説明は無効化されたスライダーでも確認可能 */
+    #grid .title .equation { min-width: 0; }
+    svg { display: block; width: 100%; height: 104px; margin-top: 2px; border-radius: 7px; }
+    .sum svg { height: clamp(135px, 22vh, 190px); }
     .gridlines line { stroke: #e5e7eb; stroke-width: 1; }
     .axis { stroke: #9ca3af; stroke-width: 1.5; }
 
@@ -44,9 +49,20 @@
     .sum .curve { stroke:#111827; }
     .sum small { color:#6b7280; }
 
-    .toolbar { display:flex; gap:8px; align-items:center; margin: 6px 0 0; }
-    .btn { appearance:none; border:1px solid #d1d5db; background:#fff; padding:6px 10px; border-radius:8px; cursor:pointer; font-weight:600; }
+    .toolbar { display:flex; gap:8px; align-items:center; margin: 4px 0 0; }
+    .btn { appearance:none; border:1px solid #d1d5db; background:#fff; padding:4px 9px; border-radius:7px; cursor:pointer; font-weight:600; font-size:12px; }
     .btn:hover{ background:#f9fafb; }
+    .sum .title { flex-wrap: wrap; }
+    .sum .equation { font-size: 11px; max-width: 100%; overflow-x: auto; }
+    @media (max-width: 850px) {
+      .grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+      .equation { font-size: 10px; }
+    }
+    @media (max-width: 520px) {
+      .container { margin: 0; padding: 10px; }
+      .grid { grid-template-columns: 1fr; }
+      .equation { font-size: 11px; }
+    }
   </style>
 </head>
 <body>
@@ -162,6 +178,7 @@
         // DC 成分：位相は効果なし → UI 上で無効化
         phase.disabled = true;
         hint.textContent = '（DC：φは無効）';
+        phase.title = 'DC成分には位相の調整がありません';
       }
 
       amp.addEventListener('input', ()=>{ A[k]=parseFloat(amp.value); aVal.textContent=A[k].toFixed(2); eq.textContent = `y = ${A[k].toFixed(2)} · cos(2π·${k}·x + ${P[k].toFixed(2)})`; drawPanel(k, path); drawSum(); });

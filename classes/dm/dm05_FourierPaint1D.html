@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Fourier Paint 1D</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;color:#e8edf6;background:#101825}*{box-sizing:border-box}body{margin:0;padding:22px}main{max-width:1060px;margin:auto}h1{margin:0 0 8px;font-size:25px}p{line-height:1.5}header p{color:#aebdd2;margin:0 0 20px;font-size:14px}.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:0 0 16px;padding:14px;background:#202d40;border-radius:12px}select,button{font:inherit;border-radius:7px;padding:9px 12px;border:1px solid #51637d;background:#172335;color:#fff;cursor:pointer}select{min-width:190px}button:hover{background:#334760}.panel{background:#1b283a;border-radius:12px;padding:13px 16px;margin:12px 0;border:1px solid #314158}.panel-head{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap;margin-bottom:6px}.panel h2{font-size:16px;margin:0}.hint{font-size:12px;color:#a9bad0}canvas{width:100%;height:168px;display:block;background:#121c2c;border-radius:7px}.spectrum{touch-action:none;cursor:crosshair}.status{font-size:13px;color:#9ec5fd;margin:10px 0}.legend{display:flex;gap:17px;flex-wrap:wrap;font-size:12px;color:#b7c8e1}.swatch{display:inline-block;width:12px;height:3px;vertical-align:middle;margin-right:5px}.note{font-size:12px;color:#aebdd2;line-height:1.6;margin-top:16px}@media(max-width:620px){body{padding:12px}canvas{height:130px}.panel{padding:10px}}
+</style></head><body><main>
+<header><h1>Fourier Paint <span style="color:#7acaff">1D</span></h1><p>1024点の信号をフーリエ変換し、周波数成分をペイントして逆変換します。</p></header>
+<div class="controls"><label for="function">目標関数：</label><select id="function"><option value="rect">矩形パルス</option><option value="gauss">ガウス関数</option><option value="triangle">三角波</option><option value="saw">のこぎり波</option><option value="two">2つの山</option></select><button id="clear">選択をクリア</button><button id="all">すべて選択</button><span class="hint" id="count"></span></div>
+<section class="panel"><div class="panel-head"><h2>① 目標関数 f(x)</h2><span class="hint">入力信号 / N = 1024</span></div><canvas id="target" width="1024" height="168"></canvas></section>
+<section class="panel"><div class="panel-head"><h2>② FFTスペクトル |F(k)|</h2><span class="hint">ドラッグして周波数成分を選択・追加（選択済みは水色）</span></div><canvas class="spectrum" id="spectrum" width="1024" height="168"></canvas><div class="legend" style="margin-top:8px"><span><span class="swatch" style="background:#75859b"></span>未選択（薄いグレー）</span><span><span class="swatch" style="background:#67dbef"></span>選択済み</span><span><span class="swatch" style="background:#fcb86b"></span>カーソル位置</span></div></section>
+<section class="panel"><div class="panel-head"><h2>③ IFFT 再構成結果</h2><span class="hint">選択成分の和（元の関数を薄い点線で表示）</span></div><canvas id="rebuild" width="1024" height="168"></canvas></section>
+<section class="panel"><div class="panel-head"><h2>④ カーソル位置の周波数（振幅1・位相0）</h2><span id="frequency" class="hint">スペクトル上にマウスを移動してください</span></div><canvas id="wave" width="1024" height="168"></canvas></section>
+<div id="status" class="status">FFTライブラリを読み込み中…</div>
+
+
+<p class="note">
+  スペクトルの横軸は fftshift した周波数 k = −512 ～ 511、中央が直流成分 (k = 0) <br>
+  実数の信号を再構成するため、クリック・ドラッグでは対応する正負の周波数を同時に選択する<br>
+  ④はFFT係数の振幅・位相には依存しない、振幅1・位相0の cos 波形<br>
+  スペクトルの縦軸は見やすさのため log(1 + |F|) 表示</p>
+</main>
+<script type="module">
+import FFT from 'https://esm.sh/fft.js@4.0.4';
+const N=1024,H=168,TAU=2*Math.PI,$=id=>document.getElementById(id);
+const canv={target:$('target'),spectrum:$('spectrum'),wave:$('wave'),rebuild:$('rebuild')};
+const cx=Object.fromEntries(Object.entries(canv).map(([k,v])=>[k,v.getContext('2d')]));
+const fft=new FFT(N),time=new Float64Array(N),bins=fft.createComplexArray(),selected=new Uint8Array(N);
+let hover=null,painting=false,last=null,dirty=false;
+const c={grid:'#33475e',axis:'#7d8ca3',main:'#d9e4f7',active:'#67dbef',cursor:'#fcb86b',subtle:'#64748b'};
+function initialize(){let type=$('function').value;for(let i=0;i<N;i++){let x=i/N,t=x-0.5;
+ switch(type){case'rect':time[i]=Math.abs(t)<0.14?1:0;break;case'gauss':time[i]=Math.exp(-0.5*(t/.09)**2);break;case'triangle':time[i]=Math.max(0,1-Math.abs(t)/.26);break;case'saw':time[i]=x;break;case'two':time[i]=.85*Math.exp(-.5*((x-.3)/.055)**2)+.65*Math.exp(-.5*((x-.71)/.09)**2);break;}}
+ const input=fft.createComplexArray();for(let i=0;i<N;i++){input[2*i]=time[i];input[2*i+1]=0;}fft.transform(bins,input);
+ selected.fill(0);selected[0]=1;hover=null;drawTarget();drawSpectrum();drawWave();reconstruct();}
+function setup(ctx){ctx.clearRect(0,0,N,H);ctx.fillStyle='#121c2c';ctx.fillRect(0,0,N,H);ctx.lineWidth=1;ctx.strokeStyle=c.grid;ctx.beginPath();for(let y=20;y<H;y+=32){ctx.moveTo(0,y+.5);ctx.lineTo(N,y+.5);}for(let x=0;x<=N;x+=128){ctx.moveTo(x+.5,0);ctx.lineTo(x+.5,H);}ctx.stroke();}
+function plot(ctx,values,color,lo=-.15,hi=1.15,dash=[]){ctx.beginPath();ctx.setLineDash(dash);ctx.strokeStyle=color;ctx.lineWidth=2;for(let i=0;i<N;i++){const y=H-12-(values[i]-lo)/(hi-lo)*(H-24);i?ctx.lineTo(i,y):ctx.moveTo(i,y);}ctx.stroke();ctx.setLineDash([]);}
+function lineZero(ctx,lo,hi){let y=H-12-(0-lo)/(hi-lo)*(H-24);ctx.strokeStyle='#56657c';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(N,y);ctx.stroke();}
+function drawTarget(){setup(cx.target);lineZero(cx.target,-.15,1.15);plot(cx.target,time,c.main);}
+function freqAtX(x){return (Math.max(0,Math.min(1023,Math.floor(x)))-512+N)%N;}
+function xFromBin(k){return (k+512)%N;}
+function amplitude(k){return Math.hypot(bins[2*k],bins[2*k+1]);}
+function drawSpectrum(){let ctx=cx.spectrum;setup(ctx);let max=0;for(let k=0;k<N;k++)max=Math.max(max,Math.log1p(amplitude(k)));
+ for(let x=0;x<N;x++){let k=freqAtX(x),mag=Math.log1p(amplitude(k))/max;ctx.fillStyle=selected[k]?'#67dbef':'#7b8aa1';ctx.globalAlpha=selected[k]?1:.64;const bar= Math.max(1,mag*(H-20));ctx.fillRect(x,H-10-bar,1,bar);}ctx.globalAlpha=1;
+ ctx.strokeStyle='#d4e7ff';ctx.beginPath();ctx.moveTo(512.5,0);ctx.lineTo(512.5,H);ctx.stroke();
+ if(hover!==null){let x=xFromBin(hover);ctx.fillStyle=c.cursor;ctx.fillRect(x-1,0,3,H);}ctx.font='12px sans-serif';ctx.fillStyle='#c3cfdf';ctx.fillText('−512',5,14);ctx.fillText('0',519,14);ctx.fillText('+511',981,14);
+ let pairs=0;for(let k=0;k<N;k++)pairs+=selected[k];$('count').textContent=`選択周波数: ${pairs} / 1024`;}
+function drawWave(){let ctx=cx.wave;setup(ctx);if(hover===null){ctx.fillStyle='#91a5c1';ctx.font='14px sans-serif';ctx.fillText('FFTスペクトルにカーソルを合わせると、ここに波形が表示されます。',16,28);return;}
+ const k=hover, signedK=k>=N/2?k-N:k;
+ const waves=new Float64Array(N);
+ for(let i=0;i<N;i++)waves[i]=Math.cos(TAU*signedK*i/N);
+ lineZero(ctx,-1.15,1.15);plot(ctx,waves,c.cursor,-1.15,1.15);
+ $('frequency').textContent=`k = ${signedK} / 振幅 = 1 / 位相 = 0°`;
+}
+function reconstruct(){const filtered=fft.createComplexArray(),output=fft.createComplexArray();for(let k=0;k<N;k++){if(selected[k]){filtered[2*k]=bins[2*k];filtered[2*k+1]=bins[2*k+1];}}fft.inverseTransform(output,filtered);const y=new Float64Array(N);for(let i=0;i<N;i++)y[i]=output[2*i];const ctx=cx.rebuild;setup(ctx);lineZero(ctx,-.15,1.15);plot(ctx,time,'#59687f',-.15,1.15,[5,5]);plot(ctx,y,c.active);$('status').textContent='準備完了：FFTスペクトルをドラッグして成分を足してください。';}
+function addAt(k){let mirror=(N-k)%N,changed=!selected[k]||!selected[mirror];selected[k]=selected[mirror]=1;return changed;}
+function schedule(){if(dirty)return;dirty=true;requestAnimationFrame(()=>{dirty=false;drawSpectrum();reconstruct();});}
+function pointerX(ev){const b=canv.spectrum.getBoundingClientRect();return (ev.clientX-b.left)/b.width*N;}
+function move(ev){let x=pointerX(ev),k=freqAtX(x);if(hover!==k){hover=k;drawSpectrum();drawWave();}if(painting){let current=Math.floor(Math.max(0,Math.min(N-1,x)));let from=last===null?current:last,step=current>=from?1:-1,changed=false;for(let i=from;;i+=step){changed=addAt(freqAtX(i))||changed;if(i===current)break;}last=current;if(changed)schedule();}}
+canv.spectrum.addEventListener('pointerdown',ev=>{if(ev.button!==0)return;painting=true;canv.spectrum.setPointerCapture(ev.pointerId);last=null;move(ev);ev.preventDefault();});
+canv.spectrum.addEventListener('pointermove',move);
+for(let name of ['pointerup','pointercancel','lostpointercapture'])canv.spectrum.addEventListener(name,()=>{painting=false;last=null;});
+canv.spectrum.addEventListener('pointerleave',()=>{if(!painting){hover=null;drawSpectrum();drawWave();$('frequency').textContent='スペクトル上にマウスを移動してください';}});
+$('function').addEventListener('change',initialize);
+$('clear').addEventListener('click',()=>{selected.fill(0);schedule();});
+$('all').addEventListener('click',()=>{selected.fill(1);schedule();});
+initialize();
+</script></body></html>

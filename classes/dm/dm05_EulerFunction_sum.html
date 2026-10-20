@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>複素フーリエ基底の重ね描きと総和 — 3D可視化</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3f6fb;color:#19263c;font-family:system-ui,-apple-system,'Segoe UI','Noto Sans JP',sans-serif}
+.wrap{max-width:1380px;padding:22px;margin:auto}
+h1{font-size:24px;margin:0 0 5px}.lead{color:#61718a;font-size:13px;margin:0 0 15px;line-height:1.65}
+.toolbar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;background:white;border:1px solid #e1e7f1;border-radius:11px;padding:10px 14px;margin-bottom:14px;font-size:13px}
+.toolbar button{background:#fff;border:1px solid #cad4e4;padding:7px 11px;border-radius:8px;cursor:pointer}.toolbar input{accent-color:#345bb7}
+.card{background:#fff;border:1px solid #e1e7f1;border-radius:14px;padding:14px;box-shadow:0 4px 18px #2539580b;min-width:0}
+.heading{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.tag{background:#e9effc;color:#274a98;border-radius:6px;padding:3px 8px;font-weight:700;font-size:13px}
+.eq{font-size:13px;font-weight:600;white-space:nowrap;overflow-x:auto;max-width:100%;padding:3px 0}
+.plot3d{display:block;width:100%;height:355px;background:linear-gradient(#fff,#fbfcff);border:1px solid #ebf0f6;border-radius:10px;touch-action:none;cursor:grab}
+.plot3d:active{cursor:grabbing}
+.twod{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+.smallplot{min-width:0;border:1px solid #eef1f5;border-radius:8px;padding:6px}.smallplot b{display:block;font-size:11px;margin-bottom:3px}.smallplot canvas{display:block;width:100%;height:150px}
+.real{color:#d94b52}.imag{color:#366bd1}
+.sum{margin-top:16px;border:2px solid #b8c9e9}.sum .plot3d{height:370px}.sum .smallplot canvas{height:160px}.sum .twod{gap:14px}
+.legend{display:flex;gap:17px;flex-wrap:wrap;color:#52637c;font-size:12px;margin:8px 0 0}.legend span:before{content:'';display:inline-block;vertical-align:middle;width:19px;height:3px;margin-right:5px;background:var(--c)}
+.termgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}.term{font-size:12px;background:#f8faff;border:1px solid #e8edf8;border-radius:8px;padding:7px 9px;color:#4f617d}
+.note{font-size:12px;color:#64758c;line-height:1.6;margin:12px 0 0}
+@media(max-width:900px){.termgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:630px){.wrap{padding:10px}.twod{grid-template-columns:1fr}.termgrid{grid-template-columns:1fr}.plot3d,.sum .plot3d{height:260px}h1{font-size:20px}}
+</style></head><body><main class="wrap">
+
+<h1>複素フーリエ基底の重ね描きと総和</h1>
+<p class="lead">異なる周波数の複素指数関数を重ね合わせたものの可視化例。</p>
+<div class="toolbar"><strong>視点操作</strong><span>3Dグラフをドラッグで回転／ホイールで拡大縮小</span><label><input id="sync" type="checkbox" checked> 上段と下段の視点を連動</label><button id="reset">視点をリセット</button><label><input id="projection" type="checkbox" checked> 実部・虚部の3D投影を表示</label></div>
+
+<section class="card" id="overlay">
+  <div class="heading"><span class="tag">基底関数の重ね描き k=1〜6</span><span class="eq">f_k(x) = A_k [cos(2πkx + φ_k) + i sin(2πkx + φ_k)]</span></div>
+  <canvas class="plot3d" aria-label="k=1から6の複素指数関数の重ね描き"></canvas>
+  <div class="twod">
+    <div class="smallplot"><b class="real">実部 Re f_k(x) — 6本重ね描き</b><canvas class="real2d"></canvas></div>
+    <div class="smallplot"><b class="imag">虚部 Im f_k(x) — 6本重ね描き</b><canvas class="imag2d"></canvas></div>
+  </div>
+  <div class="termgrid" id="termgrid"></div>
+</section>
+
+<section class="card sum" id="sum"><div class="heading"><span class="tag">総和 k=1〜6</span><span class="eq">f(x) = Σ Aₖ [cos(2πkx + φₖ) + i sin(2πkx + φₖ)]</span></div><canvas class="plot3d" aria-label="六つの複素指数関数の総和"></canvas><div class="twod"><div class="smallplot"><b class="real">実部 Re f(x) — 6つのcosの和</b><canvas class="real2d"></canvas></div><div class="smallplot"><b class="imag">虚部 Im f(x) — 6つのsinの和</b><canvas class="imag2d"></canvas></div></div></section>
+<div class="legend" id="legend"></div>
+<p class="note">フーリエ級数では，このような基底関数をさらに多く使うことで，多様な周期関数を近似できます。</p>
+</main><script>
+(()=>{'use strict';
+const terms=[
+  {k:1,a:.5,p:-1.1,color:'#1f77b4'},
+  {k:2,a:.6,p:.5,color:'#ff7f0e'},
+  {k:3,a:.4,p:.1,color:'#2ca02c'},
+  {k:4,a:.2,p:-.1,color:'#d62728'},
+  {k:5,a:.1,p:.5,color:'#9467bd'},
+  {k:6,a:.3,p:-.8,color:'#8c564b'}
+];
+const fmtPhase=n=>(n<0?'− ':'+ ')+Math.abs(n).toFixed(1);
+const overlayCard=document.querySelector('#overlay');
+const sumCard=document.querySelector('#sum');
+const charts=[
+  {mode:'overlay',canvas:overlayCard.querySelector('.plot3d'),real:overlayCard.querySelector('.real2d'),imag:overlayCard.querySelector('.imag2d'),az:-.75,el:.38,zoom:1},
+  {mode:'sum',canvas:sumCard.querySelector('.plot3d'),real:sumCard.querySelector('.real2d'),imag:sumCard.querySelector('.imag2d'),az:-.75,el:.38,zoom:1}
+];
+const termgrid=document.querySelector('#termgrid');
+for(const t of terms){
+  const d=document.createElement('div'); d.className='term';
+  d.innerHTML=`<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${t.color};margin-right:6px"></span><strong>k=${t.k}</strong>　A=${t.a.toFixed(1)}, φ=${t.p.toFixed(1)} rad`;
+  termgrid.appendChild(d);
+}
+const legend=document.querySelector('#legend');
+for(const t of terms){
+  const s=document.createElement('span');
+  s.style.setProperty('--c',t.color); s.textContent=`k=${t.k}`; legend.appendChild(s);
+}
+legend.insertAdjacentHTML('beforeend',`<span style="--c:#202b40">総和の複素関数（3D）</span><span style="--c:#e24e52">実部の3D投影 / 2D</span><span style="--c:#356ddf">虚部の3D投影 / 2D</span>`);
+
+const ratio=()=>Math.min(devicePixelRatio||1,2);
+function prepare(c){const rect=c.getBoundingClientRect(),w=Math.max(1,rect.width),h=Math.max(1,rect.height),d=ratio();if(c.width!==Math.round(w*d)||c.height!==Math.round(h*d)){c.width=Math.round(w*d);c.height=Math.round(h*d)}const ctx=c.getContext('2d');ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,w,h);return {ctx,w,h};}
+function fterm(t,x){const ang=2*Math.PI*t.k*x+t.p;return [t.a*Math.cos(ang),t.a*Math.sin(ang)]}
+function fsum(x){let r=0,i=0;for(const t of terms){const [rr,ii]=fterm(t,x);r+=rr;i+=ii;}return [r,i]}
+function draw3(g){const {ctx:c,w,h}=prepare(g.canvas);const proj=(x,y,z)=>{let X=(x-.5)*4.0,Y=y*.8,Z=z*.8;let a=X*Math.cos(g.az)-Y*Math.sin(g.az),b=X*Math.sin(g.az)+Y*Math.cos(g.az);let v=Z*Math.cos(g.el)-b*Math.sin(g.el),depth=Z*Math.sin(g.el)+b*Math.cos(g.el);let s=Math.min(w/6.1,h/4.6)*g.zoom;let persp=7/(7-depth*.25);return [w*.5+a*s*persp,h*.52-v*s*persp]};
+const line=(u,v,col,width=1)=>{let a=proj(...u),b=proj(...v);c.strokeStyle=col;c.lineWidth=width;c.beginPath();c.moveTo(...a);c.lineTo(...b);c.stroke()};
+for(let x=0;x<=1.001;x+=.25){line([x,-2,0],[x,2,0],'#edf1f6');line([x,0,-2],[x,0,2],'#edf1f6')}
+for(const v of [-2,-1,0,1,2]){line([0,v,0],[1,v,0],'#f0f2f7');line([0,0,v],[1,0,v],'#f0f2f7')}
+line([0,0,0],[1.12,0,0],'#728098',1.6);line([0,-2.15,0],[0,2.15,0],'#df8588',1.5);line([0,0,-2.15],[0,0,2.15],'#7699df',1.5);
+for(const [p,label,col] of [[[1.13,0,0],'x','#526780'],[[0,2.2,0],'Re','#c0474d'],[[0,0,2.2],'Im','#3164c5']]){let q=proj(...p);c.font='12px system-ui';c.fillStyle=col;c.fillText(label,q[0]+3,q[1]-4)}
+const curve=(fn,mode,color,width)=>{c.beginPath();for(let j=0;j<=600;j++){let x=j/600,v=fn(x),q=mode===0?proj(x,v[0],v[1]):mode===1?proj(x,v[0],0):proj(x,0,v[1]);if(j===0)c.moveTo(...q);else c.lineTo(...q)}c.strokeStyle=color;c.lineWidth=width;c.lineJoin='round';c.lineCap='round';c.stroke()};
+if(g.mode==='overlay'){
+  for(const t of terms){
+    const fn=x=>fterm(t,x);
+    if(document.querySelector('#projection').checked){curve(fn,1,t.color,1.5);curve(fn,2,t.color,1.5)}
+    curve(fn,0,t.color,2.2);
+  }
+ }else{
+   if(document.querySelector('#projection').checked){curve(fsum,1,'#e24e52',2);curve(fsum,2,'#356ddf',2)}
+   curve(fsum,0,'#202b40',2.8);
+ }
+}
+function draw2(canvas,mode,component){const {ctx:g,w,h}=prepare(canvas);const left=29,right=9,top=9,bottom=20,ww=w-left-right,hh=h-top-bottom;let Y=v=>top+hh*(2-v)/4,X=x=>left+ww*x;
+g.strokeStyle='#e6eaf1';g.lineWidth=1;for(const v of [-2,-1,0,1,2]){g.beginPath();g.moveTo(left,Y(v));g.lineTo(w-right,Y(v));g.stroke()}for(const x of [0,.25,.5,.75,1]){g.beginPath();g.moveTo(X(x),top);g.lineTo(X(x),h-bottom);g.stroke()}
+g.fillStyle='#718097';g.font='10px system-ui';for(const y of [-2,0,2])g.fillText(String(y),5,Y(y)+3);for(const x of [0,.5,1])g.fillText(String(x),X(x)-4,h-5);
+const drawSingle=(fn,color,width)=>{g.beginPath();for(let j=0;j<=600;j++){const x=j/600,y=fn(x)[component];if(j===0)g.moveTo(X(x),Y(y));else g.lineTo(X(x),Y(y))}g.strokeStyle=color;g.lineWidth=width;g.lineJoin='round';g.stroke();};
+if(mode==='overlay'){for(const t of terms){drawSingle(x=>fterm(t,x),t.color,1.9)}}else{drawSingle(fsum,component===0?'#e24e52':'#356ddf',2.2)}
+}
+function drawAll(){for(const g of charts){draw3(g);draw2(g.real,g.mode,0);draw2(g.imag,g.mode,1)}}
+for(const g of charts){let last=null;const c=g.canvas;c.addEventListener('pointerdown',e=>{c.setPointerCapture(e.pointerId);last=[e.clientX,e.clientY]});c.addEventListener('pointermove',e=>{if(!last)return;const dx=e.clientX-last[0],dy=e.clientY-last[1];last=[e.clientX,e.clientY];const targets=document.querySelector('#sync').checked?charts:[g];for(const t of targets){t.az-=dx*.009;t.el=Math.max(-1.45,Math.min(1.45,t.el+dy*.009))}drawAll()});const stop=()=>last=null;c.addEventListener('pointerup',stop);c.addEventListener('pointercancel',stop);c.addEventListener('wheel',e=>{e.preventDefault();const targets=document.querySelector('#sync').checked?charts:[g];for(const t of targets)t.zoom=Math.min(2.6,Math.max(.5,t.zoom*Math.exp(-e.deltaY*.001)));drawAll()},{passive:false});}
+document.querySelector('#reset').onclick=()=>{for(const t of charts){t.az=-.75;t.el=.38;t.zoom=1}drawAll()};
+document.querySelector('#projection').addEventListener('change',drawAll);window.addEventListener('resize',drawAll);if(window.ResizeObserver){const ro=new ResizeObserver(drawAll);ro.observe(overlayCard);ro.observe(sumCard)}drawAll();
+})();
+</script></body></html>

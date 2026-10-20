@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>複素指数関数の3D可視化（複素平面基準）</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI","Noto Sans JP",sans-serif;color:#17233a;background:#f3f6fb}
+*{box-sizing:border-box}
+body{margin:0}
+.wrap{max-width:1120px;margin:24px auto;padding:0 18px}
+.card{background:white;border:1px solid #e4eaf3;border-radius:18px;padding:20px;box-shadow:0 8px 28px #243f7012}
+h1{font-size:23px;margin:0 0 8px}.lead{font-size:13px;color:#61718a;margin:0 0 18px}
+.toolbar{display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:12px 14px;background:#f6f8fc;border-radius:12px}
+.kblock{display:flex;gap:12px;align-items:center;flex:1;min-width:240px}.kblock input{flex:1;accent-color:#4567d4}
+.kvalue{min-width:46px;text-align:center;font-size:22px;font-weight:750;color:#3455c6}
+.button{border:1px solid #d6dfeb;background:#fff;border-radius:9px;padding:8px 12px;cursor:pointer;color:#273957;font-size:13px}
+.button:hover{background:#edf3ff}
+.formula{margin:15px 0 8px;font-size:18px;font-weight:650;white-space:nowrap;overflow-x:auto}
+.hint{font-size:12px;color:#718098;margin:4px 0 12px}
+.chart{position:relative;border:1px solid #edf1f6;background:linear-gradient(#ffffff,#fbfcff);border-radius:14px;overflow:hidden}
+canvas{width:100%;height:min(65vh,590px);min-height:360px;display:block;touch-action:none;cursor:grab}
+canvas:active{cursor:grabbing}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;margin:12px 2px 4px;color:#34435c}
+.legend label{display:flex;align-items:center;gap:7px;cursor:pointer}.swatch{display:inline-block;width:24px;height:4px;border-radius:4px}
+.foot{font-size:12px;color:#718098;line-height:1.6;margin-top:12px}.sep{height:1px;background:#edf1f7;margin:14px 0}
+.controls{display:flex;gap:12px;flex-wrap:wrap;align-items:center}.controls label{white-space:nowrap}input[type=checkbox]{accent-color:#4567d4}
+.plots2d{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:16px}
+.plot2d{border:1px solid #e7ecf4;border-radius:12px;padding:12px 12px 6px;background:#fff}
+.plot2d h2{font-size:14px;margin:0 0 6px}.plot2d canvas{height:180px;min-height:0;cursor:default;touch-action:auto}.plot2d canvas:active{cursor:default}
+.value{font-variant-numeric:tabular-nums}
+@media(max-width:620px){.plots2d{grid-template-columns:1fr}.plot2d canvas{height:160px}}
+@media(max-width:600px){.wrap{margin:8px auto;padding:0 8px}.card{padding:12px}h1{font-size:19px}.formula{font-size:15px}canvas{height:50vh;min-height:300px}}
+</style>
+</head>
+<body>
+<div class="wrap"><div class="card">
+<h1>複素指数関数の3D可視化</h1>
+<p class="lead">複素平面（右が実軸正，上が虚軸正）を基準にし，t軸方向へ進みながら回転する軌跡を観察します。</p>
+<div class="toolbar"><div class="kblock"><strong>周波数 k</strong><input id="kSlider" type="range" min="0" max="6" step="1" value="3" aria-label="周波数k"><span class="kvalue value" id="kValue">3</span></div><div class="controls"><button class="button" id="minus">−1</button><button class="button" id="plus">＋1</button><button class="button" id="resetView">視点リセット</button></div></div>
+<div class="formula" id="formula">f(t) = e<sup>i 2π·3·t</sup> = cos(2π·3·t) + i sin(2π·3·t)</div>
+<p class="hint">0 ≤ t ≤ 1。ドラッグ：視点回転 ／ ホイール・ピンチ：拡大縮小</p>
+<div class="chart"><canvas id="plot" role="img" aria-label="複素指数関数の3D曲線、実部と虚部の投影"></canvas></div>
+<div class="legend">
+<label><input type="checkbox" id="showComplex" checked><span class="swatch" style="background:#202b40"></span>複素指数関数（3D）</label>
+<label><input type="checkbox" id="showReal" checked><span class="swatch" style="background:#e24e52"></span>実部 cos（Im=0面）</label>
+<label><input type="checkbox" id="showImag" checked><span class="swatch" style="background:#356ddf"></span>虚部 +sin（Re=0面）</label>
+<label><input type="checkbox" id="showGuides" checked><span class="swatch" style="background:#a5b4c6"></span>補助線</label>
+</div>
+<div class="plots2d">
+  <section class="plot2d"><h2 style="color:#e24e52">実部：cos(2πkt)</h2><canvas id="plotReal2d" aria-label="実部の二次元グラフ"></canvas></section>
+  <section class="plot2d"><h2 style="color:#356ddf">虚部：sin(2πkt)</h2><canvas id="plotImag2d" aria-label="虚部の二次元グラフ"></canvas></section>
+</div><div class="sep"></div>
+<div class="foot">3D空間では，横軸が実部 Re，縦軸が虚部 Im，奥行き方向が t です。黒： (Re f(t), Im f(t), t) ／ 赤： (Re f(t), 0, t) ／ 青： (0, Im f(t), t)。複素平面を正面から見たうえで，t軸方向に進む“らせん”として読むことを意図しています。</div>
+</div></div>
+<script>
+(()=>{'use strict';
+const canvas=document.getElementById('plot'),ctx=canvas.getContext('2d');
+const kSlider=document.getElementById('kSlider'),kValue=document.getElementById('kValue'),formula=document.getElementById('formula');
+const checks=['showComplex','showReal','showImag','showGuides'].map(id=>document.getElementById(id));
+let k=3, az=0.30, el=0.22, zoom=1.0, w=800,h=500,dpr=1;
+const V=(x,y,z)=>[x,y,z];
+
+function rotatePoint(p){
+  let X=p[0], Y=p[1], Z=p[2];
+  let xx=X*Math.cos(az)+Z*Math.sin(az);
+  let zz=-X*Math.sin(az)+Z*Math.cos(az);
+  let yy=Y*Math.cos(el)-zz*Math.sin(el);
+  let zz2=Y*Math.sin(el)+zz*Math.cos(el);
+  return [xx,yy,zz2];
+}
+function project(p){
+  let X=p[0]*1.20;
+  let Y=p[1]*1.20;
+  let Z=(p[2]-0.5)*3.2;
+  let r=rotatePoint([X,Y,Z]);
+  let unit=Math.min(w/4.9,h/4.1)*zoom;
+  const perspective=6.4/(6.4-r[2]*0.28);
+  return [w/2+r[0]*unit*perspective,h/2-r[1]*unit*perspective,r[2]];
+}
+function line3(a,b,color,width=1,dash=[]){const A=project(a),B=project(b);ctx.beginPath();ctx.setLineDash(dash);ctx.moveTo(A[0],A[1]);ctx.lineTo(B[0],B[1]);ctx.strokeStyle=color;ctx.lineWidth=width;ctx.stroke();ctx.setLineDash([])}
+function label(p,text,color,dx=0,dy=0){const q=project(p);ctx.fillStyle=color;ctx.font='600 13px system-ui,sans-serif';ctx.fillText(text,q[0]+dx,q[1]+dy)}
+function poly(fn,color,width=2.7){ctx.beginPath();for(let i=0;i<=1024;i++){const t=i/1024,q=project(fn(t));if(i===0)ctx.moveTo(q[0],q[1]);else ctx.lineTo(q[0],q[1]);}ctx.strokeStyle=color;ctx.lineWidth=width;ctx.lineJoin='round';ctx.lineCap='round';ctx.stroke();}
+function draw(){ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+  const guides=checks[3].checked;
+  if(guides){
+    for(const re of [-1,0,1]) for(const im of [-1,0,1]) line3(V(re,im,0),V(re,im,1),'#edf1f7',.8);
+    for(const t of [0,.25,.5,.75,1]){
+      line3(V(-1,0,t),V(1,0,t),'#e5eaf3',.8);
+      line3(V(0,-1,t),V(0,1,t),'#e5eaf3',.8);
+    }
+    for(const re of [-1,1]){
+      const p=project(V(re,0,0));ctx.fillStyle='#9aa6b8';ctx.font='11px system-ui';ctx.fillText(String(re),p[0]-8,p[1]+16);
+    }
+    for(const im of [-1,1]){
+      const p=project(V(0,im,0));ctx.fillStyle='#9aa6b8';ctx.font='11px system-ui';ctx.fillText(String(im),p[0]-22,p[1]+4);
+    }
+    for(const t of [0,.25,.5,.75,1]){
+      const p=project(V(0,0,t));ctx.fillStyle='#7c8a9e';ctx.font='11px system-ui';ctx.fillText(t.toFixed(2).replace('0.00','0').replace('1.00','1'),p[0]+6,p[1]+14);
+    }
+  }
+  line3(V(-1.2,0,0),V(1.2,0,0),'#d65357',1.9);
+  line3(V(0,-1.25,0),V(0,1.25,0),'#3575db',1.9);
+  line3(V(0,0,-0.02),V(0,0,1.12),'#62758f',1.9);
+  label(V(1.27,0,0),'Re','#c0474d',5,2);
+  label(V(0,1.30,0),'Im','#3164c5',4,-3);
+  label(V(0,0,1.15),'t','#485e7e',5,2);
+  const angle=t=>2*Math.PI*k*t, re=t=>Math.cos(angle(t)), im=t=>Math.sin(angle(t));
+  if(checks[1].checked) poly(t=>V(re(t),0,t),'#e24e52',2.7);
+  if(checks[2].checked) poly(t=>V(0,im(t),t),'#356ddf',2.7);
+  if(checks[0].checked) poly(t=>V(re(t),im(t),t),'#202b40',3.4);
+  draw2DCharts();
+}
+function draw2DCharts(){
+  const items=[['plotReal2d', t=>Math.cos(2*Math.PI*k*t),'#e24e52'],['plotImag2d',t=>Math.sin(2*Math.PI*k*t),'#356ddf']];
+  for(const [id,fn,color] of items){
+    const c=document.getElementById(id), r=c.getBoundingClientRect();
+    const cw=Math.max(100,r.width),ch=Math.max(80,r.height),scale=Math.min(window.devicePixelRatio||1,2);
+    const pw=Math.round(cw*scale),ph=Math.round(ch*scale);
+    if(c.width!==pw||c.height!==ph){c.width=pw;c.height=ph;}
+    const g=c.getContext('2d');g.setTransform(scale,0,0,scale,0,0);g.clearRect(0,0,cw,ch);
+    const l=34,rt=12,t=12,b=25,ww=cw-l-rt,hh=ch-t-b;
+    const X=x=>l+x*ww,Y=y=>t+(1-y)*hh/2;
+    g.lineWidth=1;g.strokeStyle='#e6eaf1';
+    for(const y of [-1,0,1]){g.beginPath();g.moveTo(l,Y(y));g.lineTo(cw-rt,Y(y));g.stroke();}
+    for(const x of [0,.25,.5,.75,1]){g.beginPath();g.moveTo(X(x),t);g.lineTo(X(x),t+hh);g.stroke();}
+    g.fillStyle='#68768d';g.font='11px system-ui';
+    for(const y of [-1,0,1])g.fillText(String(y),5,Y(y)+4);
+    for(const x of [0,.25,.5,.75,1])g.fillText(x.toFixed(2).replace('0.00','0').replace('1.00','1'),X(x)-8,ch-7);
+    g.beginPath();for(let i=0;i<=1024;i++){let tt=i/1024; if(i===0)g.moveTo(X(tt),Y(fn(tt)));else g.lineTo(X(tt),Y(fn(tt)));}
+    g.strokeStyle=color;g.lineWidth=2.6;g.lineJoin='round';g.stroke();
+  }
+}
+function resize(){const r=canvas.getBoundingClientRect();w=Math.max(1,r.width);h=Math.max(1,r.height);dpr=Math.min(window.devicePixelRatio||1,2);canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);draw()}
+function setK(v){k=Math.max(0,Math.min(6,Math.round(v)));kSlider.value=k;kValue.textContent=k;formula.innerHTML=`f(t) = e<sup>i 2π·${k}·t</sup> = cos(2π·${k}·t) + i sin(2π·${k}·t)`;draw()}
+kSlider.addEventListener('input',()=>setK(+kSlider.value));document.getElementById('minus').onclick=()=>setK(k-1);document.getElementById('plus').onclick=()=>setK(k+1);
+document.getElementById('resetView').onclick=()=>{az=.30;el=.22;zoom=1;draw()};checks.forEach(c=>c.addEventListener('change',draw));
+let pointers=new Map(), lastDrag=null, pinchDist=null;
+function distance(a,b){const dx=a.x-b.x,dy=a.y-b.y;return Math.hypot(dx,dy)}
+canvas.addEventListener('pointerdown',e=>{canvas.setPointerCapture(e.pointerId);pointers.set(e.pointerId,{x:e.clientX,y:e.clientY}); if(pointers.size===1){lastDrag=[e.clientX,e.clientY]} if(pointers.size===2){const pts=[...pointers.values()]; pinchDist=distance(pts[0],pts[1]); lastDrag=null;}});
+canvas.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return; pointers.set(e.pointerId,{x:e.clientX,y:e.clientY}); if(pointers.size===1 && lastDrag){const dx=e.clientX-lastDrag[0],dy=e.clientY-lastDrag[1]; lastDrag=[e.clientX,e.clientY]; az+=dx*.008; el=Math.max(-1.48,Math.min(1.48,el+dy*.008)); draw();} else if(pointers.size===2){const pts=[...pointers.values()]; const d=distance(pts[0],pts[1]); if(pinchDist!==null&&d>0){zoom=Math.max(.45,Math.min(2.5,zoom*(d/pinchDist))); pinchDist=d; draw();}}});
+const release=e=>{pointers.delete(e.pointerId); if(pointers.size===1){const only=[...pointers.values()][0]; lastDrag=[only.x,only.y]; pinchDist=null;} else {lastDrag=null; pinchDist=null;}};
+canvas.addEventListener('pointerup',release);canvas.addEventListener('pointercancel',release);
+canvas.addEventListener('wheel',e=>{e.preventDefault();zoom=Math.max(.45,Math.min(2.5,zoom*Math.exp(-e.deltaY*.001)));draw()},{passive:false});
+window.addEventListener('resize',resize);if(window.ResizeObserver)new ResizeObserver(resize).observe(canvas);resize();
+})();
+</script>
+</body>
+</html>
